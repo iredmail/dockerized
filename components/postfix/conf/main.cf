@@ -1,0 +1,404 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# location of the Postfix queue. Default is /var/spool/postfix.
+queue_directory = /var/spool/postfix
+
+# location of all postXXX commands. Default is /usr/sbin.
+command_directory = /usr/sbin
+
+# location of all Postfix daemon programs (i.e. programs listed in the
+# master.cf file). This directory must be owned by root.
+# Default is /usr/libexec/postfix
+daemon_directory = /usr/lib/postfix/sbin
+
+# location of Postfix-writable data files (caches, random numbers).
+# This directory must be owned by the mail_owner account (see below).
+# Default is /var/lib/postfix.
+data_directory = /var/lib/postfix
+
+# owner of the Postfix queue and of most Postfix daemon processes.
+# Specify the name of a user account THAT DOES NOT SHARE ITS USER OR GROUP ID
+# WITH OTHER ACCOUNTS AND THAT OWNS NO OTHER FILES OR PROCESSES ON THE SYSTEM.
+# In particular, don't specify nobody or daemon. PLEASE USE A DEDICATED USER.
+# Default is postfix.
+mail_owner = postfix
+
+# The following parameters are used when installing a new Postfix version.
+#
+# sendmail_path: The full pathname of the Postfix sendmail command.
+# This is the Sendmail-compatible mail posting interface.
+#
+sendmail_path = /usr/sbin/sendmail
+
+# newaliases_path: The full pathname of the Postfix newaliases command.
+# This is the Sendmail-compatible command to build alias databases.
+#
+newaliases_path = /usr/bin/newaliases
+
+# full pathname of the Postfix mailq command.  This is the Sendmail-compatible
+# mail queue listing command.
+mailq_path = /usr/bin/mailq
+
+# group for mail submission and queue management commands.
+# This must be a group name with a numerical group ID that is not shared with
+# other accounts, not even with the Postfix account.
+setgid_group = postdrop
+
+# external command that is executed when a Postfix daemon program is run with
+# the -D option.
+#
+# Use "command .. & sleep 5" so that the debugger can attach before
+# the process marches on. If you use an X-based debugger, be sure to
+# set up your XAUTHORITY environment variable before starting Postfix.
+#
+debugger_command =
+    PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+    ddd $daemon_directory/$process_name $process_id & sleep 5
+
+debug_peer_level = 2
+
+# --------------------
+# CUSTOM SETTINGS
+#
+
+
+
+# SMTP server response code when recipient or domain not found.
+unknown_local_recipient_reject_code = 550
+
+# Do not notify local user.
+biff = no
+
+# Disable the rewriting of "site!user" into "user@site".
+swap_bangpath = no
+
+# Disable the rewriting of the form "user%domain" to "user@domain".
+allow_percent_hack = no
+
+# Allow recipient address start with '-'.
+allow_min_user = no
+
+# Disable the SMTP VRFY command. This stops some techniques used to
+# harvest email addresses.
+disable_vrfy_command = yes
+
+# Enable both IPv4 and/or IPv6: ipv4, ipv6, all.
+inet_protocols = ipv4
+
+# Enable all network interfaces.
+inet_interfaces = all
+
+#
+# TLS settings.
+#
+# SSL key, certificate, CA
+#
+smtpd_tls_key_file = /opt/iredmail/ssl/key.pem
+smtpd_tls_cert_file = /opt/iredmail/ssl/cert.pem
+
+smtpd_tls_CApath = /etc/ssl/certs
+#smtpd_tls_CAfile =
+
+
+#
+# postscreen
+#
+postscreen_helo_required = yes
+postscreen_greet_action = drop
+postscreen_blacklist_action = drop
+postscreen_dnsbl_action = drop
+postscreen_dnsbl_threshold = 2
+
+# Attention:
+#   - zen.spamhaus.org free tire has 3 limits
+#     (https://www.spamhaus.org/organization/dnsblusage/):
+#
+#     1) Your use of the Spamhaus DNSBLs is non-commercial*, and
+#     2) Your email traffic is less than 100,000 SMTP connections per day, and
+#     3) Your DNSBL query volume is less than 300,000 queries per day.
+#
+# It's strongly recommended to use a local DNS server for cache.
+postscreen_dnsbl_sites =
+    zen.spamhaus.org=127.0.0.[2..11]*3
+    b.barracudacentral.org=127.0.0.2*2
+
+postscreen_dnsbl_reply_map = texthash:/etc/postfix/postscreen_dnsbl_reply.texthash
+postscreen_access_list =
+    permit_mynetworks
+    cidr:/opt/iredmail/custom/postfix/postscreen_access.cidr
+    cidr:/etc/postfix/postscreen_access.cidr
+
+# Require Postfix-2.11+
+#postscreen_dnsbl_whitelist_threshold = -2
+#
+# Disable SSLv2 SSLv3
+#
+smtpd_tls_protocols = !SSLv2 !SSLv3
+smtpd_tls_mandatory_protocols = !SSLv2 !SSLv3
+smtp_tls_protocols = !SSLv2 !SSLv3
+smtp_tls_mandatory_protocols = !SSLv2 !SSLv3
+lmtp_tls_protocols = !SSLv2 !SSLv3
+lmtp_tls_mandatory_protocols = !SSLv2 !SSLv3
+
+#
+# Fix 'The Logjam Attack'.
+#
+smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CDC3-SHA, KRB5-DE5, CBC3-SHA
+smtpd_tls_dh512_param_file = /opt/iredmail/ssl/dhparam512.pem
+smtpd_tls_dh1024_param_file = /opt/iredmail/ssl/dhparam2048.pem
+
+tls_random_source = dev:/dev/urandom
+
+# Log only a summary message on TLS handshake completion — no logging of client
+# certificate trust-chain verification errors if client certificate
+# verification is not required. With Postfix 2.8 and earlier, log the summary
+# message, peer certificate summary information and unconditionally log
+# trust-chain verification errors.
+smtp_tls_loglevel = 1
+smtpd_tls_loglevel = 1
+
+# Opportunistic TLS: announce STARTTLS support to remote SMTP clients, but do
+# not require that clients use TLS encryption.
+smtpd_tls_security_level = may
+
+# Produce `Received:` message headers that include information about the
+# protocol and cipher used, as well as the remote SMTP client CommonName and
+# client certificate issuer CommonName.
+# This is disabled by default, as the information may be modified in transit
+# through other mail servers. Only information that was recorded by the final
+# destination can be trusted.
+#smtpd_tls_received_header = yes
+
+# Opportunistic TLS, used when Postfix sends email to remote SMTP server.
+# Use TLS if this is supported by the remote SMTP server, otherwise use
+# plaintext.
+# References:
+#   - http://www.postfix.org/TLS_README.html#client_tls_may
+#   - http://www.postfix.org/postconf.5.html#smtp_tls_security_level
+smtp_tls_security_level = may
+smtp_tls_policy_maps =
+    hash:/opt/iredmail/custom/postfix/smtp_tls_policy
+    hash:/etc/postfix/smtp_tls_policy
+
+# Use the same CA file as smtpd.
+smtp_tls_CAfile = $smtpd_tls_CAfile
+smtp_tls_CApath = /etc/ssl/certs
+smtp_tls_note_starttls_offer = yes
+
+# Enable long, non-repeating, queue IDs (queue file names).
+# The benefit of non-repeating names is simpler logfile analysis and easier
+# queue migration (there is no need to run "postsuper" to change queue file
+# names that don't match their message file inode number).
+enable_long_queue_ids = yes
+
+# Reject unlisted sender and recipient
+smtpd_reject_unlisted_recipient = yes
+smtpd_reject_unlisted_sender = yes
+
+# Header and body checks with PCRE table
+header_checks =
+    pcre:/opt/iredmail/custom/postfix/header_checks.pcre
+    pcre:/etc/postfix/header_checks.pcre
+
+body_checks =
+    pcre:/opt/iredmail/custom/postfix/body_checks.pcre
+    pcre:/etc/postfix/body_checks.pcre
+
+# A mechanism to transform commands from remote SMTP clients.
+# This is a last-resort tool to work around client commands that break
+# interoperability with the Postfix SMTP server. Other uses involve fault
+# injection to test Postfix's handling of invalid commands.
+# Requires Postfix-2.7+.
+smtpd_command_filter = pcre:/etc/postfix/command_filter.pcre
+
+smtpd_client_restrictions =
+    permit_mynetworks
+    permit_sasl_authenticated
+    check_client_access pcre:/opt/iredmail/custom/postfix/rdns_access.pcre
+    check_client_access pcre:/etc/postfix/rdns_access.pcre
+
+# HELO restriction
+smtpd_helo_required = yes
+smtpd_helo_restrictions =
+    permit_mynetworks
+    permit_sasl_authenticated
+    check_helo_access pcre:/opt/iredmail/custom/postfix/helo_access.pcre
+    check_helo_access pcre:/etc/postfix/helo_access.pcre
+    reject_non_fqdn_helo_hostname
+    reject_unknown_helo_hostname
+
+# Sender restrictions
+smtpd_sender_restrictions =
+    reject_non_fqdn_sender
+    reject_unlisted_sender
+    permit_mynetworks
+    permit_sasl_authenticated
+    check_sender_access pcre:/opt/iredmail/custom/postfix/sender_access.pcre
+    reject_unknown_sender_domain
+
+# Recipient restrictions
+smtpd_recipient_restrictions =
+    reject_unknown_recipient_domain
+    reject_non_fqdn_recipient
+    reject_unlisted_recipient
+    check_policy_service inet:127.0.0.1:7777
+    permit_mynetworks
+    permit_sasl_authenticated
+    reject_unauth_destination
+    check_policy_service inet:127.0.0.1:12340
+
+# END-OF-MESSAGE restrictions
+smtpd_end_of_data_restrictions =
+    check_policy_service inet:127.0.0.1:7777
+
+# Data restrictions
+smtpd_data_restrictions = reject_unauth_pipelining
+
+proxy_read_maps = $canonical_maps $lmtp_generic_maps $local_recipient_maps $mydestination $mynetworks $recipient_bcc_maps $recipient_canonical_maps $relay_domains $relay_recipient_maps $relocated_maps $sender_bcc_maps $sender_canonical_maps $smtp_generic_maps $smtpd_sender_login_maps $transport_maps $virtual_alias_domains $virtual_alias_maps $virtual_mailbox_domains $virtual_mailbox_maps $smtpd_sender_restrictions $sender_dependent_relayhost_maps
+
+# Avoid duplicate recipient messages. Default is 'yes'.
+enable_original_recipient = no
+
+# Virtual support.
+virtual_minimum_uid = 2000
+virtual_uid_maps = static:2000
+virtual_gid_maps = static:2000
+virtual_mailbox_base = /var/vmail
+
+# Do not set virtual_alias_domains.
+virtual_alias_domains =
+
+#
+# Enable SASL authentication on port 25 and force TLS-encrypted SASL authentication.
+# WARNING: NOT RECOMMENDED to enable smtp auth on port 25, all end users should
+#          be forced to submit email through port 587 instead.
+#
+#smtpd_sasl_auth_enable = yes
+#smtpd_sasl_security_options = noanonymous
+#smtpd_tls_auth_only = yes
+
+# hostname
+myhostname = localhost
+myorigin = localhost
+mydomain = localhost
+
+# trusted SMTP clients which are allowed to relay mail through Postfix.
+#
+# Note: additional IP addresses/networks listed in mynetworks should be listed
+#       in iRedAPD setting 'MYNETWORKS' (in `/opt/iredapd/settings.py`) too.
+#       for example:
+#
+#       MYNETWORKS = ['xx.xx.xx.xx', 'xx.xx.xx.0/24', ...]
+#
+mynetworks = 127.0.0.1   192.168.1.1 172.0.0.0/8 172.16.0.0/12
+
+# Accepted local emails
+mydestination = $myhostname, localhost, localhost.localdomain
+
+alias_maps = hash:/etc/postfix/aliases
+alias_database = hash:/etc/postfix/aliases
+
+# Default mailbox and single message size limit.
+# Note: mailbox_size_limit must be >= message_size_limit.
+mailbox_size_limit = 52428800
+message_size_limit = 52428800
+
+# The set of characters that can separate a user name from its extension
+# (example: user+foo), or a .forward file name from its extension (example:
+# .forward+foo).
+# Postfix 2.11 and later supports multiple characters.
+recipient_delimiter = +
+
+# The time after which the sender receives a copy of the message headers of
+# mail that is still queued. Default setting is disabled (0h) by Postfix.
+#delay_warning_time = 1h
+
+
+
+#
+# Lookup virtual mail accounts
+#
+
+transport_maps =
+    hash:/opt/iredmail/custom/postfix/transport
+    hash:/etc/postfix/transport
+    proxy:mysql:/etc/postfix/mysql/transport_maps_user.cf
+    proxy:mysql:/etc/postfix/mysql/transport_maps_maillist.cf
+    proxy:mysql:/etc/postfix/mysql/transport_maps_domain.cf
+
+sender_dependent_relayhost_maps =
+    proxy:mysql:/etc/postfix/mysql/sender_dependent_relayhost_maps.cf
+
+# Lookup table with the SASL login names that own the sender (MAIL FROM) addresses.
+smtpd_sender_login_maps =
+    proxy:mysql:/etc/postfix/mysql/sender_login_maps.cf
+
+virtual_mailbox_domains =
+    proxy:mysql:/etc/postfix/mysql/virtual_mailbox_domains.cf
+
+relay_domains =
+    $mydestination
+    proxy:mysql:/etc/postfix/mysql/relay_domains.cf
+
+virtual_mailbox_maps =
+    proxy:mysql:/etc/postfix/mysql/virtual_mailbox_domains.cf
+
+virtual_alias_maps =
+    proxy:mysql:/etc/postfix/mysql/virtual_alias_maps.cf
+    proxy:mysql:/etc/postfix/mysql/domain_alias_maps.cf
+    proxy:mysql:/etc/postfix/mysql/catchall_maps.cf
+    proxy:mysql:/etc/postfix/mysql/domain_alias_catchall_maps.cf
+
+sender_bcc_maps =
+    proxy:mysql:/etc/postfix/mysql/sender_bcc_maps_user.cf
+    proxy:mysql:/etc/postfix/mysql/sender_bcc_maps_domain.cf
+
+recipient_bcc_maps =
+    proxy:mysql:/etc/postfix/mysql/recipient_bcc_maps_user.cf
+    proxy:mysql:/etc/postfix/mysql/recipient_bcc_maps_domain.cf
+
+
+
+
+#
+# SRS support (Sender Rewriting Scheme)
+#
+sender_canonical_maps = tcp:127.0.0.1:7778
+sender_canonical_classes = envelope_sender
+recipient_canonical_maps = tcp:127.0.0.1:7779
+recipient_canonical_classes= envelope_recipient,header_recipient
+
+
+
+#
+# Dovecot SASL support.
+#
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/dovecot-auth
+virtual_transport = dovecot
+dovecot_destination_recipient_limit = 1
+
+
+#
+# Amavisd + SpamAssassin + ClamAV
+#
+content_filter = smtp-amavis:[127.0.0.1]:10024
+
+# Concurrency per recipient limit.
+smtp-amavis_destination_recipient_limit = 1
+
+
+
+
+#
+# mlmmj - mailing list manager
+#
+mlmmj_destination_recipient_limit = 1
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#

@@ -1,0 +1,7 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Remove X-Forward: header if you don't want to expose client's IP address.
+#/^X-Forward:/ IGNORE

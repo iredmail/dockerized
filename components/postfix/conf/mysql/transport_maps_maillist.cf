@@ -1,0 +1,10 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+hosts       = localhost:3306
+user        = vmail
+password    = 7dXuyHU76qmq85SJus453TtRdzb3U2Er
+dbname      = vmail
+query       = SELECT maillists.transport FROM maillists,domain WHERE maillists.address='%s' AND maillists.active=1 AND maillists.domain = domain.domain AND domain.active=1

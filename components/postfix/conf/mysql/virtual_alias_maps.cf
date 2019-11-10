@@ -1,0 +1,10 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+hosts       = localhost:3306
+user        = vmail
+password    = 7dXuyHU76qmq85SJus453TtRdzb3U2Er
+dbname      = vmail
+query       = SELECT forwardings.forwarding FROM forwardings,domain WHERE forwardings.address='%s' AND forwardings.domain='%d' AND forwardings.domain=domain.domain AND forwardings.active=1 AND domain.backupmx=0 AND domain.active=1

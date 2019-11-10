@@ -1,0 +1,22 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+#
+# If you need to add custom restriction rules, please update
+# /opt/iredmail/custom/postfix/postscreen_access.cidr instead.
+# Do NOT modify this file.
+#
+
+# Rules are evaluated in the order as specified.
+#1.2.3.4 permit
+#2.3.4.5 reject
+
+# Permit local clients
+127.0.0.0/8 permit
+
+#
+# If you need to add custom restriction rules, please update
+# /opt/iredmail/custom/postfix/postscreen_access.cidr instead.
+# Do NOT modify this file.
+#

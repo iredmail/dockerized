@@ -1,0 +1,8 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Work around clients that send `RCPT TO:<'user@domain'>` (Outlook 2003/2007).
+# WARNING: do not lose the parameters that follow the address.
+/^(RCPT\s+TO:\s*<)'([^[:space:]]+)'(>.*)/   $1$2$3

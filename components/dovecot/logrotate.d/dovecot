@@ -1,0 +1,13 @@
+/var/log/dovecot/*.log {
+    daily
+    rotate 90
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+
+    postrotate
+        /usr/sbin/service rsyslog restart
+    endscript
+}
