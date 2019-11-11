@@ -4,12 +4,10 @@ MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995
 
 # Install required binary packages and python modules.
-RUN apk add --no-cache \
+RUN apk add --no-cache --progress \
         wget postfix postfix-pcre postfix-mysql dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql clamav py-sqlalchemy py-setuptools py-dnspython py-mysqldb py-psycopg2 py2-pip mlmmj altermime py-requests uwsgi uwsgi-python uwsgi-syslog && \
-        pip install web.py==0.40
-
-# iRedAPD, mlmmjadmin
-RUN addgroup iredapd && \
+    pip install web.py==0.40 && \
+    addgroup iredapd && \
         adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd && \
         wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.2.tar.bz2 && \
         tar xjf iRedAPD-3.2.tar.bz2 -C /opt && \
@@ -24,13 +22,6 @@ RUN addgroup iredapd && \
         chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
         chmod -R 0500 /opt/mlmmjadmin-2.1
 
-COPY ./iredapd/settings.py /opt/iRedAPD-3.2/
-
-# Amavisd + SpamAssassin + ClamAV
-COPY ./amavisd/conf/amavisd.conf /etc/amavisd.conf
-COPY ./clamav/conf/. /etc/clamav
-
-# Postfix
-COPY ./postfix/conf/. /etc/postfix/
+COPY ./config/. /
 
 CMD ["/bin/sh"]
