@@ -1,0 +1,32 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Block access to default directories and files under these directories
+location ~ ^/mail/(bin|config|installer|logs|SQL|temp|vendor)/ { deny all; }
+
+# Block access to default files under top-directory and files start with same name.
+location ~ ^/mail/(CHANGELOG|composer.json|INSTALL|jsdeps.json|LICENSE|README|UPGRADING)$ { deny all; }
+
+# Block plugin config files and sample config files.
+location ~ ^/mail/plugins/.*/config.inc.php.* { deny all; }
+
+# Block access to plugin data
+location ~ ^/mail/plugins/enigma/home($|/.*) { deny all; }
+
+# Redirect URI `/xxx` to `/xxx/`.
+location = /mail {
+    return 301 /mail/;
+}
+
+location ~ ^/mail/(.*\.php)$ {
+    include /etc/nginx/templates/hsts.tmpl;
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+    fastcgi_param SCRIPT_FILENAME /opt/www/roundcubemail/$1;
+}
+
+location ~ ^/mail/(.*) {
+    alias /opt/www/roundcubemail/$1;
+    index index.php;
+}

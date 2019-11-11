@@ -1,0 +1,40 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# static files under /iredadmin/static
+location ~ ^/iredadmin/static/(.*) {
+    alias /opt/www/iredadmin/static/$1;
+}
+
+# Python scripts
+location ~ ^/iredadmin(.*) {
+    rewrite ^/iredadmin(/.*)$ $1 break;
+
+    include /etc/nginx/templates/hsts.tmpl;
+
+    include uwsgi_params;
+    uwsgi_pass iredadmin_workers;
+    uwsgi_param UWSGI_CHDIR /opt/www/iredadmin;
+    uwsgi_param UWSGI_SCRIPT iredadmin;
+    uwsgi_param SCRIPT_NAME /iredadmin;
+    #uwsgi_read_timeout 60s;
+    #uwsgi_send_timeout 60s;
+
+    # Access control
+    #allow 127.0.0.1;
+    #allow 192.168.1.10;
+    #allow 192.168.1.0/24;
+    #deny all;
+}
+
+# iRedAdmin: redirect /iredadmin to /iredadmin/
+location = /iredadmin {
+    rewrite ^ /iredadmin/;
+}
+
+# Handle newsletter-style subscription/unsubscription supported in iRedAdmin-Pro.
+location ~ ^/newsletter/ {
+    rewrite /newsletter/(.*) /iredadmin/newsletter/$1 last;
+}

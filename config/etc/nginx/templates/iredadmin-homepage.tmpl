@@ -1,0 +1,23 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+#
+# Run iRedAdmin as a sub-domain virtual host.
+#
+include /etc/nginx/templates/hsts.tmpl;
+
+location / {
+    root /opt/www/iredadmin;
+
+    include uwsgi_params;
+    uwsgi_pass iredadmin_workers;
+    uwsgi_param UWSGI_CHDIR /opt/www/iredadmin;
+    uwsgi_param UWSGI_SCRIPT iredadmin;
+    #uwsgi_read_timeout 60s;
+    #uwsgi_send_timeout 60s;
+}
+
+location /static {
+    alias /opt/www/iredadmin/static;
+}

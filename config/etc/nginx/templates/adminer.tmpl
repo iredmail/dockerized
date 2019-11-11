@@ -1,0 +1,36 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# If you cannot login to MySQL server as root user:
+#
+# New MySQL or MariaDB support plugin authentication, by default, the root
+# account has setting `user.plugin=unix_socket` (in `mysql` database). The
+# `auth_socket` authentication plugin authenticates clients that connect from
+# the local host through the Unix socket file, this prevents access via network
+# connection, including Adminer. To make it working, please disable this
+# authentication plugin with sql commands below:
+#
+#   sql> USE mysql;
+#   sql> UPDATE user SET plugin='' WHERE User='root';
+#
+# Refer to MySQL document for more details:
+# https://dev.mysql.com/doc/refman/5.7/en/socket-authentication-plugin.html
+
+location ~ ^/adminer$ {
+    include /etc/nginx/templates/hsts.tmpl;
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+
+    fastcgi_param SCRIPT_FILENAME /opt/www/adminer/latest.php;
+
+    # Access control
+    #allow 127.0.0.1;
+    #allow 192.168.1.10;
+    #allow 192.168.1.0/24;
+    #deny all;
+}
+
+location = /adminer/ {
+    return 301 /adminer;
+}

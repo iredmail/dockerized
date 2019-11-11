@@ -1,0 +1,21 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Thunderbird autoconfig support.
+location ~* ^/.well-known/autoconfig/mail/config-v1.1.xml {
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+    fastcgi_param SCRIPT_FILENAME /opt/www/autoconfig/autoconfig.php;
+}
+
+location ~* ^/mail/config-v1.1.xml {
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+    fastcgi_param SCRIPT_FILENAME /opt/www/autoconfig/autoconfig.php;
+}
+
+# Outlook autodiscover support.
+location ~* ^/autodiscover/autodiscover.xml {
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+    fastcgi_param SCRIPT_FILENAME /opt/www/autoconfig/autodiscover.php;
+}

@@ -1,0 +1,23 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Thunderbird autoconfig support.
+location ~* ^/.well-known/autoconfig/mail/config-v1.1.xml {
+    include /etc/nginx/templates/fastcgi_php.tmpl;
+    fastcgi_param SCRIPT_FILENAME /opt/www/autoconfig/autoconfig.php;
+}
+
+# Allow access to '^/.well-known/'
+location ~ ^/.well-known/ {
+    root /opt/www/well_known;
+    allow all;
+}
+
+# Deny all attempts to access hidden files such as .htaccess.
+location ~ /\. { deny all; }
+
+# Handling noisy messages
+location = /favicon.ico { access_log off; log_not_found off; }
+location = /robots.txt { access_log off; log_not_found off; }

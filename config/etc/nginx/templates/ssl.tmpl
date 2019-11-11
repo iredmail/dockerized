@@ -1,0 +1,19 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+#ssl on;
+ssl_protocols TLSv1.2;
+
+# Fix 'The Logjam Attack'.
+ssl_ciphers EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH;
+ssl_prefer_server_ciphers on;
+ssl_dhparam /opt/iredmail/ssl/dhparam2048.pem;
+
+# Use a bought SSL cert:
+#   - https://docs.iredmail.org/use.a.bought.ssl.certificate.html
+# Request a free cert from Let's Encrypt:
+#   - https://docs.iredmail.org/letsencrypt.html
+ssl_certificate /opt/iredmail/ssl/combined.pem;
+ssl_certificate_key /opt/iredmail/ssl/key.pem;

@@ -1,0 +1,15 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+location ~ ^/(php-fpm-status|php-fpm-ping)$ {
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    fastcgi_pass php_workers;
+
+    access_log off;
+
+    allow 127.0.0.1;
+    deny all;
+}
