@@ -2,6 +2,9 @@ All files under `config/` are populated from ansible code of iRedMail Easy.
 
 ## TODO
 
+- Read custom SQL passwords from somewhere while running Docker container, and
+  update passwords in all related config files.
+- Add `entrypoint.sh` to start required services/daemons.
 - Create required SQL database, users, tables
     - amavisd
     - iredapd
