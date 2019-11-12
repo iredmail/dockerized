@@ -1,5 +1,24 @@
 All files under `config/` are populated from ansible code of iRedMail Easy.
 
+## Single image
+
+## docker-compose
+
+Draft design:
+
+- MariaDB
+    - Database `/var/lib/mysql` must be on volume
+- Postfix + Dovecot + mlmmj + mlmmjadmin
+    - Postfix queue `/var/spool/postfix/` should be on volume
+    - mailboxes `/var/vmail/vmail1` must be on volume
+    - mailing lists data `/var/vmail/{mlmmj,mlmmj-archive}` must be on volume
+- Amavisd + SpamAssassin + ClamAV
+    - ClamAV database `/var/lib/clamav` must be on volume.
+- iRedAPD
+- Roundcube + Nginx + php-fpm
+- iRedAdmin(-Pro) + Nginx
+- SOGo Groupware + Nginx (use debian/ubuntu instead of alpine as base image)
+
 ## TODO
 
 - Read custom SQL passwords from somewhere while running Docker container, and
