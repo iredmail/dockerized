@@ -7,7 +7,7 @@ networks:
 services:
   iredmail-mariadb:
     build:
-      dockerfile: Dockerfiles/mariadb
+      dockerfile: mariadb
       context: .
     image: mariadb:latest
     container_name: iredmail-mariadb
@@ -18,7 +18,7 @@ services:
 
   iredmail-clamav:
     build:
-      dockerfile: Dockerfiles/clamav
+      dockerfile: clamav
       context: .
     image: iredmail-clamav:latest
     container_name: iredmail-clamav
