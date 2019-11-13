@@ -1,5 +1,5 @@
-All files under `Dockerfiles/`, `config/`, `files/` are generated with ansible
-code of iRedMail Easy.
+All files under `Dockerfiles/`, `config/`, `entrypoints/`, `files/` are
+generated with ansible code of iRedMail Easy.
 
 ## Single image
 

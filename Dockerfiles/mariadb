@@ -4,8 +4,9 @@ MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 3306
 
 # Install required binary packages and python modules.
-RUN apk add --no-cache --progress mariadb
+RUN apk add --no-cache --progress mariadb mariadb-client
 
 COPY --chown=mysql:mysql ./config/etc/my.cnf /etc/my.cnf
+COPY ./entrypoints/mariadb.sh /entrypoint.sh
 
-CMD ["mysqld"]
+CMD /bin/sh /entrypoint.sh
