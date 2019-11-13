@@ -1,0 +1,11 @@
+# Run all applications in one container.
+FROM alpine:3.10.3
+MAINTAINER Zhang Huangbin <zhb@iredmail.org>
+EXPOSE 3306
+
+# Install required binary packages and python modules.
+RUN apk add --no-cache --progress mariadb
+
+COPY --chown=mysql:mysql ./config/etc/my.cnf /etc/my.cnf
+
+CMD ["mysqld"]
