@@ -1,4 +1,5 @@
-All files under `config/` are populated from ansible code of iRedMail Easy.
+All files under `Dockerfiles/`, `config/`, `files/` are generated with ansible
+code of iRedMail Easy.
 
 ## Single image
 
@@ -21,6 +22,7 @@ Draft design:
 
 ## TODO
 
+- Get mariadb container running first.
 - Read custom SQL passwords from somewhere while running Docker container, and
   update passwords in all related config files.
 - Add `entrypoint.sh` to start required services/daemons.
