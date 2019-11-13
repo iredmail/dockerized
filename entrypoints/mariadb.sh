@@ -13,6 +13,11 @@ if [[ -d ${DATA_DIR}/mysql ]]; then
 else
     echo "Database `mysql` doesn't exist, initializing."
     mysql_install_db
+
+    # TODO
+    #   - Set root password: mysqladmin password "my_new_password"
+    #   - Delete anonymous user
+    #   - Drop 'test' database
 fi
 
-mysqld
+mysqld_safe
