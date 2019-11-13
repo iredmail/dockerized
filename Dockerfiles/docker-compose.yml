@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  iredmail-net:
+    external: false
+
+services:
+  iredmail-mariadb:
+    build:
+      dockerfile: Dockerfiles/mariadb
+      context: .
+    image: mariadb:latest
+    container_name: iredmail-mariadb
+    ports:
+      - 3306
+    networks:
+      - iredmail-net
+
+  iredmail-clamav:
+    build:
+      dockerfile: Dockerfiles/clamav
+      context: .
+    image: iredmail-clamav:latest
+    container_name: iredmail-clamav
+    ports:
+      - 3310
+    networks:
+      - iredmail-net

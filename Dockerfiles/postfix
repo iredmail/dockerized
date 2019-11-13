@@ -7,7 +7,7 @@ FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 25 465 587
 
-RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql
+RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo postfix postfix-pcre postfix-mysql
 
 COPY ./config//etc/postfix/. /etc/postfix/
 
