@@ -377,7 +377,7 @@ recipient_canonical_classes= envelope_recipient,header_recipient
 # Dovecot SASL support.
 #
 smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/dovecot-auth
+smtpd_sasl_path = inet:iredmail-dovecot:12346
 virtual_transport = dovecot
 dovecot_destination_recipient_limit = 1
 
