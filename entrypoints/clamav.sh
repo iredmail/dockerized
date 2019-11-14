@@ -35,7 +35,7 @@ freshclam --checks=1 --daemon --user=${CLAMAV_USER} -c ${FRESHCLAM_CONF}
 
 if [[ X"${_ready_to_start}" == X'YES' ]]; then
     echo "Starting clamd..."
-    clamd -c /etc/clamav/clamd.conf --foreground
+    clamd --config-file=/etc/clamav/clamd.conf --foreground
 fi
 
 echo "Exit."

@@ -2,6 +2,7 @@ version: '3'
 
 # TODO
 #   - add `depends_on:`
+#   - add top-level `volumes:`
 
 networks:
   iredmail-net:
@@ -18,6 +19,8 @@ services:
       - 3306
     networks:
       - iredmail-net
+    volumes:
+      - ./iredmail/data/mysql-db:/var/lib/mysql
 
   iredmail-clamav:
     build:
@@ -29,6 +32,8 @@ services:
       - 3310
     networks:
       - iredmail-net
+    volumes:
+      - ./iredmail/data/clamav-db:/var/lib/clamav
 
   iredmail-dovecot:
     build:
@@ -49,3 +54,5 @@ services:
       - iredmail-net
     depends_on:
       - iredmail-mariadb
+    volumes:
+      - ./iredmail/ssl:/opt/iredmail/ssl

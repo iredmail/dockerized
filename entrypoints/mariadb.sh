@@ -23,4 +23,4 @@ else
     #   - Drop 'test' database
 fi
 
-mysqld_safe
+mysqld_safe --innodb-flush-method=fsync
