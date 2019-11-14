@@ -50,11 +50,11 @@ Draft design:
 
     Postfix + mlmmj + mlmmjadmin better in same container.
 
-        - mlmmj doesn't offer LMTP service, Postfix has to pipe message to
-          local mlmmj commands.
+    - mlmmj doesn't offer LMTP service, Postfix has to pipe message to
+      local mlmmj commands.
 
-        - mlmmjadmin read/writes config files under `/var/vmail/mlmmj/` to
-          manage mailing list settings.
+    - mlmmjadmin read/writes config files under `/var/vmail/mlmmj/` to
+      manage mailing list settings.
 
 - Dovecot
     - Volume: `/var/vmail/vmail1`
