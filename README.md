@@ -3,18 +3,65 @@ generated with ansible code of iRedMail Easy.
 
 ## Single image
 
+## Volumes
+
+Main data volumes:
+
+- `/opt/iredmail/`
+- `/var/vmail/`
+
+```
+/opt/iredmail/
+        |- ssl/             # SSL cert
+            |- cert.pem
+            |- combined.pem
+            |- key.pem
+        |- custom/          # Store all custom application settings
+            |- postfix/     # custom Postfix settings
+            |- dovecot/     # custom Dovecot settings
+            |- ...
+
+/var/vmail/
+        |- backup/
+            |- mysql/
+            |- sogo/
+        |- sieve/
+            |- dovecot.sieve
+        |- imapsieve_copy/
+            |- spam/
+            |- ham/
+            |- processing/
+        |- mlmmj/
+        |- mlmmj-archive/
+```
+
 ## docker-compose
 
 Draft design:
 
 - MariaDB
-    - Database `/var/lib/mysql` must be on volume
-- Postfix + Dovecot + mlmmj + mlmmjadmin
-    - Postfix queue `/var/spool/postfix/` should be on volume
-    - mailboxes `/var/vmail/vmail1` must be on volume
-    - mailing lists data `/var/vmail/{mlmmj,mlmmj-archive}` must be on volume
+    - Volume: database `/var/lib/mysql`
+    - Volume: database backup `/var/vmail/backup/mysql/`
+
+- Postfix + mlmmj + mlmmjadmin
+    - Volume: mailing lists data `/var/vmail/{mlmmj,mlmmj-archive}`
+    - Volume: Postfix queue `/var/spool/postfix/`
+    - Volume: mailboxes `/var/vmail/vmail1`
+
+    Postfix + mlmmj + mlmmjadmin better in same container.
+
+        - mlmmj doesn't offer LMTP service, Postfix has to pipe message to
+          local mlmmj commands.
+
+        - mlmmjadmin read/writes config files under `/var/vmail/mlmmj/` to
+          manage mailing list settings.
+
+- Dovecot
+    - Volume: `/var/vmail/vmail1`
+
 - Amavisd + SpamAssassin + ClamAV
-    - ClamAV database `/var/lib/clamav` must be on volume.
+    - Volume: ClamAV database `/var/lib/clamav`
+    - Volume: SpamAssassin db
 - iRedAPD
 - Roundcube + Nginx + php-fpm
 - iRedAdmin(-Pro) + Nginx

@@ -12,7 +12,7 @@ services:
     build:
       dockerfile: Dockerfiles/mariadb
       context: .
-    image: mariadb:latest
+    image: iredmail-mariadb:latest
     container_name: iredmail-mariadb
     ports:
       - 3306
