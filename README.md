@@ -74,6 +74,7 @@ Draft design:
 - Add `entrypoint.sh` to start required services/daemons.
 
 - Create required SQL database, users, tables
+    - `vmail`
     - amavisd
     - iredapd
     - roundcubemail
