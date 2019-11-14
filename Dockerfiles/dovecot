@@ -5,5 +5,6 @@ EXPOSE 110 995 143 993 4190 24 12340 24242
 RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql
 
 COPY ./config/etc/dovecot/. /etc/dovecot/
+COPY ./entrypoints/dovecot.sh /entrypoint.sh
 
-CMD dovecot -c /etc/dovecot/dovecot.conf -F
+CMD /bin/sh /entrypoint.sh

@@ -69,6 +69,14 @@ Draft design:
 
 ## TODO
 
+- Generate self-signed ssl cert while launching container which needs a cert
+  and the cert files don't exist yet.
+- Replace FQDN in files while launching container:
+    - command used to generate SSL cert (nginx, dovecot, postfix)
+- Reset correct uid/gid for `mlmmj` user and group.
+- Add a global variable to set admin's email address
+    - `/etc/postfix/aliases`
+    - ssl cert
 - Read custom SQL passwords from somewhere while running Docker container, and
   update passwords in all related config files.
 - Add `entrypoint.sh` to start required services/daemons.
