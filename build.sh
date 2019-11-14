@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Purpose: Build image for single application.
 # Usage:
 #
 #   ./build.sh          # Build with `Dockerfiles/Dockerfile`

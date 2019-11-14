@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# TODO
+#   - put socket/pid files under /run/mysql/
+
 DATA_DIR="/var/lib/mysql"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
 

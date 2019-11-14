@@ -1,5 +1,8 @@
 version: '3'
 
+# TODO
+#   - add `depends_on:`
+
 networks:
   iredmail-net:
     external: false
@@ -7,7 +10,7 @@ networks:
 services:
   iredmail-mariadb:
     build:
-      dockerfile: mariadb
+      dockerfile: Dockerfiles/mariadb
       context: .
     image: mariadb:latest
     container_name: iredmail-mariadb
@@ -18,7 +21,7 @@ services:
 
   iredmail-clamav:
     build:
-      dockerfile: clamav
+      dockerfile: Dockerfiles/clamav
       context: .
     image: iredmail-clamav:latest
     container_name: iredmail-clamav
@@ -26,3 +29,23 @@ services:
       - 3310
     networks:
       - iredmail-net
+
+  iredmail-dovecot:
+    build:
+      dockerfile: Dockerfiles/dovecot
+      context: .
+    image: iredmail-dovecot:latest
+    container_name: iredmail-dovecot
+    ports:
+      - 110
+      - 995
+      - 143
+      - 993
+      - 4190
+      - 24
+      - 12340
+      - 24242
+    networks:
+      - iredmail-net
+    depends_on:
+      - iredmail-mariadb
