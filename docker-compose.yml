@@ -30,11 +30,10 @@ volumes:
 
 services:
   iredmail-mariadb:
-    build:
-      dockerfile: Dockerfiles/mariadb
-      context: .
-    image: iredmail-mariadb:latest
+    image: mariadb:10.4
     container_name: iredmail-mariadb
+    env_file:
+      - env.defaults
     ports:
       - 3306
     networks:
@@ -48,6 +47,8 @@ services:
       context: .
     image: iredmail-clamav:latest
     container_name: iredmail-clamav
+    env_file:
+      - env.defaults
     ports:
       - 3310
     networks:
@@ -61,6 +62,8 @@ services:
       context: .
     image: iredmail-dovecot:latest
     container_name: iredmail-dovecot
+    env_file:
+      - env.defaults
     ports:
       - 110
       - 995

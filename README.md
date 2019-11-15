@@ -1,7 +1,23 @@
 All files under `Dockerfiles/`, `config/`, `entrypoints/`, `files/` are
 generated with ansible code of iRedMail Easy.
 
-## Single image
+## How to override default settings defined in `env.defaults`
+
+Please create file `.env` under top directory and write the parameter you
+want to override with new value.
+
+For example, MySQL root password is set to `secret` in env file `env.defaults`:
+
+```
+MYSQL_ROOT_PASSWORD=secret
+```
+
+You can change it by writing same parameter name with different value `.env`
+file like below:
+
+```
+MYSQL_ROOT_PASSWORD=my-secret-password
+```
 
 ## Volumes
 
@@ -39,7 +55,7 @@ Main data volumes:
 
 Draft design:
 
-- MariaDB
+- MariaDB (official mariadb image)
     - Volume: database `/var/lib/mysql`
     - Volume: database backup `/var/vmail/backup/mysql/`
 
@@ -69,7 +85,7 @@ Draft design:
 
 ## TODO
 
-- Get mariadb container running first.
+- How to backup SQL databases everyday
 - Generate self-signed ssl cert while launching container which needs a cert
   and the cert files don't exist yet.
 - Replace FQDN in files while launching container:
@@ -93,5 +109,6 @@ Draft design:
 - Update SQL database automatically while running new version of container:
     - Roundcube: run `bin/updatedb.sh`
 
+- [x] Get mariadb container running first.
 - [x] Reflect the directory tree of config files, then just run `COPY ./. /` in Dockerfile to copy all files.
 - [x] Install required python modules with pip: web.py
