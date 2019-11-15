@@ -8,6 +8,26 @@ networks:
   iredmail-net:
     external: false
 
+volumes:
+  vol_ssl:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/ssl
+  vol_mysql_db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/data/mysql
+  vol_clamav_db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/data/clamav
+
 services:
   iredmail-mariadb:
     build:
@@ -20,7 +40,7 @@ services:
     networks:
       - iredmail-net
     volumes:
-      - ./iredmail/data/mysql-db:/var/lib/mysql
+      - vol_mysql_db:/var/lib/mysql
 
   iredmail-clamav:
     build:
@@ -33,7 +53,7 @@ services:
     networks:
       - iredmail-net
     volumes:
-      - ./iredmail/data/clamav-db:/var/lib/clamav
+      - vol_clamav_db:/var/lib/clamav
 
   iredmail-dovecot:
     build:
@@ -55,4 +75,4 @@ services:
     depends_on:
       - iredmail-mariadb
     volumes:
-      - ./iredmail/ssl:/opt/iredmail/ssl
+      - vol_ssl:/opt/iredmail/ssl

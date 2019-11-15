@@ -22,12 +22,12 @@ SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 # Create self-signed ssl cert.
 if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
-    echo "Generating self-signed ssl cert under ${SSL_CERT_DIR}."
+    echo "Generating self-signed ssl cert under ${SSL_CERT_DIR}, it may take a long time."
     openssl req -x509 -nodes -sha256 -days 3650 \
         -subj "/C=${SSL_CERT_COUNTRY}/ST=${SSL_CERT_STATE}/L=${SSL_CERT_CITY}/O=${SSL_CERT_DEPARTMENT}/CN=${HOSTNAME}/emailAddress=${POSTMASTER_EMAIL}" \
         -newkey rsa:${SSL_KEY_LENGTH} \
         -out ${SSL_CERT_FILE} \
-        -keyout ${SSL_KEY_FILE}
+        -keyout ${SSL_KEY_FILE} >/dev/null
 
     cat ${SSL_CERT_FILE} ${SSL_KEY_FILE} > ${SSL_COMBINED_FILE}
 fi
@@ -35,7 +35,8 @@ chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
 
 # Create dh param.
 if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
-    openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048
+    echo "Generating dh param file: ${SSL_DHPARAM2048_FILE}."
+    openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048 >/dev/null
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
@@ -47,5 +48,5 @@ addgroup -g 2000 vmail && \
     -s /sbin/nologin \
     vmail
 
-# Run Dovecot.
+echo "Running Dovecot..."
 dovecot -c /etc/dovecot/dovecot.conf -F

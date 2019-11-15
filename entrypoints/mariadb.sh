@@ -12,9 +12,9 @@ if [[ ! -d ${CUSTOM_CONF_DIR} ]]; then
 fi
 
 if [[ -d ${DATA_DIR}/mysql ]]; then
-    echo "Database `mysql` exists, skip initialization."
+    echo "Database 'mysql' exists, skip initialization."
 else
-    echo "Database `mysql` doesn't exist, initializing."
+    echo "Database 'mysql' doesn't exist, initializing."
     mysql_install_db
 
     # TODO
@@ -23,4 +23,5 @@ else
     #   - Drop 'test' database
 fi
 
-mysqld_safe --innodb-flush-method=fsync
+echo "Run mysql service..."
+mysqld_safe
