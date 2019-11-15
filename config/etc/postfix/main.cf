@@ -12,7 +12,7 @@ command_directory = /usr/sbin
 # location of all Postfix daemon programs (i.e. programs listed in the
 # master.cf file). This directory must be owned by root.
 # Default is /usr/libexec/postfix
-daemon_directory = /usr/lib/postfix/sbin
+daemon_directory = /usr/libexec/postfix
 
 # location of Postfix-writable data files (caches, random numbers).
 # This directory must be owned by the mail_owner account (see below).

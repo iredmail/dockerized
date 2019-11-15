@@ -11,4 +11,4 @@ RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo
 
 COPY ./config/etc/postfix/. /etc/postfix/
 
-CMD ["postfix", "start"]
+CMD /usr/sbin/postfix start

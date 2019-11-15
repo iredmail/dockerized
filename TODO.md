@@ -1,6 +1,9 @@
 # TODO
 
-- How to backup SQL databases everyday
+- Postfix:
+    - How to get Postfix log
+- MariaDB:
+    - How to backup SQL databases everyday
 - Generate self-signed ssl cert while launching container which needs a cert
   and the cert files don't exist yet.
 - Replace FQDN in files while launching container:

@@ -14,7 +14,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/ssl
+      device: ${DOCKER_VOLUME_SSL:-/Users/zhb/Docker/ssl}
   vol_mysql_db:
     driver: local
     driver_opts:
@@ -27,6 +27,18 @@ volumes:
       type: none
       o: bind
       device: /Users/zhb/Docker/data/clamav
+  vol_mlmmj_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/data/mlmmj
+  vol_mlmmj_archive:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/data/mlmmj-archive
 
 services:
   iredmail-mariadb:
@@ -79,3 +91,24 @@ services:
       - iredmail-mariadb
     volumes:
       - vol_ssl:/opt/iredmail/ssl
+
+  iredmail-postfix:
+    build:
+      dockerfile: Dockerfiles/postfix
+      context: .
+    image: iredmail-postfix:latest
+    container_name: iredmail-postfix
+    env_file:
+      - env.defaults
+    ports:
+      - 25
+      - 587
+      - 465
+    networks:
+      - iredmail-net
+    depends_on:
+      - iredmail-mariadb
+    volumes:
+      - vol_ssl:/opt/iredmail/ssl
+      - vol_mlmmj_data:/var/vmail/mlmmj
+      - vol_mlmmj_archive:/var/vmail/mlmmj-archive
