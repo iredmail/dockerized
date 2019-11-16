@@ -65,6 +65,9 @@ debug_peer_level = 2
 #
 
 
+# Disable backwards compatibility. Used by Postfix-3.x.
+compatibility_level = 2
+
 
 # SMTP server response code when recipient or domain not found.
 unknown_local_recipient_reject_code = 550

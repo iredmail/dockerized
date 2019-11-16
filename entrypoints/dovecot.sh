@@ -17,6 +17,14 @@ SSL_CERT_CITY='Domzale'
 SSL_CERT_DEPARTMENT='IT'
 SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
+CONF="/etc/dovecot/dovecot.conf"
+GLOBAL_SIEVE_FILE="/var/vmail/sieve/dovecot.sieve"
+
+# Custom config files.
+CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
+CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
+CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
+
 # Create directory used to store ssl cert.
 [[ -d ${SSL_CERT_DIR} ]] || mkdir -p ${SSL_CERT_DIR}
 
@@ -40,13 +48,12 @@ if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
-# Create `vmail` group/user.
-addgroup -g 2000 vmail && \
-    adduser -D -H \
-    -u 2000 \
-    -G vmail \
-    -s /sbin/nologin \
-    vmail
+echo "Create directory used to store custom config files."
+[[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
+[[ -d ${CUSTOM_ENABLED_CONF_DIR} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
+
+echo "Make sure custom config files exist."
+touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
 echo "Running Dovecot..."
-dovecot -c /etc/dovecot/dovecot.conf -F
+dovecot -c ${CONF} -F

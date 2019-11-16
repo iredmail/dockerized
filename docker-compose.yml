@@ -39,6 +39,12 @@ volumes:
       type: none
       o: bind
       device: /Users/zhb/Docker/data/mlmmj-archive
+  vol_imapsieve_copy:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/zhb/Docker/data/imapsieve_copy
 
 services:
   iredmail-mariadb:

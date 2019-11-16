@@ -4,7 +4,19 @@ EXPOSE 110 995 143 993 4190 24 12340 24242 12346
 
 RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql
 
+# Create `vmail` user/group.
+RUN addgroup -g 2000 vmail && \
+    adduser -D -H -u 2000 -G vmail -s /sbin/nologin vmail
+
 COPY ./config/etc/dovecot/. /etc/dovecot/
+
+COPY --chown=vmail:vmail ./config/usr/local/bin/scan_reported_mails /usr/local/bin/scan_reported_mails
+
+RUN mkdir -p /usr/local/bin/imapsieve
+COPY --chown=vmail:vmail ./config/usr/local/bin/imapsieve/. /usr/local/bin/imapsieve/
+RUN chown vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/* && \
+    chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
+
 COPY ./entrypoints/dovecot.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh
