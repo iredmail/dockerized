@@ -52,7 +52,7 @@ scache    unix  -       -       n       -       1       scache
 # ====================================================================
 
 pickup    unix  n       -       n       60      1       pickup
-  -o content_filter=smtp-amavis:[127.0.0.1]:10026
+    -o content_filter=smtp-amavis:[127.0.0.1]:10026
 
 
 

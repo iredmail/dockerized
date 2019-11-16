@@ -1,6 +1,7 @@
 # TODO
 
 - Add volume `/opt/iredmail/custom`
+    - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
 - Create SQL database `vmail` and tables.
 - Add env settings like `USE_ANTISPAM=[YES|NO]` to enable/disable optional components.
 - Connect to clamav via inet port, not local socket.
