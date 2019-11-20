@@ -5,7 +5,7 @@ EXPOSE 80 443 25 465 587 143 993 110 995
 
 # Install required binary packages and python modules.
 RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo \
-        wget nginx php7 php7-fpm postfix postfix-pcre postfix-mysql dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql clamav py-sqlalchemy py-setuptools py-dnspython py-mysqldb py-psycopg2 py2-pip mlmmj altermime py-requests uwsgi uwsgi-python uwsgi-syslog && \
+        wget nginx php7 php7-fpm postfix postfix-pcre postfix-mysql dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql clamav py-sqlalchemy py-setuptools py-dnspython py-mysqldb py2-pip mlmmj altermime py-requests uwsgi uwsgi-python uwsgi-syslog && \
     pip install web.py==0.40 && \
     addgroup -g 2002 iredapd && \
         adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd && \

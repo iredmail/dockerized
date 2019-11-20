@@ -13,7 +13,7 @@ from libs.default_settings import *
 ############################################################
 
 # Listen address and port.
-listen_address = '127.0.0.1'
+listen_address = '0.0.0.0'
 # Port for normal Postfix policy requests.
 listen_port = '7777'
 # Ports for SRS (Sender Rewriting Scheme).
@@ -61,21 +61,21 @@ ldap_binddn = ''
 ldap_bindpw = ''
 
 # For SQL (MySQL/MariaDB/PostgreSQL) backends, used to query mail accounts.
-vmail_db_server = '127.0.0.1'
+vmail_db_server = 'iredmail-mariadb'
 vmail_db_port = '3306'
 vmail_db_name = 'vmail'
 vmail_db_user = 'vmail'
 vmail_db_password = '7dXuyHU76qmq85SJus453TtRdzb3U2Er'
 
 # For Amavisd policy lookup and white/blacklists.
-amavisd_db_server = '127.0.0.1'
+amavisd_db_server = 'iredmail-mariadb'
 amavisd_db_port = '3306'
 amavisd_db_name = 'amavisd'
 amavisd_db_user = 'amavisd'
 amavisd_db_password = '3G7JF7ZH99q8mfU3NpFzbBQM7HH292HF'
 
 # iRedAPD database, used for greylisting, throttle.
-iredapd_db_server = '127.0.0.1'
+iredapd_db_server = 'iredmail-mariadb'
 iredapd_db_port = '3306'
 iredapd_db_name = 'iredapd'
 iredapd_db_user = 'iredapd'

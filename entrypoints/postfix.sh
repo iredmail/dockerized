@@ -1,6 +1,7 @@
 #!/bin/sh
 
 SED="sed -i'.bak' -e"
+
 echo "* Running syslogd."
 /sbin/syslogd
 

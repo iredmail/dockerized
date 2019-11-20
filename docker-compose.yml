@@ -63,11 +63,13 @@ services:
       - env.custom
     ports:
       - 3306:3306
-    networks:
-      - iredmail_net
     volumes:
       - vol_mysql_db:/var/lib/mysql
       - vol_custom_conf_dir:/opt/iredmail/custom
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_mariadb
 
   iredmail_clamav:
     build:
@@ -80,10 +82,12 @@ services:
       - env.custom
     ports:
       - 3310:3310
-    networks:
-      - iredmail_net
     volumes:
       - vol_clamav_db:/var/lib/clamav
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_clamav
 
   iredmail_dovecot:
     build:
@@ -103,14 +107,16 @@ services:
       - 24:24
       - 12340:12340
       - 24242:24242
-    networks:
-      - iredmail_net
-    depends_on:
-      - iredmail_mariadb
     volumes:
       - vol_ssl:/opt/iredmail/ssl
       - vol_imapsieve_copy:/var/vmail/imapsieve_copy
       - vol_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_dovecot
 
   iredmail_postfix:
     build:
@@ -125,14 +131,38 @@ services:
       - 25:25
       - 587:587
       - 465:465
-    networks:
-      - iredmail_net
-    depends_on:
-      - iredmail_mariadb
-      # we need sasl auth service offered by Dovecot.
-      - iredmail_dovecot
     volumes:
       - vol_ssl:/opt/iredmail/ssl
       - vol_mlmmj_data:/var/vmail/mlmmj
       - vol_mlmmj_archive:/var/vmail/mlmmj-archive
       - vol_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+      # we need sasl auth service offered by Dovecot.
+      - iredmail_dovecot
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_postfix
+
+  iredmail_iredapd:
+    build:
+      dockerfile: Dockerfiles/iredapd
+      context: .
+    image: iredmail_iredapd:latest
+    container_name: iredmail_iredapd
+    env_file:
+      - env.defaults
+      - env.custom
+    ports:
+      - 7777:7777
+      - 7778:7778
+      - 7779:7779
+    volumes:
+      - vol_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_iredapd

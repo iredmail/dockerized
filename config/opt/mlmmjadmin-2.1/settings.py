@@ -4,7 +4,7 @@ from libs.default_settings import *
 ############################################################
 
 # Listen address and port
-listen_address = '127.0.0.1'
+listen_address = '0.0.0.0'
 listen_port = 7790
 
 # Run as a non-privileged user/group.
@@ -50,7 +50,7 @@ MLMMJ_SKEL_DIR = '/usr/share/mlmmj/text.skel'
 MLMMJ_DEFAULT_PROFILE_SETTINGS.update({'smtp_port': 10027})
 
 iredmail_sql_db_type = 'mysql'
-iredmail_sql_db_server = '127.0.0.1'
+iredmail_sql_db_server = 'iredmail-mariadb'
 iredmail_sql_db_port = 3306
 iredmail_sql_db_name = 'vmail'
 iredmail_sql_db_user = 'vmailadmin'
