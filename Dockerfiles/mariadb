@@ -1,0 +1,5 @@
+FROM mariadb/server:10.4
+MAINTAINER Zhang Huangbin <zhb@iredmail.org>
+
+COPY ./files/iredmail/init_vmail_db.sh /docker-entrypoint-initdb.d/init_vmail_db.sh
+COPY ./files/iredmail/iredmail.mysql /docker-entrypoint-initdb.d/iredmail.sql

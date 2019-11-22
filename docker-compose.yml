@@ -56,7 +56,11 @@ volumes:
 
 services:
   iredmail_mariadb:
-    image: mariadb:10.4
+    #image: mariadb:10.4
+    build:
+      dockerfile: Dockerfiles/mariadb
+      context: .
+    image: iredmail_mariadb:latest
     container_name: iredmail_mariadb
     env_file:
       - env.defaults
