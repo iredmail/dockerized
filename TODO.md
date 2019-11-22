@@ -39,5 +39,6 @@
 
 ## Phase 2
 
+- How to run corn jobs
 - MariaDB:
     - How to backup SQL databases everyday
