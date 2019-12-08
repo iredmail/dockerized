@@ -2,15 +2,19 @@
 
 ## Phase 1
 
-- Add volume `/opt/iredmail/custom`
-    - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
+- Add volumes:
+    - `/opt/iredmail/custom`
+        - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
+    - mysql bin log
 - Connect to clamav via inet port, not local socket.
 - Postfix:
     - How to get Postfix log
 - Generate self-signed ssl cert while launching container which needs a cert
   and the cert files don't exist yet.
-- Replace FQDN in files while launching container:
-    - command used to generate SSL cert (nginx, dovecot, postfix)
+- FQDN hostnames:
+    - Set meaningful hostname (FQDN) for each containers.
+    - Replace FQDN in files while launching container:
+        - command used to generate SSL cert (nginx, dovecot, postfix)
 - Reset correct uid/gid for `mlmmj` user and group.
 - Add a global variable to set admin's email address
     - `/etc/postfix/aliases`

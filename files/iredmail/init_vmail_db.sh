@@ -7,6 +7,8 @@ VMAIL_DB_ADMIN_PASSWORD="${VMAIL_DB_ADMIN_PASSWORD}"
 
 # Create required SQL users and `vmail` database.
 
+echo "Check database 'vmail' (${DATADIR}/vmail)."
+
 if [[ ! -d $DATADIR/vmail ]]; then
     mysql -uroot -p${MYSQL_ROOT_PASSWORD} <<EOF
 -- Create users

@@ -5,14 +5,14 @@ EXPOSE 7777 7778 7779
 RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo py-sqlalchemy py-setuptools py-dnspython py-mysqldb py2-pip && \
     addgroup -g 2002 iredapd && \
     adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd && \
-    wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.2.tar.bz2 && \
-    tar xjf iRedAPD-3.2.tar.bz2 -C /opt && \
-    rm -f iRedAPD-3.2.tar.bz2 && \
-    ln -sf /opt/iRedAPD-3.2 /opt/iredapd && \
+    wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \
+    tar xjf iRedAPD-3.3.tar.bz2 -C /opt && \
+    rm -f iRedAPD-3.3.tar.bz2 && \
+    ln -sf /opt/iRedAPD-3.3 /opt/iredapd && \
     /usr/bin/pip2 install --no-cache-dir web.py==0.40 && \
     rm -rf /root/.cache
 
-COPY ./config/opt/iRedAPD-3.2/. /opt/iRedAPD-3.2/
+COPY ./config/opt/iRedAPD-3.3/. /opt/iRedAPD-3.3/
 COPY ./entrypoints/iredapd.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh

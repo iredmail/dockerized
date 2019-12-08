@@ -75,24 +75,6 @@ services:
         aliases:
           - iredmail_mariadb
 
-  iredmail_clamav:
-    build:
-      dockerfile: Dockerfiles/clamav
-      context: .
-    image: iredmail_clamav:latest
-    container_name: iredmail_clamav
-    env_file:
-      - env.defaults
-      - env.custom
-    ports:
-      - 3310:3310
-    volumes:
-      - vol_clamav_db:/var/lib/clamav
-    networks:
-      iredmail_net:
-        aliases:
-          - iredmail_clamav
-
   iredmail_dovecot:
     build:
       dockerfile: Dockerfiles/dovecot
@@ -122,6 +104,46 @@ services:
         aliases:
           - iredmail_dovecot
 
+  iredmail_iredapd:
+    build:
+      dockerfile: Dockerfiles/iredapd
+      context: .
+    image: iredmail_iredapd:latest
+    container_name: iredmail_iredapd
+    env_file:
+      - env.defaults
+      - env.custom
+    ports:
+      - 7777:7777
+      - 7778:7778
+      - 7779:7779
+    volumes:
+      - vol_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_iredapd
+
+  iredmail_clamav:
+    build:
+      dockerfile: Dockerfiles/clamav
+      context: .
+    image: iredmail_clamav:latest
+    container_name: iredmail_clamav
+    env_file:
+      - env.defaults
+      - env.custom
+    ports:
+      - 3310:3310
+    volumes:
+      - vol_clamav_db:/var/lib/clamav
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_clamav
+
   iredmail_postfix:
     build:
       dockerfile: Dockerfiles/postfix
@@ -148,25 +170,3 @@ services:
       iredmail_net:
         aliases:
           - iredmail_postfix
-
-  iredmail_iredapd:
-    build:
-      dockerfile: Dockerfiles/iredapd
-      context: .
-    image: iredmail_iredapd:latest
-    container_name: iredmail_iredapd
-    env_file:
-      - env.defaults
-      - env.custom
-    ports:
-      - 7777:7777
-      - 7778:7778
-      - 7779:7779
-    volumes:
-      - vol_custom_conf_dir:/opt/iredmail/custom
-    depends_on:
-      - iredmail_mariadb
-    networks:
-      iredmail_net:
-        aliases:
-          - iredmail_iredapd
