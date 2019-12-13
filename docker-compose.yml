@@ -64,7 +64,7 @@ services:
     container_name: iredmail_mariadb
     env_file:
       - env.defaults
-      - env.custom
+      - iredmail.conf
     ports:
       - 3306:3306
     volumes:
@@ -83,7 +83,7 @@ services:
     container_name: iredmail_dovecot
     env_file:
       - env.defaults
-      - env.custom
+      - iredmail.conf
     ports:
       - 110:110
       - 995:995
@@ -112,7 +112,7 @@ services:
     container_name: iredmail_iredapd
     env_file:
       - env.defaults
-      - env.custom
+      - iredmail.conf
     ports:
       - 7777:7777
       - 7778:7778
@@ -134,7 +134,7 @@ services:
     container_name: iredmail_clamav
     env_file:
       - env.defaults
-      - env.custom
+      - iredmail.conf
     ports:
       - 3310:3310
     volumes:
@@ -152,7 +152,7 @@ services:
     container_name: iredmail_postfix
     env_file:
       - env.defaults
-      - env.custom
+      - iredmail.conf
     ports:
       - 25:25
       - 587:587
