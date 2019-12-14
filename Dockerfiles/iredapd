@@ -2,7 +2,7 @@ FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
-RUN apk add --no-cache --progress py-sqlalchemy py-setuptools py-dnspython py-mysqldb py2-pip && \
+RUN apk add --no-cache --progress py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown && \
     addgroup -g 2002 iredapd && \
     adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd && \
     wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \
