@@ -11,52 +11,51 @@ networks:
     name: iredmail_net
 
 volumes:
-  vol_custom_conf_dir:
+  vol_iredmail_custom_conf_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/custom
-  vol_ssl:
+      device: /opt/iredmail/custom
+  vol_iredmail_ssl:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_SSL:-/Users/zhb/Docker/ssl}
-  vol_mysql_db:
+      device: ${DOCKER_VOLUME_SSL:-/opt/iredmail/ssl}
+  vol_iredmail_mysql_db:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/data/mysql
-  vol_clamav_db:
+      device: /opt/iredmail/data/mysql
+  vol_iredmail_clamav_db:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/data/clamav
-  vol_mlmmj_data:
+      device: /opt/iredmail/data/clamav
+  vol_iredmail_mlmmj_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/data/mlmmj
-  vol_mlmmj_archive:
+      device: /opt/iredmail/data/mlmmj
+  vol_iredmail_mlmmj_archive:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/data/mlmmj-archive
-  vol_imapsieve_copy:
+      device: /opt/iredmail/data/mlmmj-archive
+  vol_iredmail_imapsieve_copy:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/zhb/Docker/data/imapsieve_copy
+      device: /opt/iredmail/data/imapsieve_copy
 
 services:
   iredmail_mariadb:
-    #image: mariadb:10.4
     build:
       dockerfile: Dockerfiles/mariadb
       context: .
@@ -68,8 +67,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - vol_mysql_db:/var/lib/mysql
-      - vol_custom_conf_dir:/opt/iredmail/custom
+      - vol_iredmail_mysql_db:/var/lib/mysql
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     networks:
       iredmail_net:
         aliases:
@@ -94,9 +93,9 @@ services:
       - 12340:12340
       - 24242:24242
     volumes:
-      - vol_ssl:/opt/iredmail/ssl
-      - vol_imapsieve_copy:/var/vmail/imapsieve_copy
-      - vol_custom_conf_dir:/opt/iredmail/custom
+      - vol_iredmail_ssl:/opt/iredmail/ssl
+      - vol_iredmail_imapsieve_copy:/var/vmail/imapsieve_copy
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
       - iredmail_mariadb
     networks:
@@ -118,7 +117,7 @@ services:
       - 7778:7778
       - 7779:7779
     volumes:
-      - vol_custom_conf_dir:/opt/iredmail/custom
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
       - iredmail_mariadb
     networks:
@@ -138,7 +137,7 @@ services:
     ports:
       - 3310:3310
     volumes:
-      - vol_clamav_db:/var/lib/clamav
+      - vol_iredmail_clamav_db:/var/lib/clamav
     networks:
       iredmail_net:
         aliases:
@@ -158,10 +157,10 @@ services:
       - 587:587
       - 465:465
     volumes:
-      - vol_ssl:/opt/iredmail/ssl
-      - vol_mlmmj_data:/var/vmail/mlmmj
-      - vol_mlmmj_archive:/var/vmail/mlmmj-archive
-      - vol_custom_conf_dir:/opt/iredmail/custom
+      - vol_iredmail_ssl:/opt/iredmail/ssl
+      - vol_iredmail_mlmmj_data:/var/vmail/mlmmj
+      - vol_iredmail_mlmmj_archive:/var/vmail/mlmmj-archive
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
       - iredmail_mariadb
       # we need sasl auth service offered by Dovecot.

@@ -6,6 +6,7 @@
     - `/opt/iredmail/custom`
         - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
     - mysql bin log
+    - Postfix queue directory (`/var/spool/postfix`)
 - Connect to clamav via inet port, not local socket.
 - Postfix:
     - How to get Postfix log

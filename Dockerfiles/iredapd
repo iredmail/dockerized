@@ -2,7 +2,7 @@ FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
-RUN echo https://mirrors.cloud.tencent.com/alpine/v3.10/main > /apk.repo && echo https://mirrors.cloud.tencent.com/alpine/v3.10/community >> /apk.repo && apk add --no-cache --progress --repositories-file /apk.repo py-sqlalchemy py-setuptools py-dnspython py-mysqldb py2-pip && \
+RUN apk add --no-cache --progress py-sqlalchemy py-setuptools py-dnspython py-mysqldb py2-pip && \
     addgroup -g 2002 iredapd && \
     adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd && \
     wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \

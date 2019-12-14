@@ -1,6 +1,11 @@
 All files under `Dockerfiles/`, `config/`, `entrypoints/`, `files/` are
 generated with ansible code of iRedMail Easy.
 
+## Requirements
+
+* Docker has some issue on Windows/macOS platform, please use Linux system
+  as Docker host.
+
 ## Usage
 
 Create config file used to store your custom settings:
