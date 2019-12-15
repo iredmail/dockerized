@@ -8,4 +8,12 @@ RUN /bin/sh /install_all_pkgs.sh && rm -f /install_all_pkgs.sh
 
 COPY ./config/. /
 
-CMD ["/bin/sh"]
+# Main entrypoint script.
+COPY ./entrypoints/all_in_one/entrypoint.sh /entrypoint.sh
+
+# Copy entrypoint scripts for all applications.
+RUN mkdir /entrypoints
+COPY ./entrypoints/functions.sh /entrypoints/functions.sh
+COPY ./entrypoints/mariadb.sh /entrypoints/mariadb.sh
+
+CMD ["/bin/sh", "/entrypoint.sh"]

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Purpose: Install all packages for a ALL-IN-ALL docker image.
+# Purpose: Install all packages for a ALL-IN-ONE docker image.
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
 # Required binary packages.
@@ -19,6 +19,9 @@ PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-ldap php7-json php7-gd php7-mcry
 
 # Required Python modules.
 PIP_MODULES="web.py==0.40"
+
+# Required directories.
+WEB_APP_ROOTDIR="/opt/www"
 
 # Install packages.
 apk add --no-cache --progress \
@@ -42,6 +45,9 @@ pip install \
      \
     ${PIP_MODULES}
 
+# Create required directories.
+mkdir -p ${WEB_APP_ROOTDIR}
+
 # Add required system accounts.
 addgroup -g 2002 iredapd
 adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd
@@ -63,3 +69,12 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
 chmod -R 0500 /opt/mlmmjadmin-2.1
 
 # Install Roundcube.
+wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.1/roundcubemail-1.4.1-complete.tar.gz && \
+tar zxf roundcubemail-1.4.1-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.4.1-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.4.1 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.4.1 && \
+chmod -R 0755 /opt/www/roundcubemail-1.4.1 && \
+cd /opt/www/roundcubemail-1.4.1 && \
+chown -R nginx:nginx temp logs && \
+chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
