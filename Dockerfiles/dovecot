@@ -2,11 +2,15 @@ FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 110 995 143 993 4190 24 12340 24242 12346
 
-RUN apk add --no-cache --progress dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql
+ARG SCRIPTS_DIR=/docker/scripts
 
-# Create `vmail` user/group.
-RUN addgroup -g 2000 vmail && \
-    adduser -D -H -u 2000 -G vmail -s /sbin/nologin vmail
+RUN mkdir -p ${SCRIPTS_DIR}
+COPY ./scripts/add_user_vmail.sh ${SCRIPTS_DIR}/
+
+RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
+    rm -rf ${SCRIPTS_DIR}
+
+RUN apk add --no-cache --progress dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql
 
 COPY ./config/etc/dovecot/. /etc/dovecot/
 
