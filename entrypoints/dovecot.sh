@@ -56,4 +56,9 @@ echo "* Make sure custom config files exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
 echo "* Running Dovecot..."
-dovecot -c ${CONF} -F
+if [[ X"$1" == X'--background' ]]; then
+    shift 1
+    dovecot -c ${CONF}
+else
+    dovecot -c ${CONF} -F
+fi

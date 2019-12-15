@@ -1,16 +1,23 @@
 #!/usr/bin/env sh
 
 # TODO
-#   - put socket/pid files under /run/mysql/
-#   - Set root password: mysqladmin password "my_new_password"
+#   - (re)set root password: mysqladmin password "my_new_password"
 #   - Create /root/.my.cnf
 #   - Delete anonymous user
 #   - Drop 'test' database
 
+# Optional command line arguments supported by this script:
+#
+#   --background: Run mysql in background.
+#                 Note: must be first argument on command line..
+#
+# All other arguments specified on command line will be passed to `mysqld_safe`
+# command (and eventually passed to `mysqld`).
+
 USER="mysql"
 GROUP="mysql"
 DATA_DIR="/var/lib/mysql"
-SOCKET_PATH="/var/lib/mysql/mysql.sock"
+SOCKET_PATH="/var/run/mysqld/mysqld.sock"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
 
 LOG() {
@@ -29,10 +36,18 @@ fi
 
 [[ -d ${DATA_DIR} ]] || mkdir -p ${DATA_DIR}
 
+install -d -o ${USER} -g root -m 0755 /var/run/mysqld
+
 if [[ ! -d ${DATA_DIR}/mysql ]]; then
     LOG "Database 'mysql' doesn't exist, initializing."
     mysql_install_db --datadir="${DATA_DIR}"
 fi
 
 LOG "Run mysql service..."
-mysqld_safe --user=${USER} --console "$@"
+
+if [[ X"$1" == X'--background' ]]; then
+    shift 1
+    mysqld_safe --user=${USER} $@ &
+else
+    mysqld_safe --user=${USER} $@
+fi

@@ -30,8 +30,15 @@ You can change it by writing same parameter name with proper value in
 MYSQL_ROOT_PASSWORD=my-secret-password
 ```
 
-Start the containers:
+Start the containers with `docker-compose`:
 
 ```
 docker-compose up
+```
+
+[__NOT STABLE YET__] If you prefer running all applications in one container, run:
+
+```
+docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
+docker run --env-file env.defaults --env-file iredmail.conf iredmail:latest
 ```

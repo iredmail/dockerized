@@ -11,4 +11,5 @@
 
 . /entrypoints/functions.sh
 
-run_entrypoint /entrypoints/mariadb.sh "&"
+run_entrypoint /entrypoints/mariadb.sh --background
+run_entrypoint /entrypoints/dovecot.sh --background

@@ -48,10 +48,6 @@ pip install \
 # Create required directories.
 mkdir -p ${WEB_APP_ROOTDIR}
 
-# Add required system accounts.
-addgroup -g 2002 iredapd
-adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd
-
 # Install iRedAPD.
 wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \
 tar xjf iRedAPD-3.3.tar.bz2 -C /opt && \
