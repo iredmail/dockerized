@@ -4,8 +4,19 @@
 LOG_FLAG="[iRedMail]"
 
 LOG() {
-    echo "${LOG_FLAG} $@"
+    echo -e "\e[32m${LOG_FLAG}\e[0m $@"
 }
+
+LOG_ERROR() {
+    echo -e "\e[31m${LOG_FLAG} ERROR:\e[0m $@" >&2
+}
+
+LOG_WARNING() {
+    echo -e "\e[33m${LOG_FLAG} WARNING:\e[0m $@"
+}
+
+# Commands.
+CMD_SED="sed -i'.bak' -e"
 
 run_entrypoint() {
     # Usage: run_entrypoint <path-to-entrypoint-script> [arguments]
@@ -13,6 +24,6 @@ run_entrypoint() {
     shift 1
     _opts="$@"
 
-    LOG "Run entrypoint script: ${_script} ${_opts}"
+    LOG "[Entrypoint] Run: ${_script} ${_opts}"
     . ${_script} ${_opts}
 }

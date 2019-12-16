@@ -1,4 +1,6 @@
 -- Always create this global admin account and set password.
+USE vmail;
+
 DELETE FROM admin WHERE username='${GLOBAL_ADMIN_EMAIL}';
 DELETE FROM domain_admins WHERE username='${GLOBAL_ADMIN_EMAIL}';
 

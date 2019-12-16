@@ -25,12 +25,14 @@ CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
 CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
 CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
 
+. /docker/entrypoints/functions.sh
+
 # Create directory used to store ssl cert.
 [[ -d ${SSL_CERT_DIR} ]] || mkdir -p ${SSL_CERT_DIR}
 
 # Create self-signed ssl cert.
 if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
-    echo "* Generating self-signed ssl cert under ${SSL_CERT_DIR}, it may take a long time."
+    LOG "Generating self-signed ssl cert under ${SSL_CERT_DIR}."
     openssl req -x509 -nodes -sha256 -days 3650 \
         -subj "/C=${SSL_CERT_COUNTRY}/ST=${SSL_CERT_STATE}/L=${SSL_CERT_CITY}/O=${SSL_CERT_DEPARTMENT}/CN=${HOSTNAME}/emailAddress=${POSTMASTER_EMAIL}" \
         -newkey rsa:${SSL_KEY_LENGTH} \
@@ -43,19 +45,19 @@ chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
 
 # Create dh param.
 if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
-    echo "* Generating dh param file: ${SSL_DHPARAM2048_FILE}."
+    LOG "Generating dh param file: ${SSL_DHPARAM2048_FILE}. It make take a long time."
     openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048 >/dev/null
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
-echo "* Create directory used to store custom config files."
+LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}"
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
 [[ -d ${CUSTOM_ENABLED_CONF_DIR} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
 
-echo "* Make sure custom config files exist."
+LOG "Make sure custom sieve file exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
-echo "* Running Dovecot..."
+LOG "Running Dovecot..."
 if [[ X"$1" == X'--background' ]]; then
     shift 1
     dovecot -c ${CONF}
