@@ -1,5 +1,5 @@
 # Run all applications in one container.
-FROM alpine:3.11.0
+FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995
 
@@ -46,4 +46,5 @@ COPY ./entrypoints/all_in_one/entrypoint.sh /entrypoint.sh
 # Copy entrypoint scripts for all applications.
 COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
 
-CMD ["/bin/sh", "/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

@@ -1,4 +1,4 @@
-FROM alpine:3.11.0
+FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 
 EXPOSE 3306

@@ -2,6 +2,9 @@
 
 ## Phase 1
 
+- supervisor:
+    - Create symbol link for modular config files based on the `USE_<APP>=YES` setting.
+
 - Add volumes:
     - `/opt/iredmail/custom`
         - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
@@ -9,6 +12,7 @@
     - Postfix queue directory (`/var/spool/postfix`)
 - Connect to clamav via inet port, not local socket.
 - Postfix:
+    - Copy/Link `/etc/{localtime,hosts,resolv.conf}` to `/var/spool/postfix/etc`.
     - How to get Postfix log
 - Generate self-signed ssl cert while launching container which needs a cert
   and the cert files don't exist yet.

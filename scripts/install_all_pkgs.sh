@@ -3,7 +3,7 @@
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
 # Required binary packages.
-PKGS_BASE="ca-certificates"
+PKGS_BASE="ca-certificates rsyslog supervisor"
 PKGS_MYSQL="mariadb mariadb-client"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php7 php7-fpm"
