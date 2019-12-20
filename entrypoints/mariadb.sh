@@ -1,8 +1,6 @@
 #!/bin/sh
 
 # TODO
-#   - (re)set root password: mysqladmin password "my_new_password"
-#   - Create /root/.my.cnf
 #   - Delete anonymous user
 #   - Drop 'test' database
 
@@ -50,7 +48,6 @@ if [[ ! -z "$MARIADB_RANDOM_ROOT_PASSWORD" ]]; then
     export MARIADB_ROOT_PASSWORD="$(pwgen -1 32 -y)"
 fi
 
-# start database instance in order to configure the server
 cmd_mysql_opts="--protocol=socket -uroot -hlocalhost --socket=${SOCKET_PATH}"
 cmd_mysql="mysql ${cmd_mysql_opts}"
 cmd_mysql_with_dot_cnf="mysql --defaults-file=/root/.my.cnf ${cmd_mysql_opts}"
