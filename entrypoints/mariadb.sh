@@ -17,6 +17,7 @@ GROUP="mysql"
 DATA_DIR="/var/lib/mysql"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
 SOCKET_PATH="/var/run/mysqld/mysqld.sock"
+DOT_MY_CNF="/root/.my.cnf"
 
 # Directories used to store pre-start and initialization shell/sql scripts.
 PRE_START_SCRIPTS_DIR="/docker/mariadb/pre_start"
@@ -32,25 +33,27 @@ fi
 # Create data directory if not present
 [[ -d ${DATA_DIR} ]] || mkdir -p ${DATA_DIR}
 
-# Load default variables - password
-MARIADB_ROOT_PASSWORD="${MARIADB_ROOT_PASSWORD:=$MYSQL_ROOT_PASSWORD}"
-MARIADB_RANDOM_ROOT_PASSWORD="${MARIADB_RANDOM_ROOT_PASSWORD:=$MYSQL_RANDOM_ROOT_PASSWORD}"
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
+MYSQL_USE_RANDOM_ROOT_PASSWORD="${MYSQL_USE_RANDOM_ROOT_PASSWORD:=NO}"
 
-if [[ -z "$MARIADB_ROOT_PASSWORD" ]] && [[ -z "$MARIADB_RANDOM_ROOT_PASSWORD" ]]; then
-    LOG_ERROR "Database is uninitialized due to password option is not specified."
-    LOG_ERROR "Please specify one of MARIADB_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD."
+if [[ -z "$MYSQL_ROOT_PASSWORD" ]] && [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "NO" ]]; then
+    if [[ ! -d "${DATA_DIR}/mysql" ]]; then
+        LOG_ERROR "Database is uninitialized due to password option is not specified."
+    fi
+
+    LOG_ERROR "Please specify one of MYSQL_ROOT_PASSWORD and MYSQL_USE_RANDOM_ROOT_PASSWORD."
     exit 255
 fi
 
 # Configure root password
-if [[ ! -z "$MARIADB_RANDOM_ROOT_PASSWORD" ]]; then
-    LOG "Generate random root password. Check it in file /root/.my.cnf."
-    export MARIADB_ROOT_PASSWORD="$(pwgen -1 32 -y)"
+if [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "YES" ]]; then
+    LOG "Generate random root password. Will be saved in ${DOT_MY_CNF}."
+    export MYSQL_ROOT_PASSWORD="$(pwgen -1 32 -y)"
 fi
 
 cmd_mysql_opts="--protocol=socket -uroot -hlocalhost --socket=${SOCKET_PATH}"
 cmd_mysql="mysql ${cmd_mysql_opts}"
-cmd_mysql_with_dot_cnf="mysql --defaults-file=/root/.my.cnf ${cmd_mysql_opts}"
+cmd_mysql_with_dot_cnf="mysql --defaults-file=${DOT_MY_CNF} ${cmd_mysql_opts}"
 
 start_temp_mysql_instance() {
     LOG "Starting temporary MariaDB instance."
@@ -95,17 +98,17 @@ create_root_user() {
 -- or products like mysql-fabric won't work
 SET @@SESSION.SQL_LOG_BIN=0;
 DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root', 'mysql') OR host NOT IN ('localhost') ;
-SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MARIADB_ROOT_PASSWORD}') ;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
 
-CREATE USER 'root'@'${_grant_host}' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}' ;
+CREATE USER 'root'@'${_grant_host}' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
 GRANT ALL ON *.* TO 'root'@'${_grant_host}' WITH GRANT OPTION ;
 
 DROP DATABASE IF EXISTS test ;
 FLUSH PRIVILEGES ;
 EOF
 
-    if [[ -f /root/.my.cnf ]]; then
+    if [[ -f ${DOT_MY_CNF} ]]; then
         _cmd_mysql="${cmd_mysql_with_dot_cnf}"
     else
         _cmd_mysql="${cmd_mysql}"
@@ -118,16 +121,15 @@ EOF
 
 reset_root_password() {
     LOG "Reset MariaDB root password."
-    mysqladmin -u root -h localhost password "${MARIADB_ROOT_PASSWORD}"
+    mysqladmin -u root -h localhost password "${MYSQL_ROOT_PASSWORD}"
 }
 
 create_dot_my_cnf() {
-    # Create ~/.my.cnf
-    cat <<-EOF > /root/.my.cnf
+    cat <<-EOF > ${DOT_MY_CNF}
 [client]
 host=localhost
 user=root
-password="${MARIADB_ROOT_PASSWORD}"
+password="${MYSQL_ROOT_PASSWORD}"
 socket="${SOCKET_PATH}"
 EOF
 
@@ -137,7 +139,7 @@ EOF
 run_scripts_in_dir() {
     _dir="${1}"
 
-    if [[ -f /root/.my.cnf ]]; then
+    if [[ -f ${DOT_MY_CNF} ]]; then
         _cmd_mysql="${cmd_mysql_with_dot_cnf}"
     else
         _cmd_mysql="${cmd_mysql}"
@@ -205,9 +207,9 @@ if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
     stop_temp_mysql_instance
 fi
 
-if [[ X"$1" == X'--background' ]]; then
-    shift 1
-    mysqld_safe --user=${USER} $@ &
-else
-    mysqld_safe --user=${USER} $@
-fi
+#if [[ X"$1" == X'--background' ]]; then
+#    shift 1
+#    mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@ &
+#else
+#    mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@
+#fi

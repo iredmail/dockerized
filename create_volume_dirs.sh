@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Read variables DOCKER_VOLUME_* from iredmail.conf and `env.defaults`.
-. ./env.defaults
+# Read variables DOCKER_VOLUME_* from config files.
+. ./default_settings.conf
 . ./iredmail.conf
 
 for dir in ${DOCKER_VOLUME_SSL} \

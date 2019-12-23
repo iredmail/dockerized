@@ -33,6 +33,7 @@ COPY ./scripts/mariadb/. ${MARIADB_SCRIPTS_DIR}/
 #
 COPY ./config/. /
 
+# TODO Wrap all these chown/chmod commands in a shell script.
 # Set proper owner/group and permissions.
 RUN chown -R vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve && \
     chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
