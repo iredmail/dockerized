@@ -57,10 +57,10 @@ LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}"
 LOG "Make sure custom sieve file exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
-LOG "Running Dovecot..."
-if [[ X"$1" == X'--background' ]]; then
-    shift 1
-    dovecot -c ${CONF}
-else
-    dovecot -c ${CONF} -F
-fi
+#LOG "Running Dovecot..."
+#if [[ X"$1" == X'--background' ]]; then
+#    shift 1
+#    dovecot -c ${CONF}
+#else
+#    dovecot -c ${CONF} -F
+#fi
