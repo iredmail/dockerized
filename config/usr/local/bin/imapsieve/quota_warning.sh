@@ -7,7 +7,7 @@ USER=${2}
 
 # Use "plugin/quota=maildir:User quota:noenforcing" for maildir quota.
 cat << EOF | /usr/libexec/dovecot/deliver -d ${USER} -o "plugin/quota=dict:User quota::noenforcing:proxy::quotadict"
-From: no-reply@localhost
+From: no-reply@PH_HOSTNAME
 Subject: Warning: Your mailbox is now ${PERCENT}% full.
 
 Your mailbox is now ${PERCENT}% full, please clean up some mails for further incoming mails.
@@ -17,7 +17,7 @@ EOF
 if [ ${PERCENT} -ge 95 ]; then
     DOMAIN="$(echo ${USER} | awk -F'@' '{print $2}')"
     cat << EOF | /usr/libexec/dovecot/deliver -d postmaster@${DOMAIN} -o "plugin/quota=dict:User quota::noenforcing:proxy::quotadict"
-From: no-reply@localhost
+From: no-reply@PH_HOSTNAME
 Subject: Mailbox Quota Warning: ${PERCENT}% full, ${USER}
 
 Mailbox (${USER}) is now ${PERCENT}% full, please clean up some mails for

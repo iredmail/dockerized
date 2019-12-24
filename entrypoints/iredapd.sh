@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /docker/entrypoints/functions.sh
+
 CUSTOM_CONF_DIR="/opt/iredmail/custom/iredapd"
 CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
 
@@ -8,10 +10,4 @@ CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
 
 ln -sf ${CUSTOM_CONF} /opt/iRedAPD-3.3/custom_settings.py
 
-echo "* Running syslogd."
-/sbin/syslogd
-
-/usr/bin/python2 /opt/iredapd/iredapd.py
-
-echo "* tail -f /var/log/messages"
-tail -f /var/log/messages
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /opt/iredapd/settings.py

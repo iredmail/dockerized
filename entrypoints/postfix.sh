@@ -2,9 +2,6 @@
 
 . /docker/entrypoints/functions.sh
 
-LOG "Running syslogd."
-/sbin/syslogd
-
 LOG "Modify postfix config files based on Docker env variables."
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "  - Disable iRedAPD."
@@ -23,8 +20,5 @@ if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' /etc/postfix/master.cf
 fi
 
-LOG "Running postfix."
-/usr/sbin/postfix start || exit 255
-
-LOG "tail -f /var/log/messages"
-tail -f /var/log/messages
+# Update parameters.
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /etc/postfix/main.cf

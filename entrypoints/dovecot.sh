@@ -57,6 +57,9 @@ LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}"
 LOG "Make sure custom sieve file exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
+# Update parameters.
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh
+
 #LOG "Running Dovecot..."
 #if [[ X"$1" == X'--background' ]]; then
 #    shift 1

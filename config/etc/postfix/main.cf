@@ -284,9 +284,9 @@ virtual_alias_domains =
 #smtpd_tls_auth_only = yes
 
 # hostname
-myhostname = localhost
-myorigin = localhost
-mydomain = localhost
+myhostname = PH_HOSTNAME
+myorigin = PH_HOSTNAME
+mydomain = PH_HOSTNAME
 
 # trusted SMTP clients which are allowed to relay mail through Postfix.
 #

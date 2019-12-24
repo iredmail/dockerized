@@ -1,22 +1,19 @@
 #!/bin/sh
 
-# Start all required services.
-#   - mariadb
-#   - dovecot
-#   - iredapd (if enabled)
-#   - postfix
-#   - nginx
-#   - php-fpm
-#   - mlmmjadmin
-
 ENTRYPOINTS_DIR="/docker/entrypoints"
 . ${ENTRYPOINTS_DIR}/functions.sh
+
+# Check reuired variables.
+require_non_empty_var HOSTNAME ${HOSTNAME}
+require_non_empty_var FIRST_MAIL_DOMAIN ${FIRST_MAIL_DOMAIN}
 
 # Add required directories.
 install -d -m 0755 /var/run/supervisord /var/log/supervisor
 
-run_entrypoint ${ENTRYPOINTS_DIR}/mariadb.sh --background
-run_entrypoint ${ENTRYPOINTS_DIR}/dovecot.sh --background
+run_entrypoint ${ENTRYPOINTS_DIR}/mariadb.sh
+run_entrypoint ${ENTRYPOINTS_DIR}/dovecot.sh
+run_entrypoint ${ENTRYPOINTS_DIR}/iredapd.sh
+run_entrypoint ${ENTRYPOINTS_DIR}/antispam.sh
 
 # Applications controlled by supervisor.
 # Program name must be the name of modular config files without '.conf'.

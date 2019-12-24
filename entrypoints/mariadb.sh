@@ -62,12 +62,14 @@ start_temp_mysql_instance() {
     echo "${_pid}" > /tmp/temp_instance_pid
 
     # Wait until MariaDB instance is started
+    LOGN "Waiting for MariaDB service "
     for i in $(seq 30); do
         if mysqladmin --socket="${SOCKET_PATH}" ping &>/dev/null; then
+            echo '.'
             break
         fi
 
-        LOG "Waiting for MariaDB service ... ${i}"
+        echo -n '.'
         sleep 1
 
         if [[ "$i" == 30 ]]; then

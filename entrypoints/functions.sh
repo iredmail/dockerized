@@ -7,6 +7,10 @@ LOG() {
     echo -e "\e[32m${LOG_FLAG}\e[0m $@"
 }
 
+LOGN() {
+    echo -ne "\e[32m${LOG_FLAG}\e[0m $@"
+}
+
 LOG_ERROR() {
     echo -e "\e[31m${LOG_FLAG} ERROR:\e[0m $@" >&2
 }
@@ -17,6 +21,17 @@ LOG_WARNING() {
 
 # Commands.
 CMD_SED="sed -i'.bak' -e"
+
+require_non_empty_var() {
+    # Usage: require_non_empty_var <VAR_NAME> <VAR_VALUE>
+    _var="$1"
+    _value="$2"
+
+    if [[ X"${_value}" == X'' ]]; then
+        LOG_ERROR "Variable ${_var} can not be empty, please set it in file 'iredmail.conf'."
+        exit 255
+    fi
+}
 
 run_entrypoint() {
     # Usage: run_entrypoint <path-to-entrypoint-script> [arguments]

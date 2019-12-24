@@ -2,9 +2,11 @@
 
 ## Phase 1
 
-- [ ] FQDN hostname
-    - [ ] Update Postfix parameter `myhostname`, `mydomain`, `myorigin`.
-    - [ ] Update Amavisd config file
+- [x] FQDN hostname
+    - [x] Update Postfix parameter `myhostname`, `mydomain`, `myorigin`.
+    - [x] Update Amavisd config file
+    - [x] Update iRedAPD config file
+    - [x] Update Dovecot config file
 - [ ] Specify first mail domain name.
     - [ ] Add mail domain name in SQL db.
     - [ ] Add first domain admin `postmaster@` in SQL db.
