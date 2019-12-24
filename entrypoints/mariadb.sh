@@ -62,14 +62,12 @@ start_temp_mysql_instance() {
     echo "${_pid}" > /tmp/temp_instance_pid
 
     # Wait until MariaDB instance is started
-    LOGN "Waiting for MariaDB service "
+    LOG "Waiting for MariaDB service ..."
     for i in $(seq 30); do
         if mysqladmin --socket="${SOCKET_PATH}" ping &>/dev/null; then
-            echo '.'
             break
         fi
 
-        echo -n '.'
         sleep 1
 
         if [[ "$i" == 30 ]]; then
@@ -178,7 +176,7 @@ _run_pre_start="NO"
 if [[ ! -d "${DATA_DIR}/mysql" ]]; then
     _first_run="YES"
 
-    LOG "Database 'mysql' doesn't exist, initializing."
+    LOG "Initializing database ..."
     mysql_install_db --user=${USER} --datadir="${DATA_DIR}" >/dev/null
 fi
 

@@ -39,6 +39,6 @@ run_entrypoint() {
     shift 1
     _opts="$@"
 
-    LOG "[Entrypoint] Run: ${_script} ${_opts}"
+    LOG "[Entrypoint] ${_script} ${_opts}"
     . ${_script} ${_opts}
 }

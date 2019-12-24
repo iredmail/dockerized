@@ -2,11 +2,6 @@
 
 ## Phase 1
 
-- [x] FQDN hostname
-    - [x] Update Postfix parameter `myhostname`, `mydomain`, `myorigin`.
-    - [x] Update Amavisd config file
-    - [x] Update iRedAPD config file
-    - [x] Update Dovecot config file
 - [ ] Specify first mail domain name.
     - [ ] Add mail domain name in SQL db.
     - [ ] Add first domain admin `postmaster@` in SQL db.
@@ -23,6 +18,7 @@
         - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
     - mysql bin log
     - Postfix queue directory (`/var/spool/postfix`)
+    - SpamAssassin rules directory
 - Connect to clamav via inet port, not local socket.
 - Postfix:
     - Copy/Link `/etc/{localtime,hosts,resolv.conf}` to `/var/spool/postfix/etc`.
@@ -56,6 +52,12 @@
 - [x] Install required python modules with pip: web.py
 - supervisor:
     - [x] Create symbol link for modular config files based on the `USE_<PROGRAM>=YES` setting.
+- [x] FQDN hostname
+    - [x] Update Postfix parameter `myhostname`, `mydomain`, `myorigin`.
+    - [x] Update Amavisd config file
+    - [x] Update iRedAPD config file
+    - [x] Update Dovecot config file
+- [x] Run `sa-update`.
 
 ## Phase 2
 

@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
-# TODO Read below 2 values from Docker env.
-HOSTNAME='docker-dev.iredmail.org'
-POSTMASTER_EMAIL='postmaster@a.io'
+POSTMASTER_EMAIL="${POSTMASTER_EMAIL:=postmaster@${FIRST_MAIL_DOMAIN}}"
 
 # SSL cert.
 SSL_CERT_DIR='/opt/iredmail/ssl'
