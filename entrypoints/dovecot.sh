@@ -55,8 +55,15 @@ LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}"
 LOG "Make sure custom sieve file exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
+touch /etc/dovecot/dovecot-master-users
+chown dovecot:dovecot /etc/dovecot/dovecot-master-users
+chmod 0400 /etc/dovecot/dovecot-master-users
+
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh
+${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" /etc/dovecot/dovecot-mysql.conf
+${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" /etc/dovecot/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" /etc/dovecot/*.conf
 
 #LOG "Running Dovecot..."
 #if [[ X"$1" == X'--background' ]]; then

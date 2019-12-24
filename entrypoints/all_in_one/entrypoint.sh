@@ -3,9 +3,14 @@
 ENTRYPOINTS_DIR="/docker/entrypoints"
 . ${ENTRYPOINTS_DIR}/functions.sh
 
+export SQL_SERVER_ADDRESS='127.0.0.1'
+export MYSQL_SERVER_ADDRESS='127.0.0.1'
+
 # Check reuired variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}
 require_non_empty_var FIRST_MAIL_DOMAIN ${FIRST_MAIL_DOMAIN}
+require_non_empty_var VMAIL_DB_PASSWORD ${VMAIL_DB_PASSWORD}
+require_non_empty_var VMAIL_DB_ADMIN_PASSWORD ${VMAIL_DB_ADMIN_PASSWORD}
 
 # Add required directories.
 install -d -m 0755 /var/run/supervisord /var/log/supervisor

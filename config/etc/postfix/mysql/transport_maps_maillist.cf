@@ -5,6 +5,6 @@
 
 hosts       = localhost:3306
 user        = vmail
-password    = 7dXuyHU76qmq85SJus453TtRdzb3U2Er
+password    = PH_VMAIL_DB_PASSWORD
 dbname      = vmail
 query       = SELECT maillists.transport FROM maillists,domain WHERE maillists.address='%s' AND maillists.active=1 AND maillists.domain = domain.domain AND domain.active=1

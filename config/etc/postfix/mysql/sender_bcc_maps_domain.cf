@@ -5,6 +5,6 @@
 
 hosts       = localhost:3306
 user        = vmail
-password    = 7dXuyHU76qmq85SJus453TtRdzb3U2Er
+password    = PH_VMAIL_DB_PASSWORD
 dbname      = vmail
 query       = SELECT bcc_address FROM sender_bcc_domain WHERE domain='%d' AND active=1

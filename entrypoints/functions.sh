@@ -20,7 +20,7 @@ LOG_WARNING() {
 }
 
 # Commands.
-CMD_SED="sed -i'.bak' -e"
+CMD_SED="sed -i -e"
 
 require_non_empty_var() {
     # Usage: require_non_empty_var <VAR_NAME> <VAR_VALUE>

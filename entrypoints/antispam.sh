@@ -29,4 +29,4 @@ chmod 0400 ${DKIM_KEY}
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /etc/amavisd.conf
 
 LOG "Run 'sa-update' (required by Amavisd)."
-sa-update -v
+sa-update -v >/dev/null

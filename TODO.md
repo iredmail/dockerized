@@ -2,6 +2,17 @@
 
 ## Phase 1
 
+- [ ] Can reset initialized SQL database after re-launch container.
+- Update SQL server address, port, passwords in config files:
+    - [ ] Dovecot
+    - [ ] Roundcube
+    - [ ] Postfix
+    - [ ] iRedAPD
+    - [ ] iRedAdmin
+    - [ ] Amavisd
+- Dovecot:
+    - [x] Create required config files under `/etc/dovecot/`
+    - [] Set correct mysql server address in `/etc/dovecot/*.conf`
 - [ ] Specify first mail domain name.
     - [ ] Add mail domain name in SQL db.
     - [ ] Add first domain admin `postmaster@` in SQL db.

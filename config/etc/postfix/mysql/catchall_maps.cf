@@ -5,6 +5,6 @@
 
 hosts       = localhost:3306
 user        = vmail
-password    = 7dXuyHU76qmq85SJus453TtRdzb3U2Er
+password    = PH_VMAIL_DB_PASSWORD
 dbname      = vmail
 query       = SELECT forwardings.forwarding FROM forwardings,domain WHERE forwardings.address='%d' AND '%u' NOT LIKE '%%+%%' AND forwardings.address=domain.domain AND forwardings.active=1 AND domain.active=1 AND domain.backupmx=0

@@ -2,6 +2,7 @@
 # - connect to Dovecot SASL auth server
 # - connect to Amavisd-new
 # - connect to iRedAPD
+# - if `USE_ANTISPAM=NO`, don't set smtp port 10027 in mlmmjadmin config file.
 
 FROM alpine:3.10.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>

@@ -17,31 +17,31 @@ volumes:
       type: none
       o: bind
       device: /opt/iredmail/custom
-  vol_iredmail_ssl:
+  vol_iredmail_ssl_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_SSL:-/opt/iredmail/ssl}
-  vol_iredmail_mysql_db:
+      device: ${DOCKER_VOLUME_SSL_DIR:-/opt/iredmail/ssl}
+  vol_iredmail_mysql_data_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /opt/iredmail/data/mysql
-  vol_iredmail_clamav_db:
+  vol_iredmail_clamav_db_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /opt/iredmail/data/clamav
-  vol_iredmail_mlmmj_data:
+  vol_iredmail_mlmmj_data_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /opt/iredmail/data/mlmmj
-  vol_iredmail_mlmmj_archive:
+  vol_iredmail_mlmmj_archive_dir:
     driver: local
     driver_opts:
       type: none
@@ -53,6 +53,12 @@ volumes:
       type: none
       o: bind
       device: /opt/iredmail/data/imapsieve_copy
+  vol_iredmail_spamassassin_rules_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/iredmail/data/sa_rules
 
 services:
   iredmail_mariadb:
@@ -67,7 +73,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - vol_iredmail_mysql_db:/var/lib/mysql
+      - vol_iredmail_mysql_data_dir:/var/lib/mysql
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     networks:
       iredmail_net:
@@ -125,23 +131,24 @@ services:
         aliases:
           - iredmail_iredapd
 
-  iredmail_clamav:
+  iredmail_antispam:
     build:
-      dockerfile: Dockerfiles/clamav
+      dockerfile: Dockerfiles/antispam
       context: .
-    image: iredmail_clamav:latest
-    container_name: iredmail_clamav
+    image: iredmail_antispam:latest
+    container_name: iredmail_antispam
     env_file:
       - default_settings.conf
       - iredmail.conf
     ports:
       - 3310:3310
     volumes:
-      - vol_iredmail_clamav_db:/var/lib/clamav
+      - vol_iredmail_clamav_db_dir:/var/lib/clamav
+      - vol_iredmail_spamassassin_rules_dir:/var/lib/spamassassin
     networks:
       iredmail_net:
         aliases:
-          - iredmail_clamav
+          - iredmail_antispam
 
   iredmail_postfix:
     build:
@@ -157,9 +164,9 @@ services:
       - 587:587
       - 465:465
     volumes:
-      - vol_iredmail_ssl:/opt/iredmail/ssl
-      - vol_iredmail_mlmmj_data:/var/vmail/mlmmj
-      - vol_iredmail_mlmmj_archive:/var/vmail/mlmmj-archive
+      - vol_iredmail_ssl_dir:/opt/iredmail/ssl
+      - vol_iredmail_mlmmj_data_dir:/var/vmail/mlmmj
+      - vol_iredmail_mlmmj_archive_dir:/var/vmail/mlmmj-archive
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
       - iredmail_mariadb

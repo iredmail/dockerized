@@ -50,11 +50,11 @@ MLMMJ_SKEL_DIR = '/usr/share/mlmmj/text.skel'
 MLMMJ_DEFAULT_PROFILE_SETTINGS.update({'smtp_port': 10027})
 
 iredmail_sql_db_type = 'mysql'
-iredmail_sql_db_server = 'iredmail-mariadb'
+iredmail_sql_db_server = 'PH_SQL_SERVER_ADDRESS'
 iredmail_sql_db_port = 3306
 iredmail_sql_db_name = 'vmail'
 iredmail_sql_db_user = 'vmailadmin'
-iredmail_sql_db_password = 'FGxhe4WK5u56vnAqQr9BnZ96yV965xbz'
+iredmail_sql_db_password = 'PH_VMAIL_DB_ADMIN_PASSWORD'
 
 ############################################################
 # DO NOT TOUCH BELOW LINE.
