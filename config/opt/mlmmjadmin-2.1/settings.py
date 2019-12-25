@@ -51,7 +51,7 @@ MLMMJ_DEFAULT_PROFILE_SETTINGS.update({'smtp_port': 10027})
 
 iredmail_sql_db_type = 'mysql'
 iredmail_sql_db_server = 'PH_SQL_SERVER_ADDRESS'
-iredmail_sql_db_port = 3306
+iredmail_sql_db_port = PH_SQL_SERVER_PORT
 iredmail_sql_db_name = 'vmail'
 iredmail_sql_db_user = 'vmailadmin'
 iredmail_sql_db_password = 'PH_VMAIL_DB_ADMIN_PASSWORD'

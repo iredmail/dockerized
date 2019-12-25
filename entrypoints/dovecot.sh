@@ -16,6 +16,8 @@ SSL_CERT_DEPARTMENT='IT'
 SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 CONF="/etc/dovecot/dovecot.conf"
+USERDB_CONF="/etc/dovecot/dovecot-mysql.conf"
+CONF_DIR="/etc/dovecot"
 GLOBAL_SIEVE_FILE="/var/vmail/sieve/dovecot.sieve"
 
 # Custom config files.
@@ -61,9 +63,11 @@ chmod 0400 /etc/dovecot/dovecot-master-users
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" /etc/dovecot/dovecot-mysql.conf
-${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" /etc/dovecot/*.conf
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" /etc/dovecot/*.conf
+
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
+${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${USERDB_CONF}
+${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
 
 #LOG "Running Dovecot..."
 #if [[ X"$1" == X'--background' ]]; then

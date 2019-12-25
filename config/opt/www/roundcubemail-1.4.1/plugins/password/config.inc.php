@@ -92,7 +92,7 @@ $config['password_disabled'] = false;
 // ------------------
 // PEAR database DSN for performing the query. By default
 // Roundcube DB settings are used.
-$config['password_db_dsn'] = 'mysqli://roundcube:4vVPJ5g27fv62sTh5z5jn5a9Y7B5873F@PH_SQL_SERVER_ADDRESS:3306/vmail';
+$config['password_db_dsn'] = 'mysqli://roundcube:4vVPJ5g27fv62sTh5z5jn5a9Y7B5873F@PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT/vmail';
 
 // The SQL query used to change the password.
 // The query can contain the following macros that will be expanded as follows:

@@ -11,7 +11,7 @@
 //          must be '<?php'.
 
 // SQL DATABASE
-$config['db_dsnw'] = 'mysqli://roundcube:4vVPJ5g27fv62sTh5z5jn5a9Y7B5873F@PH_SQL_SERVER_ADDRESS:3306/roundcubemail';
+$config['db_dsnw'] = 'mysqli://roundcube:4vVPJ5g27fv62sTh5z5jn5a9Y7B5873F@PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT/roundcubemail';
 
 // use persistent db-connections
 // beware this will not "always" work as expected

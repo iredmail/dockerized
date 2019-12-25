@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-hosts       = localhost:3306
+hosts       = PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT
 user        = vmail
 password    = PH_VMAIL_DB_PASSWORD
 dbname      = vmail

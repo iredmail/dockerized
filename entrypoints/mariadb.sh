@@ -192,8 +192,6 @@ if [[ "${_first_run}" == "YES" ]]; then
     create_root_user
     create_dot_my_cnf
     run_scripts_in_dir ${FIRST_RUN_SCRIPTS_DIR}
-
-    LOG "Initialization finished."
 fi
 
 if [[ "${_run_pre_start}" == "YES" ]]; then
@@ -203,7 +201,6 @@ if [[ "${_run_pre_start}" == "YES" ]]; then
     fi
 
     run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
-    LOG "Pre-start scripts finished."
 fi
 
 if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then

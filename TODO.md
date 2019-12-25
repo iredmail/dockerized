@@ -2,27 +2,37 @@
 
 ## Phase 1
 
+- Create required SQL database, users, tables
+    - [x] `vmail`
+    - [ ] amavisd
+    - [ ] iredapd
+    - [ ] roundcubemail
+    - [ ] iredadmin
+    - [ ] sogo
+
+- [ ] Specify first mail domain name.
+    - [ ] Add mail domain name in SQL db.
+    - [ ] Add first domain admin `postmaster@` in SQL db.
+    - [ ] Add alias for all required system accounts in `/etc/postfix/aliases`.
 - Update SQL server address, port, passwords in config files:
-    - [ ] Dovecot
+    - [x] Dovecot
+    - [x] Postfix
     - [ ] Roundcube
-    - [ ] Postfix
     - [ ] iRedAPD
     - [ ] iRedAdmin
     - [ ] Amavisd
 - Dovecot:
     - [x] Create required config files under `/etc/dovecot/`
     - [x] Set correct mysql server address in `/etc/dovecot/*.conf`
-- [ ] Specify first mail domain name.
-    - [ ] Add mail domain name in SQL db.
-    - [ ] Add first domain admin `postmaster@` in SQL db.
-    - [ ] Add alias for all required system accounts in `/etc/postfix/aliases`.
 - [ ] Amavisd:
     - [ ] Create SQL database and tables
     - [ ] Generate DKIM key for first mail domain.
 - [ ] Setup mlmmjadmin
-- [ ] Setup clamav
-    - [ ] Add cron job to run `freshclam`
 - [ ] Run logrotate and generate modular config files.
+- [ ] Add cron jobs for applications.
+- [ ] Setup clamav
+    - [ ] Run `freshclam`
+    - [ ] Add cron job to run `freshclam`
 
 - Add volumes:
     - `/opt/iredmail/custom`
@@ -43,14 +53,6 @@
 - Read custom SQL passwords from somewhere while running Docker container, and
   update passwords in all related config files.
 - Add `entrypoint.sh` to start required services/daemons.
-
-- Create required SQL database, users, tables
-    - [x] `vmail`
-    - amavisd
-    - iredapd
-    - roundcubemail
-    - sogo
-    - iredadmin
 
 - Update SQL database automatically while running new version of container:
     - Roundcube: run `bin/updatedb.sh`

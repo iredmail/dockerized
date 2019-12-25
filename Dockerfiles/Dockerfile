@@ -42,7 +42,7 @@ RUN chown -R vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imaps
 # entrypoint scripts
 #
 # Main entrypoint script.
-COPY ./entrypoints/all_in_one/entrypoint.sh /entrypoint.sh
+COPY ./entrypoints/all_in_one.sh /entrypoint.sh
 
 # Copy entrypoint scripts for all applications.
 COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/

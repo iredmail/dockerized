@@ -40,5 +40,5 @@ docker-compose up
 
 ```
 docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
-docker run --env-file default_settings.conf --env-file iredmail.conf iredmail:latest
+./run.sh
 ```
