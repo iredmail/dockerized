@@ -2,7 +2,6 @@
 
 ## Phase 1
 
-- [ ] Can reset initialized SQL database after re-launch container.
 - Update SQL server address, port, passwords in config files:
     - [ ] Dovecot
     - [ ] Roundcube
@@ -12,7 +11,7 @@
     - [ ] Amavisd
 - Dovecot:
     - [x] Create required config files under `/etc/dovecot/`
-    - [] Set correct mysql server address in `/etc/dovecot/*.conf`
+    - [x] Set correct mysql server address in `/etc/dovecot/*.conf`
 - [ ] Specify first mail domain name.
     - [ ] Add mail domain name in SQL db.
     - [ ] Add first domain admin `postmaster@` in SQL db.
@@ -23,6 +22,7 @@
 - [ ] Setup mlmmjadmin
 - [ ] Setup clamav
     - [ ] Add cron job to run `freshclam`
+- [ ] Run logrotate and generate modular config files.
 
 - Add volumes:
     - `/opt/iredmail/custom`
@@ -58,6 +58,7 @@
 - MariaDB:
     - [x] Get mariadb container running first.
     - [x] Create SQL database `vmail` and tables.
+    - [x] Can reset initialized SQL database after re-launch container.
 - [x] Add env settings like `USE_ANTISPAM=[YES|NO]` to enable/disable optional components.
 - [x] Reflect the directory tree of config files, then just run `COPY ./. /` in Dockerfile to copy all files.
 - [x] Install required python modules with pip: web.py

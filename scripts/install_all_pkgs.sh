@@ -4,12 +4,12 @@
 
 # Required binary packages.
 PKGS_BASE="ca-certificates rsyslog supervisor"
-PKGS_MYSQL="mariadb mariadb-client"
+PKGS_MYSQL="mariadb mariadb-client pwgen"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php7 php7-fpm"
 PKGS_POSTFIX="postfix postfix-pcre postfix-mysql"
 PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql"
-PKGS_AMAVISD="amavisd-new perl-dbd-mysql"
+PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav"
 PKGS_IREDAPD="py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown"

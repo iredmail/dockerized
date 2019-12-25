@@ -48,7 +48,7 @@ fi
 # Configure root password
 if [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "YES" ]]; then
     LOG "Generate random root password. Will be saved in ${DOT_MY_CNF}."
-    export MYSQL_ROOT_PASSWORD="$(pwgen -1 32 -y)"
+    export MYSQL_ROOT_PASSWORD="$(pwgen -c -n -s -B -v -1 32)"
 fi
 
 cmd_mysql_opts="--protocol=socket -uroot -hlocalhost --socket=${SOCKET_PATH}"
@@ -57,7 +57,7 @@ cmd_mysql_with_dot_cnf="mysql --defaults-file=${DOT_MY_CNF} ${cmd_mysql_opts}"
 
 start_temp_mysql_instance() {
     LOG "Starting temporary MariaDB instance."
-    mysqld --skip-networking --datadir="${DATA_DIR}" --socket="${SOCKET_PATH}" &
+    mysqld --skip-networking --skip-grant-tables --datadir="${DATA_DIR}" --socket="${SOCKET_PATH}" &
     _pid="$!"
     echo "${_pid}" > /tmp/temp_instance_pid
 
@@ -121,11 +121,11 @@ EOF
 
 reset_root_password() {
     LOG "Reset MariaDB root password."
-    mysqladmin -u root -h localhost password "${MYSQL_ROOT_PASSWORD}"
+    mysql -u root --socket=${SOCKET_PATH} -e "USE mysql; UPDATE user SET Password=password('${MYSQL_ROOT_PASSWORD}'),authentication_string=password('${MYSQL_ROOT_PASSWORD}') WHERE User='root'; FLUSH PRIVILEGES;"
 }
 
 create_dot_my_cnf() {
-    cat <<-EOF > ${DOT_MY_CNF}
+    cat <<EOF > ${DOT_MY_CNF}
 [client]
 host=localhost
 user=root
@@ -197,7 +197,10 @@ if [[ "${_first_run}" == "YES" ]]; then
 fi
 
 if [[ "${_run_pre_start}" == "YES" ]]; then
-    [[ "${_first_run}" == "YES" ]] || reset_root_password
+    if [[ "${_first_run}" != "YES" ]]; then
+        reset_root_password
+        create_dot_my_cnf
+    fi
 
     run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
     LOG "Pre-start scripts finished."
