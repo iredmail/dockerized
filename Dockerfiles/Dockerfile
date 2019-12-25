@@ -25,7 +25,7 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
     /bin/sh ${SCRIPTS_DIR}/install_all_pkgs.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-# MariaDB first-run and pre-start scripts.
+# MariaDB pre-start scripts.
 COPY ./scripts/mariadb/. ${MARIADB_SCRIPTS_DIR}/
 
 #

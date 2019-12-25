@@ -2,6 +2,7 @@
 
 . /docker/entrypoints/functions.sh
 
+CONF="/etc/amavisd.conf"
 SPOOL_DIR="/var/spool/amavisd"
 TEMP_DIR="/var/spool/amavisd/tmp"
 QUARANTINE_DIR="/var/spool/amavisd/quarantine"
@@ -26,7 +27,11 @@ chown amavis:amavis ${DKIM_KEY}
 chmod 0400 ${DKIM_KEY}
 
 # Update parameters.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /etc/amavisd.conf
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
+
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
 
 LOG "Run 'sa-update' (required by Amavisd)."
 sa-update -v

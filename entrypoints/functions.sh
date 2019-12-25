@@ -1,5 +1,5 @@
 #!/bin/sh
-# Some useful utility functions used by entrypoint scripts.
+# Some utility functions used by entrypoint scripts.
 
 LOG_FLAG="[iRedMail]"
 
@@ -41,4 +41,20 @@ run_entrypoint() {
 
     LOG "[Entrypoint] ${_script} ${_opts}"
     . ${_script} ${_opts}
+}
+
+create_sql_user() {
+    # Usage: create_user <user> <password>
+    _user="$1"
+    _pw="$2"
+
+    cmd_mysql="mysql -u root"
+
+    ${cmd_mysql} mysql -e "SELECT User FROM user WHERE User='${_user}' LIMIT 1" | grep 'User'
+    if [[ X"$?" != X'0' ]]; then
+        ${cmd_mysql} -e "CREATE USER '${_user}'@'%';"
+    fi
+
+    # Reset password.
+    ${cmd_mysql} mysql -e "UPDATE user SET Password=password('${_pw}'),authentication_string=password('${_pw}') WHERE User='${_user}';"
 }

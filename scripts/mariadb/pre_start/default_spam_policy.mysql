@@ -1,3 +1,4 @@
+USE amavisd;
 -- Default server-wide spam policy
 --
 -- *) with 'spam_lover=Y' and:

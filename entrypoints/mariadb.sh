@@ -4,14 +4,6 @@
 #   - Delete anonymous user
 #   - Drop 'test' database
 
-# Optional command line arguments supported by this script:
-#
-#   --background: Run mysql in background.
-#                 Note: must be first argument on command line..
-#
-# All other arguments specified on command line will be passed to `mysqld_safe`
-# command (and eventually passed to `mysqld`).
-
 USER="mysql"
 GROUP="mysql"
 DATA_DIR="/var/lib/mysql"
@@ -21,7 +13,6 @@ DOT_MY_CNF="/root/.my.cnf"
 
 # Directories used to store pre-start and initialization shell/sql scripts.
 PRE_START_SCRIPTS_DIR="/docker/mariadb/pre_start"
-FIRST_RUN_SCRIPTS_DIR="/docker/mariadb/first_run"
 
 . /docker/entrypoints/functions.sh
 
@@ -47,7 +38,6 @@ fi
 
 # Configure root password
 if [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "YES" ]]; then
-    LOG "Generate random root password. Will be saved in ${DOT_MY_CNF}."
     export MYSQL_ROOT_PASSWORD="$(pwgen -c -n -s -B -v -1 32)"
 fi
 
@@ -62,7 +52,7 @@ start_temp_mysql_instance() {
     echo "${_pid}" > /tmp/temp_instance_pid
 
     # Wait until MariaDB instance is started
-    LOG "Waiting for MariaDB service ..."
+    #LOG "Waiting for MariaDB service ..."
     for i in $(seq 30); do
         if mysqladmin --socket="${SOCKET_PATH}" ping &>/dev/null; then
             break
@@ -119,9 +109,12 @@ EOF
     rm -f ${_file}
 }
 
-reset_root_password() {
-    LOG "Reset MariaDB root password."
-    mysql -u root --socket=${SOCKET_PATH} -e "USE mysql; UPDATE user SET Password=password('${MYSQL_ROOT_PASSWORD}'),authentication_string=password('${MYSQL_ROOT_PASSWORD}') WHERE User='root'; FLUSH PRIVILEGES;"
+reset_password() {
+    _user="$1"
+    _pw="$2"
+
+    LOG "Reset password for SQL user '${_user}'."
+    mysql -u root --socket=${SOCKET_PATH} -e "USE mysql; UPDATE user SET Password=password('${_pw}'),authentication_string=password('${_pw}') WHERE User='${_user}'; FLUSH PRIVILEGES;"
 }
 
 create_dot_my_cnf() {
@@ -152,15 +145,12 @@ run_scripts_in_dir() {
                     LOG "[Run] $f"
                     . "$f"
                     ;;
-                *.sql|*.mysql)
+                *.sql)
                     LOG "[Run] $f"
                     sh -c "${_cmd_mysql}" < "$f"
                     ;;
-                *.sql.gz)
-                    LOG "[Run] $f"
-                    gunzip -c "$f" | "${_cmd_mysql@}"
-                    ;;
-                *) LOG "[Ignore] $f. Only *.[sh|sql|mysql|sql.gz] are supported." ;;
+                *.mysql) : ;;
+                *) LOG "[Ignore] $f. Only *.sh and *.sql are supported." ;;
             esac
         done
     fi
@@ -191,12 +181,11 @@ fi
 if [[ "${_first_run}" == "YES" ]]; then
     create_root_user
     create_dot_my_cnf
-    run_scripts_in_dir ${FIRST_RUN_SCRIPTS_DIR}
 fi
 
 if [[ "${_run_pre_start}" == "YES" ]]; then
     if [[ "${_first_run}" != "YES" ]]; then
-        reset_root_password
+        reset_password root ${MYSQL_ROOT_PASSWORD}
         create_dot_my_cnf
     fi
 

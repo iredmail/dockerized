@@ -31,4 +31,5 @@ for prog in ${PROGRAMS}; do
 done
 
 # Run specified commands in Dockerfile `CMD`.
+LOG "CMD: $@"
 exec "$@"

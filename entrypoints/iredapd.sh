@@ -2,6 +2,7 @@
 
 . /docker/entrypoints/functions.sh
 
+CONF="/opt/iredapd/settings.py"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/iredapd"
 CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
 
@@ -10,4 +11,9 @@ CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
 
 ln -sf ${CUSTOM_CONF} /opt/iRedAPD-3.3/custom_settings.py
 
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /opt/iredapd/settings.py
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
+
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+
+${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}

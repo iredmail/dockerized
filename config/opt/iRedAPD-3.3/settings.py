@@ -72,7 +72,7 @@ amavisd_db_server = 'PH_SQL_SERVER_ADDRESS'
 amavisd_db_port = 'PH_SQL_SERVER_PORT'
 amavisd_db_name = 'amavisd'
 amavisd_db_user = 'amavisd'
-amavisd_db_password = '3G7JF7ZH99q8mfU3NpFzbBQM7HH292HF'
+amavisd_db_password = 'PH_AMAVISD_DB_PASSWORD'
 
 # iRedAPD database, used for greylisting, throttle.
 iredapd_db_server = 'PH_SQL_SERVER_ADDRESS'

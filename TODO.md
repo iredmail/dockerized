@@ -4,7 +4,7 @@
 
 - Create required SQL database, users, tables
     - [x] `vmail`
-    - [ ] amavisd
+    - [x] amavisd
     - [ ] iredapd
     - [ ] roundcubemail
     - [ ] iredadmin
