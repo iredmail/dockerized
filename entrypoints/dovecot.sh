@@ -27,8 +27,13 @@ CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
 
 . /docker/entrypoints/functions.sh
 
-# Create directory used to store ssl cert.
-[[ -d ${SSL_CERT_DIR} ]] || mkdir -p ${SSL_CERT_DIR}
+# Create required directories
+for d in ${STORAGE_MAILBOXES_DIR} \
+    ${SSL_CERT_DIR} \
+    ${CUSTOM_CONF_DIR} \
+    ${CUSTOM_ENABLED_CONF_DIR}; do
+    [[ -d ${d} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
+done
 
 # Create self-signed ssl cert.
 if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
@@ -50,15 +55,11 @@ if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
-[[ -d ${STORAGE_MAILBOXES_DIR} ]] || mkdir -p ${STORAGE_MAILBOXES_DIR}
-# If directory contains many mailboxes, `chown/chmod -R` will take a long time.
+# Make sure mailboxes directory has correct owner/group and permission.
+# Note: If there're many mailboxes, `chown/chmod -R` will take a long time.
 chown vmail:vmail ${STORAGE_MAILBOXES_DIR}
 chmod 0700 ${STORAGE_MAILBOXES_DIR}
 
-[[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
-[[ -d ${CUSTOM_ENABLED_CONF_DIR} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
-
-LOG "Make sure custom sieve file exist."
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
 touch /etc/dovecot/dovecot-master-users

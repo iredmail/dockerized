@@ -182,30 +182,17 @@ if [[ X"${_first_run}" == X'YES' ]]; then
     mysql_install_db --user=${USER} --datadir=${DATA_DIR} >/dev/null
 fi
 
-if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
-    start_temp_mysql_instance
-fi
+# Start service since we always reset root password.
+start_temp_mysql_instance
 
-if [[ "${_first_run}" == "YES" ]]; then
-    create_root_user
-else
-    reset_password root ${MYSQL_ROOT_PASSWORD}
-fi
+[[ X"${_first_run}" == X"YES" ]] && create_root_user
+[[ X"${_first_run}" != X"YES" ]] && reset_password root ${MYSQL_ROOT_PASSWORD}
 
 # ~/.my.cnf is required by pre_start scripts.
 create_dot_my_cnf
 
-if [[ "${_run_pre_start}" == "YES" ]]; then
-    run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
-fi
+[[ "${_run_pre_start}" == "YES" ]] && run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
 
-if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
-    stop_temp_mysql_instance
-fi
+stop_temp_mysql_instance
 
-#if [[ X"$1" == X'--background' ]]; then
-#    shift 1
-#    mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@ &
-#else
-#    mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@
-#fi
+# mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@
