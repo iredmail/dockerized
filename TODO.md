@@ -1,5 +1,6 @@
 # TODO
 
+- Update `run.sh` to set server hostname.
 - Create required SQL database, users, tables
     - [x] amavisd
     - [x] `vmail`

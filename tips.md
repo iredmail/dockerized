@@ -1,7 +1,12 @@
 __DRAFT DOCUMENT__
 
-## MariaDB pre-start scripts
+## MariaDB
 
-- `/docker/mariadb/pre_start`: all first in this directory will be executed EVERY TIME the container runs.
+- MySQL root password will be reset to a randomly generated strong password
+  each time you start the container. If you prefer to hard-code the password,
+  please set below parameters in `iredmail.conf`:
 
-Only files with `.sh`, `.sql` extension are supported.
+```
+MYSQL_USE_RANDOM_ROOT_PASSWORD=NO
+MYSQL_ROOT_PASSWORD=your-preferred-strong-password
+```

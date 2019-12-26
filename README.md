@@ -14,22 +14,6 @@ Create config file used to store your custom settings:
 touch iredmail.conf
 ```
 
-Check default settings in file `default_settings.conf`, if there's any setting you want
-to change, please write the parameter in file `iredmail.conf` with proper value.
-
-For example, MySQL root password is set to `secret` in env file `default_settings.conf`:
-
-```
-MYSQL_ROOT_PASSWORD=secret
-```
-
-You can change it by writing same parameter name with proper value in
-`iredmail.conf` like below:
-
-```
-MYSQL_ROOT_PASSWORD=my-secret-password
-```
-
 There're few REQUIRED parameters you should set in `iredmail.conf`:
 
 ```
@@ -38,6 +22,10 @@ HOSTNAME=
 FIRST_MAIL_DOMAIN=
 FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=
 ```
+
+There're many OPTIONAL settings defined in file `default_settings.conf`, if
+you'd like to change any of them, please write the same parameter name with
+proper value in `iredmail.conf` to override it.
 
 ## Run the all-in-one container
 
