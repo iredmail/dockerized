@@ -41,13 +41,30 @@ if [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "YES" ]]; then
     export MYSQL_ROOT_PASSWORD="$(pwgen -c -n -s -B -v -1 32)"
 fi
 
+_first_run="NO"
+_run_pre_start="NO"
+
+if [[ ! -d "${DATA_DIR}/mysql" ]]; then
+    _first_run="YES"
+fi
+
+if [[ -d "${PRE_START_SCRIPTS_DIR}" ]] && [[ "$(ls -A ${PRE_START_SCRIPTS_DIR})" ]]; then
+    _run_pre_start="YES"
+fi
+
 cmd_mysql_opts="--protocol=socket -uroot -hlocalhost --socket=${SOCKET_PATH}"
 cmd_mysql="mysql ${cmd_mysql_opts}"
 cmd_mysql_with_dot_cnf="mysql --defaults-file=${DOT_MY_CNF} ${cmd_mysql_opts}"
 
+cmd_mysqld_opts="--skip-networking --datadir=${DATA_DIR} --socket=${SOCKET_PATH}"
+if [[ X"${_first_run}" != X'YES' ]]; then
+    # '--skip-grant-tables' doesn't work at first run.
+    cmd_mysqld_opts="${cmd_mysqld_opts} --skip-grant-tables"
+fi
+
 start_temp_mysql_instance() {
     LOG "Starting temporary MariaDB instance."
-    mysqld --skip-networking --skip-grant-tables --datadir="${DATA_DIR}" --socket="${SOCKET_PATH}" &
+    mysqld ${cmd_mysqld_opts} &
     _pid="$!"
     echo "${_pid}" > /tmp/temp_instance_pid
 
@@ -159,19 +176,10 @@ run_scripts_in_dir() {
 # Create directory used to store socket/pid files.
 install -d -o ${USER} -g ${GROUP} -m 0755 $(dirname ${SOCKET_PATH})
 
-_first_run="NO"
-_run_pre_start="NO"
-
 # Initialize database
-if [[ ! -d "${DATA_DIR}/mysql" ]]; then
-    _first_run="YES"
-
+if [[ X"${_first_run}" == X'YES' ]]; then
     LOG "Initializing database ..."
-    mysql_install_db --user=${USER} --datadir="${DATA_DIR}" >/dev/null
-fi
-
-if [[ -d "${PRE_START_SCRIPTS_DIR}" ]] && [[ "$(ls -A ${PRE_START_SCRIPTS_DIR})" ]]; then
-    _run_pre_start="YES"
+    mysql_install_db --user=${USER} --datadir=${DATA_DIR} >/dev/null
 fi
 
 if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
@@ -180,13 +188,11 @@ fi
 
 if [[ "${_first_run}" == "YES" ]]; then
     create_root_user
-    create_dot_my_cnf
 fi
 
 if [[ "${_run_pre_start}" == "YES" ]]; then
     if [[ "${_first_run}" != "YES" ]]; then
         reset_password root ${MYSQL_ROOT_PASSWORD}
-        create_dot_my_cnf
     fi
 
     run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
@@ -195,6 +201,8 @@ fi
 if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
     stop_temp_mysql_instance
 fi
+
+create_dot_my_cnf
 
 #if [[ X"$1" == X'--background' ]]; then
 #    shift 1

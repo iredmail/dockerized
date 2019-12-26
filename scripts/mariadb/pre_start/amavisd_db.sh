@@ -12,7 +12,7 @@ if [[ X"${USE_ANTISPAM}" == X"YES" ]]; then
     create_sql_user amavisd ${AMAVISD_DB_PASSWORD}
     ${cmd_mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE ON amavisd.* TO 'amavisd'@'%'; FLUSH PRIVILEGES;"
 
-    ${cmd_mysql} -e "SELECT id FROM policy WHERE policy_name='@.' LIMIT 1" | grep 'id'
+    ${cmd_mysql} -e "SELECT id FROM policy WHERE policy_name='@.' LIMIT 1" | grep 'id' &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         ${cmd_mysql} < default_spam_policy.mysql
     fi

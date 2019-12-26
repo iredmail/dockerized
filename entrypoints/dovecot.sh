@@ -50,7 +50,6 @@ if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
-LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}"
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
 [[ -d ${CUSTOM_ENABLED_CONF_DIR} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
 

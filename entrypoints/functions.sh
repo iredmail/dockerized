@@ -50,7 +50,7 @@ create_sql_user() {
 
     cmd_mysql="mysql -u root"
 
-    ${cmd_mysql} mysql -e "SELECT User FROM user WHERE User='${_user}' LIMIT 1" | grep 'User'
+    ${cmd_mysql} mysql -e "SELECT User FROM user WHERE User='${_user}' LIMIT 1" | grep 'User' &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         ${cmd_mysql} -e "CREATE USER '${_user}'@'%';"
     fi
