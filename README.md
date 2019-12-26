@@ -6,7 +6,7 @@ generated with ansible code of iRedMail Easy.
 * Docker has some issue on Windows/macOS platform, please use Linux system
   as Docker host.
 
-## Usage
+## Preparations
 
 Create config file used to store your custom settings:
 
@@ -39,17 +39,18 @@ FIRST_MAIL_DOMAIN=
 FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=
 ```
 
-## Run with `docker-compose`
-
-```
-docker-compose up
-```
-
 ## Run the all-in-one container
 
-If you prefer running all applications in one container, run:
+To run iRedMail with an all-in-one container:
 
 ```
 docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
 ./run.sh
+```
+
+## Or, run with `docker-compose`
+
+```
+docker-compose build
+docker-compose up
 ```
