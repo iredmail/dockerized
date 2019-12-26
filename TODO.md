@@ -8,6 +8,7 @@
     - [ ] roundcubemail
     - [ ] iredadmin
     - [ ] sogo
+- Use random passwords for all SQL users (for all-in-one container)?
 - Update SQL server address, port, passwords in config files:
     - [x] Dovecot
     - [x] Postfix

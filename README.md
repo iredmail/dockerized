@@ -30,13 +30,24 @@ You can change it by writing same parameter name with proper value in
 MYSQL_ROOT_PASSWORD=my-secret-password
 ```
 
-Start the containers with `docker-compose`:
+There're few REQUIRED parameters you should set in `iredmail.conf`:
+
+```
+# [REQUIRED] Server hostname and first mail domain
+HOSTNAME=
+FIRST_MAIL_DOMAIN=
+FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=
+```
+
+## Run with `docker-compose`
 
 ```
 docker-compose up
 ```
 
-[__NOT STABLE YET__] If you prefer running all applications in one container, run:
+## Run the all-in-one container
+
+If you prefer running all applications in one container, run:
 
 ```
 docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
