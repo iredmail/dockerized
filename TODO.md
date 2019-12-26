@@ -4,16 +4,12 @@
 
 - Create required SQL database, users, tables
     - [x] `vmail`
+        - [ ] `vmail.last_login`
     - [x] amavisd
     - [ ] iredapd
     - [ ] roundcubemail
     - [ ] iredadmin
     - [ ] sogo
-
-- [ ] Specify first mail domain name.
-    - [ ] Add mail domain name in SQL db.
-    - [ ] Add first domain admin `postmaster@` in SQL db.
-    - [ ] Add alias for all required system accounts in `/etc/postfix/aliases`.
 - Update SQL server address, port, passwords in config files:
     - [x] Dovecot
     - [x] Postfix
@@ -24,6 +20,8 @@
 - Dovecot:
     - [x] Create required config files under `/etc/dovecot/`
     - [x] Set correct mysql server address in `/etc/dovecot/*.conf`
+- Postfix:
+    - [ ] Add alias for all required system accounts in `/etc/postfix/aliases`.
 - [ ] Amavisd:
     - [ ] Create SQL database and tables
     - [ ] Generate DKIM key for first mail domain.
@@ -34,9 +32,9 @@
     - [ ] Run `freshclam`
     - [ ] Add cron job to run `freshclam`
 
-- Add volumes:
-    - `/opt/iredmail/custom`
-        - Create or mount `/opt/iredmail/custom/<component>/` in entrypoint.
+- Volumes:
+    - [x] Mailboxes directory.
+    - [x] `/opt/iredmail/custom`
     - mysql bin log
     - Postfix queue directory (`/var/spool/postfix`)
     - SpamAssassin rules directory
@@ -72,6 +70,9 @@
     - [x] Update iRedAPD config file
     - [x] Update Dovecot config file
 - [x] Run `sa-update`.
+- [x] Specify first mail domain name.
+    - [x] Add mail domain name in SQL db.
+    - [x] Add first domain admin `postmaster@` in SQL db.
 
 ## Phase 2
 

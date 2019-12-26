@@ -6,6 +6,8 @@ ENTRYPOINTS_DIR="/docker/entrypoints"
 # Check reuired variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}
 require_non_empty_var FIRST_MAIL_DOMAIN ${FIRST_MAIL_DOMAIN}
+require_non_empty_var FIRST_MAIL_DOMAIN_ADMIN_PASSWORD ${FIRST_MAIL_DOMAIN_ADMIN_PASSWORD}
+
 require_non_empty_var VMAIL_DB_PASSWORD ${VMAIL_DB_PASSWORD}
 require_non_empty_var VMAIL_DB_ADMIN_PASSWORD ${VMAIL_DB_ADMIN_PASSWORD}
 

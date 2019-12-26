@@ -50,6 +50,11 @@ if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${SSL_DHPARAM2048_FILE}
 
+[[ -d ${STORAGE_MAILBOXES_DIR} ]] || mkdir -p ${STORAGE_MAILBOXES_DIR}
+# If directory contains many mailboxes, `chown/chmod -R` will take a long time.
+chown vmail:vmail ${STORAGE_MAILBOXES_DIR}
+chmod 0700 ${STORAGE_MAILBOXES_DIR}
+
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
 [[ -d ${CUSTOM_ENABLED_CONF_DIR} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
 

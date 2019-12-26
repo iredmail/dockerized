@@ -188,21 +188,20 @@ fi
 
 if [[ "${_first_run}" == "YES" ]]; then
     create_root_user
+else
+    reset_password root ${MYSQL_ROOT_PASSWORD}
 fi
 
-if [[ "${_run_pre_start}" == "YES" ]]; then
-    if [[ "${_first_run}" != "YES" ]]; then
-        reset_password root ${MYSQL_ROOT_PASSWORD}
-    fi
+# ~/.my.cnf is required by pre_start scripts.
+create_dot_my_cnf
 
+if [[ "${_run_pre_start}" == "YES" ]]; then
     run_scripts_in_dir ${PRE_START_SCRIPTS_DIR}
 fi
 
 if [[ "${_first_run}" == "YES" ]] || [[ "${_run_pre_start}" == "YES" ]]; then
     stop_temp_mysql_instance
 fi
-
-create_dot_my_cnf
 
 #if [[ X"$1" == X'--background' ]]; then
 #    shift 1

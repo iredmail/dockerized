@@ -9,6 +9,7 @@ for dir in ${DOCKER_VOLUME_BASEDIR} \
     ${DOCKER_VOLUME_CUSTOM_CONF_DIR} \
     ${DOCKER_VOLUME_DATA_DIR} \
     ${DOCKER_VOLUME_SSL_DIR} \
+    ${DOCKER_VOLUME_MAILBOXES_DIR} \
     ${DOCKER_VOLUME_MYSQL_DATA_DIR} \
     ${DOCKER_VOLUME_CLAMAV_DB_DIR} \
     ${DOCKER_VOLUME_MLMMJ_DATA_DIR} \
@@ -28,6 +29,7 @@ docker run \
     -v ${DOCKER_VOLUME_CUSTOM_CONF_DIR}:/opt/iredmail/custom \
     -v ${DOCKER_VOLUME_DATA_DIR}:/opt/iredmail/data \
     -v ${DOCKER_VOLUME_SSL_DIR}:/opt/iredmail/ssl \
+    -v ${DOCKER_VOLUME_MAILBOXES_DIR}:/var/vmail/vmail1 \
     -v ${DOCKER_VOLUME_MYSQL_DATA_DIR}:/var/lib/mysql \
     -v ${DOCKER_VOLUME_CLAMAV_DB_DIR}:/var/lib/clamav \
     -v ${DOCKER_VOLUME_MLMMJ_DATA_DIR}:/var/vmail/mlmmj \
