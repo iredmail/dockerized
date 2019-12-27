@@ -23,6 +23,9 @@ done
 
 [[ -d ${CUSTOM_CONF_DIR} ]] || install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
 
+# Assign clamav daemon user to Amavisd group, so that it has permission to scan message.
+addgroup clamav amavis
+
 # Generate DKIM key for first mail domain.
 install -d -o amavis -g amavis -m 0770 ${DKIM_DIR}
 [[ -f ${DKIM_KEY} ]] || /usr/sbin/amavisd genrsa ${DKIM_KEY} 1024

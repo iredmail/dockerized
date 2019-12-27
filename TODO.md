@@ -1,7 +1,5 @@
 # TODO
 
-- iRedAPD
-    - [ ] Start in foreground
 - Create required SQL database, users, tables
     - [ ] iredapd
     - [ ] roundcubemail
@@ -9,7 +7,6 @@
     - [ ] sogo
     - [x] amavisd
     - [x] `vmail`
-- Use random passwords for all SQL users (for all-in-one container)?
 - Update SQL server address, port, passwords in config files:
     - [x] Dovecot
     - [x] Postfix
@@ -17,12 +14,6 @@
     - [ ] Roundcube
     - [ ] iRedAdmin
     - [ ] Amavisd
-- Dovecot:
-    - [x] Create required config files under `/etc/dovecot/`
-    - [x] Set correct mysql server address in `/etc/dovecot/*.conf`
-- Postfix:
-    - [ ] Add alias for all required system accounts in `/etc/postfix/aliases`.
-    - [ ] Copy or hard link `/etc/{localtime,hosts,resolv.conf}` to `/var/spool/postfix/etc`.
 - Roundcube:
     - [ ] Always run `bin/updatedb.sh` to update SQL database
 - mlmmj:
@@ -39,4 +30,6 @@
     - [x] `/opt/iredmail/custom`
     - [x] SpamAssassin rules directory
 
+- Add `custom.sh` for each component?
+- Use random passwords for all SQL users (for all-in-one container)?
 - Move to Alpine-3.11 and use Python-3.

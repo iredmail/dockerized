@@ -18,6 +18,8 @@ SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 CONF="/etc/dovecot/dovecot.conf"
 USERDB_CONF="/etc/dovecot/dovecot-mysql.conf"
 CONF_DIR="/etc/dovecot"
+AVAILABLE_CONF_DIR="/etc/dovecot/conf-available"
+ENABLED_CONF_DIR="/etc/dovecot/conf-enabled"
 GLOBAL_SIEVE_FILE="/var/vmail/sieve/dovecot.sieve"
 
 # Custom config files.
@@ -31,8 +33,9 @@ CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
 for d in ${STORAGE_MAILBOXES_DIR} \
     ${SSL_CERT_DIR} \
     ${CUSTOM_CONF_DIR} \
-    ${CUSTOM_ENABLED_CONF_DIR}; do
-    [[ -d ${d} ]] || mkdir -p ${CUSTOM_ENABLED_CONF_DIR}
+    ${CUSTOM_ENABLED_CONF_DIR} \
+    ${ENABLED_CONF_DIR}; do
+    [[ -d ${d} ]] || mkdir -p ${d}
 done
 
 # Create self-signed ssl cert.
@@ -60,11 +63,20 @@ chmod 0644 ${SSL_DHPARAM2048_FILE}
 chown vmail:vmail ${STORAGE_MAILBOXES_DIR}
 chmod 0700 ${STORAGE_MAILBOXES_DIR}
 
+# Enable some modular config files.
+for f in service-imap-hibernate.conf stats.conf; do
+    ln -s ${AVAILABLE_CONF_DIR}/${f} ${ENABLED_CONF_DIR}/${f}
+done
+
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
 touch /etc/dovecot/dovecot-master-users
 chown dovecot:dovecot /etc/dovecot/dovecot-master-users
 chmod 0400 /etc/dovecot/dovecot-master-users
+
+# Set proper owner/group and permissions.
+chown -R vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve
+chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh

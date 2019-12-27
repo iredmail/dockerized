@@ -5,6 +5,10 @@
 USERDB_CONF_DIR="/etc/postfix/mysql"
 MAIN_CF="/etc/postfix/main.cf"
 MASTER_CF="/etc/postfix/master.cf"
+CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
+
+DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
+DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "Disable iRedAPD."
@@ -22,6 +26,79 @@ if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     ${CMD_SED} 's#smtp-amavis:[127.0.0.1]:10024##g' ${MAIN_CF}
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${MASTER_CF}
 fi
+
+install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
+
+# Make sure custom config files exist with correct owner/group and permission.
+for f in /opt/iredmail/custom/postfix/helo_access.pcre \
+    /opt/iredmail/custom/postfix/rdns_access.pcre \
+    /opt/iredmail/custom/postfix/postscreen_access.cidr \
+    /opt/iredmail/custom/postfix/header_checks.pcre \
+    /opt/iredmail/custom/postfix/body_checks.pcre \
+    /opt/iredmail/custom/postfix/smtp_tls_policy \
+    /opt/iredmail/custom/postfix/transport \
+    /opt/iredmail/custom/postfix/sender_access.pcre; do
+    touch ${f}
+    chown root:postfix ${f}
+    chmod 0640 ${f}
+done
+
+# Update /etc/postfix/aliases
+for u in amavis \
+    named \
+    clamav \
+    dovecot \
+    iredadmin \
+    iredapd \
+    memcached \
+    mlmmj \
+    mysql \
+    netdata \
+    nginx \
+    ldap \
+    postgres \
+    postfix \
+    prosody \
+    sogo \
+    root \
+    vmail; do
+    if ! grep "^${u}:" /etc/postfix/aliases &>/dev/null; then
+        echo "${u}: root" >> /etc/postfix/aliases
+    fi
+done
+${CMD_SED} 's#^root:.*##g' /etc/postfix/aliases
+echo "root: ${POSTMASTER_EMAIL}" >> /etc/postfix/aliases
+postalias /etc/postfix/aliases
+
+for f in /etc/postfix/transport \
+    /etc/postfix/smtp_tls_policy \
+    /opt/iredmail/custom/postfix/transport \
+    /opt/iredmail/custom/postfix/smtp_tls_policy; do
+    postmap hash:${f}
+
+    chown root:postfix ${f}.db
+    chmod 0640 ${f}.db
+done
+
+install -d -o postfix -g root -m 0700 /var/spool/postfix/etc
+for f in localtime hosts resolv.conf; do
+    if [[ -f /etc/${f} ]]; then
+        cp -f /etc/${f} /var/spool/postfix/etc/
+        chown postfix:root /var/spool/postfix/etc/${f}
+        chmod 0755 /var/spool/postfix/etc/${f}
+    fi
+done
+
+if [[ ! -f ${DHPARAM512_FILE} ]]; then
+    openssl dhparam -out ${DHPARAM512_FILE} 512 >/dev/null
+fi
+if [[ ! -f ${DHPARAM2048_FILE} ]]; then
+    LOG "Generating dh param file: ${SSL_DHPARAM2048_FILE}. It make take a long time."
+    openssl dhparam -out ${DHPARAM2048_FILE} 2048 >/dev/null
+fi
+chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
+
+[[ -d /var/log ]] && ln -sf /var/log/mail.log /var/log/maillog
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${MAIN_CF}

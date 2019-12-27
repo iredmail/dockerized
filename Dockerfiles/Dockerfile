@@ -5,9 +5,10 @@ EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 ARG SCRIPTS_DIR=/docker/scripts
-ARG MARIADB_PRE_START_SCRIPTS_DIR=/docker/mariadb
+ARG MARIADB_PRE_START_SCRIPTS_DIR=/docker/mariadb/pre_start
 
 RUN mkdir -p \
+        /patches \
         ${ENTRYPOINTS_DIR} \
         ${SCRIPTS_DIR} \
         ${MARIADB_PRE_START_SCRIPTS_DIR}
@@ -33,11 +34,7 @@ COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
 #
 COPY ./config/. /
 
-# TODO Wrap all these chown/chmod commands in a shell script.
-# Set proper owner/group and permissions.
-RUN chown -R vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve && \
-    chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
-
+COPY ./patches/. /patches/
 #
 # entrypoint scripts
 #
