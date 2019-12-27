@@ -22,7 +22,7 @@ USE vmail;
 -- http://postfixadmin.sf.net
 --
 
--- USE vmail;
+-- USE PH_VMAIL_DB_NAME;
 
 --
 -- Table structure for table admin
@@ -88,7 +88,6 @@ CREATE TABLE IF NOT EXISTS forwardings (
     dest_domain VARCHAR(255) NOT NULL DEFAULT '',
     -- defines whether it's a standalone (mlmmj) mailing list account. 0=no, 1=yes.
     is_maillist TINYINT(1) NOT NULL DEFAULT 0,
-    -- defines whether it's a mail forwarding address of mail user. 0=no, 1=yes.
     -- defines whether it's a standalone mail alias account. 0=no, 1=yes.
     is_list TINYINT(1) NOT NULL DEFAULT 0,
     -- defines whether it's a mail forwarding address of mail user. 0=no, 1=yes.
@@ -178,6 +177,8 @@ CREATE TABLE IF NOT EXISTS mailbox (
     -- All formats supported by Dovecot are ok. e.g. maildir, mdbox.
     -- FYI: https://wiki2.dovecot.org/MailboxFormat
     mailboxformat VARCHAR(50) NOT NULL DEFAULT 'maildir',
+    -- mailbox folder name can be any folder name supported by Linux/BSD file
+    -- system.
     mailboxfolder VARCHAR(50) NOT NULL DEFAULT 'Maildir',
     storagebasedirectory VARCHAR(255) NOT NULL DEFAULT '',
     storagenode VARCHAR(255) NOT NULL DEFAULT '',
@@ -450,3 +451,12 @@ CREATE TRIGGER `used_quota_before_insert`
     END;
 //
 DELIMITER ;
+
+CREATE TABLE IF NOT EXISTS `last_login` (
+    `username` VARCHAR(255) NOT NULL DEFAULT '',
+    `domain` VARCHAR(255) NOT NULL DEFAULT '',
+    `last_login` INT(11) DEFAULT NULL,
+    PRIMARY KEY (`username`),
+    INDEX (domain),
+    INDEX (`last_login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -18,7 +18,7 @@ PKGS_MLMMJADMIN="py-requests uwsgi uwsgi-python uwsgi-syslog py2-more-itertools 
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="web.py==0.40"
+PIP_MODULES="jaraco.functools==2.0 web.py==0.40"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"

@@ -1,5 +1,10 @@
 #!/bin/sh -xv
 # Author: Zhang Huangbin <zhb@iredmail.org>
+#
+# #
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
 
 PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 

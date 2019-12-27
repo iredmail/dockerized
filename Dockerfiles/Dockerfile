@@ -5,12 +5,12 @@ EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 ARG SCRIPTS_DIR=/docker/scripts
-ARG MARIADB_SCRIPTS_DIR=/docker/mariadb
+ARG MARIADB_PRE_START_SCRIPTS_DIR=/docker/mariadb
 
 RUN mkdir -p \
         ${ENTRYPOINTS_DIR} \
         ${SCRIPTS_DIR} \
-        ${MARIADB_SCRIPTS_DIR}
+        ${MARIADB_PRE_START_SCRIPTS_DIR}
 
 #
 # Add system accounts and install packages.
@@ -26,7 +26,7 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
     rm -rf ${SCRIPTS_DIR}
 
 # MariaDB pre-start scripts.
-COPY ./scripts/mariadb/. ${MARIADB_SCRIPTS_DIR}/
+COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
 
 #
 # Copy config files

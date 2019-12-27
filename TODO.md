@@ -1,20 +1,20 @@
 # TODO
 
-- Update `run.sh` to set server hostname.
+- iRedAPD
+    - [ ] Start in foreground
 - Create required SQL database, users, tables
-    - [x] amavisd
-    - [x] `vmail`
-        - [ ] `vmail.last_login`
     - [ ] iredapd
     - [ ] roundcubemail
     - [ ] iredadmin
     - [ ] sogo
+    - [x] amavisd
+    - [x] `vmail`
 - Use random passwords for all SQL users (for all-in-one container)?
 - Update SQL server address, port, passwords in config files:
     - [x] Dovecot
     - [x] Postfix
-    - [ ] Roundcube
     - [ ] iRedAPD
+    - [ ] Roundcube
     - [ ] iRedAdmin
     - [ ] Amavisd
 - Dovecot:
@@ -38,3 +38,5 @@
     - [x] Mailboxes directory.
     - [x] `/opt/iredmail/custom`
     - [x] SpamAssassin rules directory
+
+- Move to Alpine-3.11 and use Python-3.
