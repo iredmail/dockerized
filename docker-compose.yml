@@ -23,12 +23,18 @@ volumes:
       type: none
       o: bind
       device: ${DOCKER_VOLUME_SSL_DIR:-/opt/iredmail/ssl}
+  vol_iredmail_backup_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_BACKUP_DIR:-/opt/iredmail/data/backup}
   vol_iredmail_mailboxes_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MAILBOXES_DIR:=/opt/iredmail/mailboxes
+      device: ${DOCKER_VOLUME_MAILBOXES_DIR:=/opt/iredmail/data/mailboxes
   vol_iredmail_mysql_data_dir:
     driver: local
     driver_opts:
