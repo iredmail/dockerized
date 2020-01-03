@@ -6,7 +6,7 @@
 PKGS_BASE="ca-certificates rsyslog supervisor"
 PKGS_MYSQL="mariadb mariadb-client pwgen"
 PKGS_NGINX="nginx"
-PKGS_PHP_FPM="php7 php7-fpm"
+PKGS_PHP_FPM="php7 php7-bz2 php7-curl php7-dom php7-fileinfo php7-fpm php7-session php7-gd php7-gettext php7-iconv php7-imap php7-intl php7-json php7-mbstring php7-openssl php7-xml php7-zip"
 PKGS_POSTFIX="postfix postfix-pcre postfix-mysql"
 PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql"
 PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
@@ -15,7 +15,7 @@ PKGS_CLAMAV="clamav"
 PKGS_IREDAPD="py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown"
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="py-requests uwsgi uwsgi-python uwsgi-syslog py2-more-itertools py2-six py2-markdown"
-PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-zip mariadb-client aspell php7-pspell"
+PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
 PIP_MODULES="jaraco.functools==2.0 web.py==0.40"
@@ -65,12 +65,12 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
 chmod -R 0500 /opt/mlmmjadmin-2.1
 
 # Install Roundcube.
-wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.1/roundcubemail-1.4.1-complete.tar.gz && \
-tar zxf roundcubemail-1.4.1-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.4.1-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.4.1 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.4.1 && \
-chmod -R 0755 /opt/www/roundcubemail-1.4.1 && \
-cd /opt/www/roundcubemail-1.4.1 && \
+wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.2/roundcubemail-1.4.2-complete.tar.gz && \
+tar zxf roundcubemail-1.4.2-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.4.2-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.4.2 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.4.2 && \
+chmod -R 0755 /opt/www/roundcubemail-1.4.2 && \
+cd /opt/www/roundcubemail-1.4.2 && \
 chown -R nginx:nginx temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL

@@ -8,14 +8,19 @@
 
 PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 
+DB_NAME="amavisd"
+
 cmd_mysql="mysql -u root"
-cmd_mysql_amavisd="mysql -u root amavisd"
+cmd_mysql_amavisd="mysql -u root ${DB_NAME}"
 cd ${PRE_START_SCRIPT_DIR}
 
 if [[ X"${USE_ANTISPAM}" == X"YES" ]] || [[ X"${USE_IREDAPD}}" == X'YES' ]]; then
-    ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS amavisd DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    ${cmd_mysql} -e "SHOW DATABASES" |grep "${DB_NAME}" &>/dev/null
+    if [[ X"$?" != X'0' ]]; then
+        ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS amavisd DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+        ${cmd_mysql_amavisd} < amavisd.mysql
+    fi
 
-    ${cmd_mysql_amavisd} < amavisd.mysql
     create_sql_user amavisd ${AMAVISD_DB_PASSWORD}
     ${cmd_mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE ON amavisd.* TO 'amavisd'@'%'; FLUSH PRIVILEGES;"
 

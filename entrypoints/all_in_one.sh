@@ -17,16 +17,31 @@ install -d -m 0755 /var/run/supervisord /var/log/supervisor
 run_entrypoint ${ENTRYPOINTS_DIR}/mariadb.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/dovecot.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/postfix.sh
-run_entrypoint ${ENTRYPOINTS_DIR}/iredapd.sh
-run_entrypoint ${ENTRYPOINTS_DIR}/antispam.sh
 
 # Applications controlled by supervisor.
 # Program name must be the name of modular config files without '.conf'.
-#PROGRAMS="cron rsyslog mariadb mlmmjadmin dovecot clamav amavisd postfix"
-PROGRAMS="cron rsyslog mariadb dovecot amavisd postfix"
+PROGRAMS="cron rsyslog mariadb dovecot postfix"
 
-[[ "${USE_ANTISPAM}" == "YES" ]] && PROGRAMS="${PROGRAMS} clamav amavisd"
-[[ "${USE_IREDAPD}" == "YES" ]] && PROGRAMS="${PROGRAMS} iredapd"
+if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/iredapd.sh
+    PROGRAMS="${PROGRAMS} iredapd"
+fi
+
+if [[ X"${USE_ANTISPAM}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/antispam.sh
+    PROGRAMS="${PROGRAMS} clamav amavisd"
+fi
+
+# Nginx & php-fpm
+if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/nginx.sh
+    run_entrypoint ${ENTRYPOINTS_DIR}/phpfpm.sh
+fi
+
+if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/roundcube.sh
+    PROGRAMS="${PROGRAMS} nginx phpfpm"
+fi
 
 for prog in ${PROGRAMS}; do
     ln -sf /etc/supervisor.d/conf-available/${prog}.conf /etc/supervisor.d/${prog}.conf

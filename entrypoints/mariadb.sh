@@ -56,7 +56,7 @@ cmd_mysql_opts="--protocol=socket -uroot -hlocalhost --socket=${SOCKET_PATH}"
 cmd_mysql="mysql ${cmd_mysql_opts}"
 cmd_mysql_with_dot_cnf="mysql --defaults-file=${DOT_MY_CNF} ${cmd_mysql_opts}"
 
-cmd_mysqld_opts="--skip-networking --datadir=${DATA_DIR} --socket=${SOCKET_PATH}"
+cmd_mysqld_opts="--bind-address=127.0.0.1 --datadir=${DATA_DIR} --socket=${SOCKET_PATH}"
 if [[ X"${_first_run}" != X'YES' ]]; then
     # '--skip-grant-tables' doesn't work at first run.
     cmd_mysqld_opts="${cmd_mysqld_opts} --skip-grant-tables"

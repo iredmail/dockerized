@@ -11,7 +11,7 @@
 //          must be '<?php'.
 
 // SQL DATABASE
-$config['db_dsnw'] = 'mysqli://roundcube:4vVPJ5g27fv62sTh5z5jn5a9Y7B5873F@PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT/roundcubemail';
+$config['db_dsnw'] = 'mysqli://roundcube:PH_ROUNDCUBE_DB_PASSWORD@PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT/roundcubemail';
 
 // use persistent db-connections
 // beware this will not "always" work as expected
@@ -74,7 +74,7 @@ $config['mdn_use_from'] = true;
 $config['force_https'] = true;
 $config['login_autocomplete'] = 2;
 $config['ip_check'] = true;
-$config['des_key'] = 'E8Nhj5ue985c3se82KJG5Tvt';
+$config['des_key'] = 'PH_ROUNDCUBE_DES_KEY';
 $config['cipher_method'] = 'AES-256-CBC';
 $config['useragent'] = 'Roundcube Webmail'; // Hide version number
 $config['mime_types'] = '/etc/mime.types';
