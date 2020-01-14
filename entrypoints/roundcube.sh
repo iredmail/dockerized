@@ -17,8 +17,25 @@ require_non_empty_var ROUNDCUBE_DES_KEY ${ROUNDCUBE_DES_KEY}
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
 [[ -f ${CUSTOM_CONF} ]] || touch ${CUSTOM_CONF}
 
+create_rc_plugin_custom_conf() {
+    # Usage: create_rc_plugin_custom_conf <plugin-name>
+    _plugin="$1"
+    _conf="${CUSTOM_CONF_DIR}/config_${_plugin}.inc.php"
+
+    if [[ -f ${_conf} ]]; then
+        touch ${_conf}
+        echo '<?php' >> ${_conf}
+    fi
+
+    chown nginx:nginx ${_conf}
+    chmod 0400 ${_conf}
+}
+
 chown nginx:nginx ${RC_CONF}
 chmod 0400 ${RC_CONF}
+
+create_rc_plugin_custom_conf password
+create_rc_plugin_custom_conf managesieve
 
 # Enable required PHP modules.
 # mcrypt

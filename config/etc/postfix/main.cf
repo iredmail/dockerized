@@ -301,8 +301,13 @@ mynetworks = 127.0.0.1   192.168.1.1 172.0.0.0/8 172.16.0.0/12
 # Accepted local emails
 mydestination = $myhostname, localhost, localhost.localdomain
 
-alias_maps = hash:/etc/postfix/aliases
-alias_database = hash:/etc/postfix/aliases
+alias_maps =
+    hash:/opt/iredmail/custom/postfix/aliases
+    hash:/etc/postfix/aliases
+
+alias_database =
+    hash:/opt/iredmail/custom/postfix/aliases
+    hash:/etc/postfix/aliases
 
 # Default mailbox and single message size limit.
 # Note: mailbox_size_limit must be >= message_size_limit.
@@ -356,10 +361,12 @@ virtual_alias_maps =
     proxy:mysql:/etc/postfix/mysql/domain_alias_catchall_maps.cf
 
 sender_bcc_maps =
+    hash:/opt/iredmail/custom/postfix/sender_bcc
     proxy:mysql:/etc/postfix/mysql/sender_bcc_maps_user.cf
     proxy:mysql:/etc/postfix/mysql/sender_bcc_maps_domain.cf
 
 recipient_bcc_maps =
+    hash:/opt/iredmail/custom/postfix/recipient_bcc
     proxy:mysql:/etc/postfix/mysql/recipient_bcc_maps_user.cf
     proxy:mysql:/etc/postfix/mysql/recipient_bcc_maps_domain.cf
 

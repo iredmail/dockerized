@@ -1,9 +1,7 @@
 # TODO
 
-- Roundcube:
-    - [ ] Create custom config files:
-        - `config_password.inc.php`
-        - `config_managesieve.inc.php`
+- rsyslog:
+    - [ ] Add config file for builtin daemons (cron, etc)
 
 - Create required SQL database, users, tables
     - [x] roundcubemail
@@ -23,8 +21,16 @@
 - mlmmj:
     - [ ] Reset correct uid/gid for `mlmmj` user and group.
     - [ ] Setup mlmmjadmin
-- [ ] Run logrotate and generate modular config files.
+
 - [ ] Add cron jobs for applications.
+    - [x] dovecot
+    - [x] roundcube
+    - [x] iredapd
+    - [ ] iredadmin
+    - [ ] mlmmj
+    - [ ] sogo
+    - [ ] backup scripts
+- [ ] Run logrotate and generate modular config files.
 - [ ] ClamAV:
     - [ ] Run `freshclam` via cron job or supervisor?
     - [x] Run `freshclam` immediately if no db exists. This will speed up container launch.

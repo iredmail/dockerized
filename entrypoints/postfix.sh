@@ -30,14 +30,17 @@ fi
 install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
 
 # Make sure custom config files exist with correct owner/group and permission.
-for f in /opt/iredmail/custom/postfix/helo_access.pcre \
+for f in /opt/iredmail/custom/postfix/aliases \
+    /opt/iredmail/custom/postfix/helo_access.pcre \
     /opt/iredmail/custom/postfix/rdns_access.pcre \
     /opt/iredmail/custom/postfix/postscreen_access.cidr \
     /opt/iredmail/custom/postfix/header_checks.pcre \
     /opt/iredmail/custom/postfix/body_checks.pcre \
     /opt/iredmail/custom/postfix/smtp_tls_policy \
     /opt/iredmail/custom/postfix/transport \
-    /opt/iredmail/custom/postfix/sender_access.pcre; do
+    /opt/iredmail/custom/postfix/sender_access.pcre \
+    /opt/iredmail/custom/postfix/sender_bcc \
+    /opt/iredmail/custom/postfix/recipient_bcc; do
     touch ${f}
     chown root:postfix ${f}
     chmod 0640 ${f}
@@ -69,11 +72,14 @@ done
 ${CMD_SED} 's#^root:.*##g' /etc/postfix/aliases
 echo "root: ${POSTMASTER_EMAIL}" >> /etc/postfix/aliases
 postalias /etc/postfix/aliases
+postalias /opt/iredmail/custom/postfix/aliases
 
 for f in /etc/postfix/transport \
     /etc/postfix/smtp_tls_policy \
     /opt/iredmail/custom/postfix/transport \
-    /opt/iredmail/custom/postfix/smtp_tls_policy; do
+    /opt/iredmail/custom/postfix/smtp_tls_policy \
+    /opt/iredmail/custom/postfix/sender_bcc \
+    /opt/iredmail/custom/postfix/recipient_bcc; do
     postmap hash:${f}
 
     chown root:postfix ${f}.db
