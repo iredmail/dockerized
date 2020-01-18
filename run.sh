@@ -28,6 +28,14 @@ docker run \
     --env-file default_settings.conf \
     --env-file iredmail.conf \
     --hostname ${HOSTNAME} \
+    -p 80:80 \
+    -p 443:443 \
+    -p 110:110 \
+    -p 995:995 \
+    -p 143:143 \
+    -p 993:993 \
+    -p 25:25 \
+    -p 587:587 \
     -v ${DOCKER_VOLUME_CUSTOM_CONF_DIR}:/opt/iredmail/custom \
     -v ${DOCKER_VOLUME_DATA_DIR}:/opt/iredmail/data \
     -v ${DOCKER_VOLUME_SSL_DIR}:/opt/iredmail/ssl \

@@ -44,4 +44,5 @@
 
 - Add `custom.sh` for each component?
 - Use random passwords for all SQL users (for all-in-one container)?
+- Generate `README` file under `/opt/iredmail/custom/<component>/`
 - Move to Alpine-3.11 and use Python-3.
