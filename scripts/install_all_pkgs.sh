@@ -49,12 +49,12 @@ pip install \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \
-tar xjf iRedAPD-3.3.tar.bz2 -C /opt && \
-rm -f iRedAPD-3.3.tar.bz2 && \
-ln -s /opt/iRedAPD-3.3 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-3.3 && \
-chmod -R 0500 /opt/iRedAPD-3.3 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/3.4.tar.gz && \
+tar xjf 3.4.tar.gz -C /opt && \
+rm -f 3.4.tar.gz && \
+ln -s /opt/iRedAPD-3.4 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-3.4 && \
+chmod -R 0500 /opt/iRedAPD-3.4 && \
 
 # Install mlmmjadmin.
 wget -c https://github.com/iredmail/mlmmjadmin/archive/2.1.tar.gz && \

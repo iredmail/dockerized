@@ -11,14 +11,14 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     rm -rf ${SCRIPTS_DIR}
 
 RUN apk add --no-cache --progress py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown && \
-    wget -c https://dl.iredmail.org/yum/misc/iRedAPD-3.3.tar.bz2 && \
-    tar xjf iRedAPD-3.3.tar.bz2 -C /opt && \
-    rm -f iRedAPD-3.3.tar.bz2 && \
-    ln -sf /opt/iRedAPD-3.3 /opt/iredapd && \
+    wget -c https://github.com/iredmail/iRedAPD/archive/3.4.tar.gz && \
+    tar xjf 3.4.tar.gz -C /opt && \
+    rm -f 3.4.tar.gz && \
+    ln -sf /opt/iRedAPD-3.4 /opt/iredapd && \
     /usr/bin/pip2 install --no-cache-dir web.py==0.40 && \
     rm -rf /root/.cache
 
-COPY ./config/opt/iRedAPD-3.3/. /opt/iRedAPD-3.3/
+COPY ./config/opt/iRedAPD-3.4/. /opt/iRedAPD-3.4/
 COPY ./entrypoints/iredapd.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh
