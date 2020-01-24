@@ -36,6 +36,7 @@ chmod 0400 ${RC_CONF}
 
 create_rc_plugin_custom_conf password
 create_rc_plugin_custom_conf managesieve
+create_rc_plugin_custom_conf markasjunk
 
 # Enable required PHP modules.
 # mcrypt

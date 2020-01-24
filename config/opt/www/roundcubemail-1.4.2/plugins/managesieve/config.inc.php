@@ -1,6 +1,6 @@
 <?php
 
-//
+// //
 // This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
 // please do __NOT__ modify it manually.
 //

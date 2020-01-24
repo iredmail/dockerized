@@ -7,4 +7,4 @@ hosts       = PH_SQL_SERVER_ADDRESS:PH_SQL_SERVER_PORT
 user        = vmail
 password    = PH_VMAIL_DB_PASSWORD
 dbname      = vmail
-query       = SELECT domain FROM domain WHERE domain='%d' AND backupmx=1 AND active=1
+query       = SELECT domain FROM domain WHERE domain='%s' AND backupmx=1 AND active=1
