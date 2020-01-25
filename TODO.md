@@ -58,3 +58,4 @@ In addition to the above. The aim of this branch is;
 7. `docker-compose up` should always start the project successfully once env variables have been set
 8. Allow customization of components e.g. plugins for Roundcube
 9. Test that Migration works by having the ability to switch between versions using environment variables
+10. Include loadbalancer container with automatic ssl to proxy web services
