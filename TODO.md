@@ -51,7 +51,7 @@
 In addition to the above. The aim of this branch is;
 1. Separate out reusable components with docker official images
 2. Reduce build times by starting from base containers
-3. Have one process running per container PID=1
+3. Have one process running per container PID=1 and log to stdout
 4. Try as much as possible to scripts already available in IredMail Core so we can have parity between the two
 5. Allow users to select components to start
 6. Use external services where applicable, e.g. Database, Storage
