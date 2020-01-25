@@ -46,3 +46,15 @@
 - Use random passwords for all SQL users (for all-in-one container)?
 - Generate `README` file under `/opt/iredmail/custom/<component>/`
 - Move to Alpine-3.11 and use Python-3.
+
+# TODO - Modularize Branch
+In addition to the above. The aim of this branch is;
+1. Separate out reusable components with docker official images
+2. Reduce build times by starting from base containers
+3. Have one process running per container PID=1
+4. Try as much as possible to scripts already available in IredMail Core so we can have parity between the two
+5. Allow users to select components to start
+6. Use external services where applicable, e.g. Database, Storage
+7. `docker-compose up` should always start the project successfully once env variables have been set
+8. Allow customization of components e.g. plugins for Roundcube
+9. Test that Migration works by having the ability to switch between versions using environment variables
