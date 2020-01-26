@@ -1,22 +1,19 @@
 # TODO
 
-- rsyslog:
-    - [ ] Add config file for builtin daemons (cron, etc)
-
-- Create required SQL database, users, tables
-    - [x] roundcubemail
-    - [ ] iredapd
-    - [ ] iredadmin
-    - [ ] sogo
-    - [x] amavisd
-    - [x] `vmail`
 - Update SQL server address, port, passwords in config files:
-    - [x] Dovecot
-    - [x] Postfix
     - [ ] iRedAPD
     - [ ] Roundcube
     - [ ] iRedAdmin
     - [ ] Amavisd
+    - [x] Dovecot
+    - [x] Postfix
+
+- Migrate mlmmjadmin to Python-3
+- Migrate iRedAPD to Python-3
+- Migrate iRedAdmin(-Pro) to Python-3
+
+- rsyslog:
+    - [ ] Add config file for builtin daemons (cron, etc)
 
 - mlmmj:
     - [ ] Reset correct uid/gid for `mlmmj` user and group.
@@ -45,4 +42,6 @@
 - Add `custom.sh` for each component?
 - Use random passwords for all SQL users (for all-in-one container)?
 - Generate `README` file under `/opt/iredmail/custom/<component>/`
-- Move to Alpine-3.11 and use Python-3.
+- Create required SQL database, users, tables
+    - [ ] iredadmin
+    - [ ] sogo

@@ -10,28 +10,28 @@
 
 PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 
-DB_NAME="amavisd"
-DB_USER="amavisd"
+DB_NAME="iredapd"
+DB_USER="iredapd"
 
 cmd_mysql="mysql -u root"
-cmd_mysql_amavisd="mysql -u root ${DB_NAME}"
+cmd_mysql_iredapd="mysql -u root ${DB_NAME}"
 cd ${PRE_START_SCRIPT_DIR}
 
-if [[ X"${USE_ANTISPAM}" == X"YES" ]] || [[ X"${USE_IREDAPD}}" == X'YES' ]]; then
+if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
     ${cmd_mysql} -e "SHOW DATABASES" |grep "${DB_NAME}" &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         LOG "+ Create database ${DB_NAME}."
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        ${cmd_mysql_amavisd} < amavisd.mysql
+        ${cmd_mysql_iredapd} < /opt/iredapd/SQL/iredapd.mysql
     fi
 
-    create_sql_user ${DB_USER} ${AMAVISD_DB_PASSWORD}
-    ${cmd_mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE ON ${DB_NAME}.* TO '${DB_USER}'@'%'; FLUSH PRIVILEGES;"
+    create_sql_user ${DB_USER} ${IREDAPD_DB_PASSWORD}
+    ${cmd_mysql} -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%'; FLUSH PRIVILEGES;"
 
-    # Default global spam policy.
-    ${cmd_mysql_amavisd} -e "SELECT id FROM policy WHERE policy_name='@.' LIMIT 1" | grep 'id' &>/dev/null
+    # Default greylisting setting.
+    ${cmd_mysql_iredapd} -e "SELECT id FROM greylisting WHERE account='@.' LIMIT 1" | grep 'id' &>/dev/null
     if [[ X"$?" != X'0' ]]; then
-        LOG "+ Create default spam policy."
-        ${cmd_mysql_amavisd} < default_spam_policy.mysql
+        LOG "+ Enable greylisting."
+        ${cmd_mysql_iredapd} < /opt/iredapd/SQL/enable_global_greylisting.sql
     fi
 fi

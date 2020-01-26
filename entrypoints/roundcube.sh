@@ -22,7 +22,7 @@ create_rc_plugin_custom_conf() {
     _plugin="$1"
     _conf="${CUSTOM_CONF_DIR}/config_${_plugin}.inc.php"
 
-    if [[ -f ${_conf} ]]; then
+    if [[ ! -f ${_conf} ]]; then
         touch ${_conf}
         echo '<?php' >> ${_conf}
     fi

@@ -17,6 +17,3 @@ ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
 ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
-
-# Apply patch for iRedAPD-3.3 to run in foreground.
-cd /opt/iredapd/ && patch -p1 < /patches/iredapd-3.3-foreground.patch >/dev/null

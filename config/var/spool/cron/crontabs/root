@@ -1,10 +1,10 @@
 #Ansible: Scan spam/ham reported by end users.
-*/10 * * * * root /bin/bash /usr/local/bin/scan_reported_mails >/dev/null
+*/10 * * * * /bin/bash /usr/local/bin/scan_reported_mails >/dev/null
 #Ansible: iRedAPD: Clean up expired tracking records hourly.
-1 * * * * root /usr/bin/python2 /opt/iredapd/tools/cleanup_db.py >/dev/null
+1 * * * * /usr/bin/python2 /opt/iredapd/tools/cleanup_db.py >/dev/null
 #Ansible: iRedAPD: Convert SPF DNS record of specified domain names to IP
-*/30 * * * * root /usr/bin/python2 /opt/iredapd/tools/spf_to_greylist_whitelists.py >/dev/null
+*/30 * * * * /usr/bin/python2 /opt/iredapd/tools/spf_to_greylist_whitelists.py >/dev/null
 #Ansible: Roundcube: cleanup Roundcube SQL database
-2 2 * * * root /usr/bin/php /opt/www/roundcubemail/bin/cleandb.sh >/dev/null
+2 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/cleandb.sh >/dev/null
 #Ansible: Roundcube: cleanup Roundcube temporary files under 'temp/' directory
-3 2 * * * root /usr/bin/php /opt/www/roundcubemail/bin/gc.sh >/dev/null
+3 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/gc.sh >/dev/null

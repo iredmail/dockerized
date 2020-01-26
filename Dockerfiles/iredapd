@@ -1,4 +1,4 @@
-FROM alpine:3.10.3
+FROM alpine:3.11.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
@@ -10,12 +10,12 @@ COPY ./scripts/add_user_iredapd.sh ${SCRIPTS_DIR}/
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-RUN apk add --no-cache --progress py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown && \
+RUN apk add --no-cache --progress py3-sqlalchemy py3-dnspython py3-mysqlclient py3-pip py3-more-itertools py3-six py3-markdown && \
     wget -c https://github.com/iredmail/iRedAPD/archive/3.4.tar.gz && \
-    tar xjf 3.4.tar.gz -C /opt && \
+    tar xzf 3.4.tar.gz -C /opt && \
     rm -f 3.4.tar.gz && \
     ln -sf /opt/iRedAPD-3.4 /opt/iredapd && \
-    /usr/bin/pip2 install --no-cache-dir web.py==0.40 && \
+    /usr/bin/pip3 install --no-cache-dir web.py==0.40 && \
     rm -rf /root/.cache
 
 COPY ./config/opt/iRedAPD-3.4/. /opt/iRedAPD-3.4/

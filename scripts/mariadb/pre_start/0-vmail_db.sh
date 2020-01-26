@@ -6,9 +6,9 @@
 # please do __NOT__ modify it manually.
 #
 
-PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
-
 . /docker/entrypoints/functions.sh
+
+PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 
 cmd_mysql="mysql --defaults-file=/root/.my.cnf -u root"
 cmd_mysql_vmail="${cmd_mysql} vmail"

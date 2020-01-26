@@ -12,13 +12,13 @@ PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dove
 PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav"
-PKGS_IREDAPD="py2-sqlalchemy py-setuptools py2-dnspython py2-mysqlclient py2-pip py2-more-itertools py2-six py2-markdown"
+PKGS_IREDAPD="py3-sqlalchemy py3-dnspython py3-mysqlclient py3-pip py3-more-itertools py3-six py3-markdown"
 PKGS_MLMMJ="mlmmj altermime"
-PKGS_MLMMJADMIN="py-requests uwsgi uwsgi-python uwsgi-syslog py2-more-itertools py2-six py2-markdown"
+PKGS_MLMMJADMIN="py3-requests uwsgi uwsgi-python uwsgi-syslog py3-more-itertools py3-six py3-markdown"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="jaraco.functools==2.0 web.py==0.40"
+PIP_MODULES="web.py==0.40"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"
@@ -40,7 +40,7 @@ apk add --no-cache --progress \
     ${PKGS_ROUNDCUBE}
 
 # Install Python modules.
-pip install \
+/usr/bin/pip3 install \
     --no-cache-dir \
      \
     ${PIP_MODULES}
@@ -50,7 +50,7 @@ mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
 wget -c https://github.com/iredmail/iRedAPD/archive/3.4.tar.gz && \
-tar xjf 3.4.tar.gz -C /opt && \
+tar xzf 3.4.tar.gz -C /opt && \
 rm -f 3.4.tar.gz && \
 ln -s /opt/iRedAPD-3.4 /opt/iredapd && \
 chown -R iredapd:iredapd /opt/iRedAPD-3.4 && \

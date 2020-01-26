@@ -1,5 +1,5 @@
 # Run all applications in one container.
-FROM alpine:3.10.3
+FROM alpine:3.11.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
@@ -8,7 +8,6 @@ ARG SCRIPTS_DIR=/docker/scripts
 ARG MARIADB_PRE_START_SCRIPTS_DIR=/docker/mariadb/pre_start
 
 RUN mkdir -p \
-        /patches \
         ${ENTRYPOINTS_DIR} \
         ${SCRIPTS_DIR} \
         ${MARIADB_PRE_START_SCRIPTS_DIR}
@@ -34,8 +33,6 @@ COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
 #
 COPY ./config/. /
 
-COPY ./patches/. /patches/
-#
 # entrypoint scripts
 #
 # Main entrypoint script.
