@@ -1,12 +1,7 @@
 # TODO
 
 - Update SQL server address, port, passwords in config files:
-    - [ ] iRedAPD
-    - [ ] Roundcube
     - [ ] iRedAdmin
-    - [ ] Amavisd
-    - [x] Dovecot
-    - [x] Postfix
 
 - Migrate mlmmjadmin to Python-3
 - Migrate iRedAPD to Python-3

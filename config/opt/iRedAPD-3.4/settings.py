@@ -79,7 +79,7 @@ iredapd_db_server = 'PH_SQL_SERVER_ADDRESS'
 iredapd_db_port = 'PH_SQL_SERVER_PORT'
 iredapd_db_name = 'iredapd'
 iredapd_db_user = 'iredapd'
-iredapd_db_password = 'ybwRDe939t6854T8MGS5taCsdgdqD73V'
+iredapd_db_password = 'PH_IREDAPD_DB_PASSWORD'
 
 ############################################################
 # DO NOT TOUCH BELOW LINE.
