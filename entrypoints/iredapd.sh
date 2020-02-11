@@ -11,7 +11,7 @@ require_non_empty_var IREDAPD_DB_PASSWORD ${IREDAPD_DB_PASSWORD}
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
 [[ -f ${CUSTOM_CONF} ]] || touch ${CUSTOM_CONF}
 
-ln -sf ${CUSTOM_CONF} /opt/iRedAPD-3.4/custom_settings.py
+ln -sf ${CUSTOM_CONF} /opt/iRedAPD-4.0/custom_settings.py
 
 # Update placeholders in config file.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}

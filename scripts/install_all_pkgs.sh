@@ -49,20 +49,20 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/3.4.tar.gz && \
-tar xzf 3.4.tar.gz -C /opt && \
-rm -f 3.4.tar.gz && \
-ln -s /opt/iRedAPD-3.4 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-3.4 && \
-chmod -R 0500 /opt/iRedAPD-3.4 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/4.0.tar.gz && \
+tar xzf 4.0.tar.gz -C /opt && \
+rm -f 4.0.tar.gz && \
+ln -s /opt/iRedAPD-4.0 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-4.0 && \
+chmod -R 0500 /opt/iRedAPD-4.0 && \
 
 # Install mlmmjadmin.
-wget -c https://github.com/iredmail/mlmmjadmin/archive/2.1.tar.gz && \
-tar zxf 2.1.tar.gz -C /opt && \
-rm -f 2.1.tar.gz && \
-ln -s /opt/mlmmjadmin-2.1 /opt/mlmmjadmin && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
-chmod -R 0500 /opt/mlmmjadmin-2.1
+wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.tar.gz && \
+tar zxf 3.0.tar.gz -C /opt && \
+rm -f 3.0.tar.gz && \
+ln -s /opt/mlmmjadmin-3.0 /opt/mlmmjadmin && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0 && \
+chmod -R 0500 /opt/mlmmjadmin-3.0
 
 # Install Roundcube.
 wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.2/roundcubemail-1.4.2-complete.tar.gz && \
