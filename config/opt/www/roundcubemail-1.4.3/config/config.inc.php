@@ -83,6 +83,7 @@ $config['mime_types'] = '/etc/mime.types';
 $config['create_default_folders'] = true;
 $config['quota_zero_as_unlimited'] = true;
 $config['timezone'] = 'UTC';
+$config['spellcheck_engine'] = 'pspell';
 
 // USER PREFERENCES
 $config['default_charset'] = 'UTF-8';

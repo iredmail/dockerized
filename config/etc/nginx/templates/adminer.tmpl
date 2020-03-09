@@ -24,11 +24,8 @@ location ~ ^/adminer$ {
 
     fastcgi_param SCRIPT_FILENAME /opt/www/adminer/latest.php;
 
-    # Access control
-    #allow 127.0.0.1;
-    #allow 192.168.1.10;
-    #allow 192.168.1.0/24;
-    #deny all;
+    # Load extra custom config snippet.
+    include /opt/iredmail/custom/nginx/webapps/admine?.conf;
 }
 
 location = /adminer/ {

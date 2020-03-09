@@ -8,7 +8,7 @@ FROM alpine:3.11.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 25 465 587 7790
 
-RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql mlmmj altermime py3-requests uwsgi uwsgi-python uwsgi-syslog py3-more-itertools py3-six py3-markdown
+RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql mlmmj altermime uwsgi uwsgi-python uwsgi-syslog
 
 COPY ./config/etc/postfix/. /etc/postfix/
 COPY ./entrypoints/postfix.sh /entrypoint.sh

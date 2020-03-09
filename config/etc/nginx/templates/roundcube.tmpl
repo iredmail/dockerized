@@ -24,6 +24,9 @@ location ~ ^/mail/(.*\.php)$ {
     include /etc/nginx/templates/hsts.tmpl;
     include /etc/nginx/templates/fastcgi_php.tmpl;
     fastcgi_param SCRIPT_FILENAME /opt/www/roundcubemail/$1;
+
+    # Load extra custom config snippet.
+    include /opt/iredmail/custom/nginx/webapps/roundcub?.conf;
 }
 
 location ~ ^/mail/(.*) {

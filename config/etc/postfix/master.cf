@@ -13,7 +13,6 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
-#smtp      inet  n       -       n       -       -       smtpd
 smtp      inet  n       -       n       -       1       postscreen
 smtpd     pass  -       -       n       -       -       smtpd
 dnsblog   unix  -       -       n       -       0       dnsblog

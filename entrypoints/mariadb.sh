@@ -131,7 +131,11 @@ reset_password() {
     _pw="$2"
 
     LOG "Reset password for SQL user '${_user}'."
-    mysql -u root --socket=${SOCKET_PATH} -e "ALTER USER '${_user}'@'%' IDENTIFIED BY '${_pw}'; FLUSH PRIVILEGES;"
+    mysql -u root --socket=${SOCKET_PATH} <<EOF
+FLUSH PRIVILEGES;
+ALTER USER '${_user}'@'%' IDENTIFIED BY '${_pw}';
+FLUSH PRIVILEGES;
+EOF
 }
 
 create_dot_my_cnf() {

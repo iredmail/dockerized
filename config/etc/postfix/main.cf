@@ -274,14 +274,7 @@ virtual_mailbox_base = /var/vmail
 # Do not set virtual_alias_domains.
 virtual_alias_domains =
 
-#
-# Enable SASL authentication on port 25 and force TLS-encrypted SASL authentication.
-# WARNING: NOT RECOMMENDED to enable smtp auth on port 25, all end users should
-#          be forced to submit email through port 587 instead.
-#
-#smtpd_sasl_auth_enable = yes
-#smtpd_sasl_security_options = noanonymous
-#smtpd_tls_auth_only = yes
+
 
 # hostname
 myhostname = PH_HOSTNAME

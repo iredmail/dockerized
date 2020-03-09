@@ -35,6 +35,6 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     ${CMD_SED} "s#PH_ROUNDCUBE_DES_KEY#${ROUNDCUBE_DES_KEY}#g" ${RC_CONF}
 
     # Always update SQL db.
-    cd /opt/www/roundcubemail-1.4.2 && \
+    cd /opt/www/roundcubemail-1.4.3 && \
         ./bin/updatedb.sh --dir=./SQL --package roundcube
 fi

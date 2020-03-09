@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RC_DOCUMENTROOT="/opt/www/roundcubemail-1.4.2"
+RC_DOCUMENTROOT="/opt/www/roundcubemail-1.4.3"
 RC_DOCUMENTROOT_SYMLINK="/opt/www/roundcubemail"
 RC_CONF="/opt/www/roundcubemail/config/config.inc.php"
 
