@@ -7,9 +7,6 @@
 - Migrate iRedAPD to Python-3
 - Migrate iRedAdmin(-Pro) to Python-3
 
-- rsyslog:
-    - [ ] Add config file for builtin daemons (cron, etc)
-
 - mlmmj:
     - [ ] Reset correct uid/gid for `mlmmj` user and group.
     - [ ] Setup mlmmjadmin

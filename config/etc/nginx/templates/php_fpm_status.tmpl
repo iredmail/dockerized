@@ -10,6 +10,10 @@ location ~ ^/(php-fpm-status|php-fpm-ping)$ {
 
     access_log off;
 
+    # Load extra custom config snippet.
+    include /opt/iredmail/custom/nginx/webapps/php_fpm_statu?.conf;
+
+    # Set default ACL.
     allow 127.0.0.1;
     deny all;
 }
