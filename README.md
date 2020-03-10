@@ -21,6 +21,13 @@ There're few REQUIRED parameters you should set in `iredmail.conf`:
 HOSTNAME=
 FIRST_MAIL_DOMAIN=
 FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=
+
+# SQL user passwords.
+VMAIL_DB_PASSWORD=
+VMAIL_DB_ADMIN_PASSWORD=
+AMAVISD_DB_PASSWORD=
+ROUNDCUBE_DB_PASSWORD=
+ROUNDCUBE_DES_KEY=
 ```
 
 There're many OPTIONAL settings defined in file `default_settings.conf`, if
