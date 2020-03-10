@@ -8,6 +8,12 @@ FROM alpine:3.11.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 25 465 587 7790
 
+ARG SCRIPTS_DIR=/docker/scripts
+RUN mkdir -p ${SCRIPTS_DIR}
+COPY ./scripts/add_user_mlmmj.sh ${SCRIPTS_DIR}/
+RUN /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
+    rm -rf ${SCRIPTS_DIR}
+
 RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql mlmmj altermime uwsgi uwsgi-python uwsgi-syslog
 
 COPY ./config/etc/postfix/. /etc/postfix/

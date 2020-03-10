@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
 
 . /docker/entrypoints/functions.sh
 
@@ -6,6 +7,7 @@ USERDB_CONF_DIR="/etc/postfix/mysql"
 MAIN_CF="/etc/postfix/main.cf"
 MASTER_CF="/etc/postfix/master.cf"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
+CUSTOM_DISCLAIMER_DIR="/opt/iredmail/custom/postfix/disclaimer"
 
 DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
 DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
@@ -28,6 +30,10 @@ if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
 fi
 
 install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
+install -d -o root -g root -m 0555 ${CUSTOM_DISCLAIMER_DIR}
+
+# Create default disclaimer files.
+touch ${CUSTOM_DISCLAIMER_DIR}/default.{txt,html}
 
 # Make sure custom config files exist with correct owner/group and permission.
 for f in /opt/iredmail/custom/postfix/aliases \

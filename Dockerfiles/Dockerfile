@@ -16,11 +16,13 @@ RUN mkdir -p \
 # Add system accounts and install packages.
 #
 COPY ./scripts/add_user_vmail.sh \
+    ./scripts/add_user_mlmmj.sh \
     ./scripts/add_user_iredapd.sh \
     ./scripts/install_all_pkgs.sh \
     ${SCRIPTS_DIR}/
 
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
+    /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
     /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     /bin/sh ${SCRIPTS_DIR}/install_all_pkgs.sh && \
     rm -rf ${SCRIPTS_DIR}

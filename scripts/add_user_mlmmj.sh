@@ -5,5 +5,5 @@
 # please do __NOT__ modify it manually.
 #
 
-addgroup -g 2002 iredapd
-adduser -D -H -u 2002 -G iredapd -s /sbin/nologin iredapd
+addgroup -g 2003 mlmmj
+adduser -D -H -u 2003 -G mlmmj -s /sbin/nologin mlmmj

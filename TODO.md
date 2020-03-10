@@ -3,14 +3,7 @@
 - Update SQL server address, port, passwords in config files:
     - [ ] iRedAdmin
 
-- Migrate mlmmjadmin to Python-3
-- Migrate iRedAPD to Python-3
-- Migrate iRedAdmin(-Pro) to Python-3
-
-- mlmmj:
-    - [ ] Reset correct uid/gid for `mlmmj` user and group.
-    - [ ] Setup mlmmjadmin
-
+- [ ] Setup mlmmjadmin
 - [ ] Add cron jobs for applications.
     - [x] dovecot
     - [x] roundcube
