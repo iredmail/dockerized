@@ -2,8 +2,10 @@
 # Purpose: Install all packages for a ALL-IN-ONE docker image.
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
+#
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
-please do __NOT__ modify it manually.
+# please do __NOT__ modify it manually.
+#
 
 # Required binary packages.
 PKGS_BASE="ca-certificates logrotate rsyslog supervisor"
