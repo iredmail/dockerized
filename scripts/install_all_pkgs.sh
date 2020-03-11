@@ -66,6 +66,7 @@ wget -c https://github.com/iredmail/mlmmjadmin/archive/2.1.tar.gz && \
 tar zxf 2.1.tar.gz -C /opt && \
 rm -f 2.1.tar.gz && \
 ln -s /opt/mlmmjadmin-2.1 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-2.1 && patch -p1 < /mlmmjadmin-2.1.patch && rm -f /mlmmjadmin-2.1.patch && \
 chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
 chmod -R 0500 /opt/mlmmjadmin-2.1
 

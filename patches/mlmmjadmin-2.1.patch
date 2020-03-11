@@ -1,0 +1,29 @@
+--- a/backends/bk_iredmail_sql.py	2020-03-11 17:08:12.000000000 +0800
++++ b/backends/bk_iredmail_sql.py	2020-03-11 17:08:41.000000000 +0800
+@@ -50,13 +50,12 @@
+         return conn
+ 
+     def __init__(self):
+-        import MySQLdb
+         try:
+             self.conn = self.__connect()
+-        except (AttributeError, MySQLdb.OperationalError):
++        except AttributeError:  # should catch `<db>.OperationalError`
+             # Reconnect if error raised: MySQL server has gone away.
+             self.conn = self.__connect()
+-        except Exception, e:
++        except Exception as e:
+             logger.error("SQL error: {0}".format(e))
+ 
+ 
+--- a/libs/mlmmj.py	2019-02-11 12:09:24.000000000 +0800
++++ b/libs/mlmmj.py	2020-03-11 17:43:27.000000000 +0800
+@@ -625,7 +625,7 @@
+             return (False, _msg)
+ 
+         try:
+-            os.rename(_dir, _new_dir)
++            shutil.move(_dir, _new_dir)
+             logger.info("[{0}] {1}, archived: {2} -> {3}".format(web.ctx.ip, mail, _dir, _new_dir))
+ 
+             # Return new directory path

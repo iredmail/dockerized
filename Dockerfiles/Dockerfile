@@ -1,3 +1,8 @@
+# #
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
 # Run all applications in one container.
 FROM alpine:3.11.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
@@ -11,6 +16,11 @@ RUN mkdir -p \
         ${ENTRYPOINTS_DIR} \
         ${SCRIPTS_DIR} \
         ${MARIADB_PRE_START_SCRIPTS_DIR}
+
+#
+# Add patch files.
+#
+COPY ./patches/mlmmjadmin-2.1.patch /
 
 #
 # Add system accounts and install packages.
