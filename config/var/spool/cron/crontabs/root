@@ -1,9 +1,13 @@
+#Ansible: MariaDB: Backup databases.
+40 3 * * * /bin/bash /var/vmail/backup/backup_mysql.sh
 #Ansible: Scan spam/ham reported by end users.
 */10 * * * * /bin/bash /usr/local/bin/scan_reported_mails >/dev/null
 #Ansible: iRedAPD: Clean up expired tracking records hourly.
 1 * * * * /usr/bin/python2 /opt/iredapd/tools/cleanup_db.py >/dev/null
 #Ansible: iRedAPD: Convert SPF DNS record of specified domain names to IP
 */30 * * * * /usr/bin/python2 /opt/iredapd/tools/spf_to_greylist_whitelists.py >/dev/null
+#Ansible: mlmmj: maintenance for mailing lists.
+0 */2 * * * find /var/vmail/mlmmj -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;
 #Ansible: Roundcube: cleanup Roundcube SQL database
 2 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/cleandb.sh >/dev/null
 #Ansible: Roundcube: cleanup Roundcube temporary files under 'temp/' directory

@@ -110,6 +110,7 @@ if [[ ! -f ${DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
 
+# Create symbol link of mail log file.
 [[ -d /var/log ]] && ln -sf /var/log/mail.log /var/log/maillog
 
 # Update parameters.

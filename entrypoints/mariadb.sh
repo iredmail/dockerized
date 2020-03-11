@@ -4,8 +4,8 @@
 #   - Delete anonymous user
 #   - Drop 'test' database
 
-USER="mysql"
-GROUP="mysql"
+SYS_USER_MYSQL="mysql"
+SYS_GROUP_MYSQL="mysql"
 DATA_DIR="/var/lib/mysql"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
 SOCKET_PATH="/var/run/mysqld/mysqld.sock"
@@ -178,12 +178,12 @@ run_scripts_in_dir() {
 }
 
 # Create directory used to store socket/pid files.
-install -d -o ${USER} -g ${GROUP} -m 0755 $(dirname ${SOCKET_PATH})
+install -d -o ${SYS_USER_MYSQL} -g ${SYS_GROUP_MYSQL} -m 0755 $(dirname ${SOCKET_PATH})
 
 # Initialize database
 if [[ X"${_first_run}" == X'YES' ]]; then
     LOG "Initializing database ..."
-    mysql_install_db --user=${USER} --datadir=${DATA_DIR} >/dev/null
+    mysql_install_db --user=${SYS_USER_MYSQL} --datadir=${DATA_DIR} >/dev/null
 fi
 
 # Start service since we always reset root password.
@@ -199,4 +199,4 @@ create_dot_my_cnf
 
 stop_temp_mysql_instance
 
-# mysqld_safe --user=${USER} --datadir="${DATA_DIR} $@
+# mysqld_safe --user=${SYS_USER_MYSQL} --datadir="${DATA_DIR} $@

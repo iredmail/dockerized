@@ -1,22 +1,16 @@
 # TODO
 
-- Update SQL server address, port, passwords in config files:
-    - [ ] iRedAdmin
+- [ ] iRedAdmin
+    - [ ] Install + configure
+    - [ ] Update SQL server address, port, passwords in config files:
+    - [ ] Add cron jobs
 
-- [ ] Setup mlmmjadmin
-- [ ] Add cron jobs for applications.
-    - [x] dovecot
-    - [x] roundcube
-    - [x] iredapd
-    - [ ] iredadmin
-    - [ ] mlmmj
-    - [ ] sogo
-    - [ ] backup scripts
-- [ ] Run logrotate and generate modular config files.
+- [ ] Generate modular logrotate config files.
 - [ ] ClamAV:
     - [ ] Run `freshclam` via cron job or supervisor?
     - [x] Run `freshclam` immediately if no db exists. This will speed up container launch.
     - [ ] Connect to clamav via inet port, not local socket.
+
 - Volumes:
     - [ ] Postfix queue directory (`/var/spool/postfix`)
     - [ ] Backup directory.
@@ -29,4 +23,5 @@
 - Generate `README` file under `/opt/iredmail/custom/<component>/`
 - Create required SQL database, users, tables
     - [ ] iredadmin
-    - [ ] sogo
+
+- [ ] SOGo is missing due to upstream doesn't offer binary packages for Alpine.
