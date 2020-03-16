@@ -11,11 +11,16 @@ DB_NAME="roundcubemail"
 DB_USER="roundcube"
 
 . /docker/entrypoints/functions.sh
+
 require_non_empty_var ROUNDCUBE_DB_PASSWORD ${ROUNDCUBE_DB_PASSWORD}
 require_non_empty_var ROUNDCUBE_DES_KEY ${ROUNDCUBE_DES_KEY}
 
 [[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
-[[ -f ${CUSTOM_CONF} ]] || touch ${CUSTOM_CONF}
+
+if [[ ! -f ${CUSTOM_CONF} ]]; then
+    touch ${CUSTOM_CONF}
+    echo '<?php' >> ${CUSTOM_CONF}
+fi
 
 create_rc_plugin_custom_conf() {
     # Usage: create_rc_plugin_custom_conf <plugin-name>
@@ -31,16 +36,13 @@ create_rc_plugin_custom_conf() {
     chmod 0400 ${_conf}
 }
 
-chown nginx:nginx ${RC_CONF}
-chmod 0400 ${RC_CONF}
-
-create_rc_plugin_custom_conf password
 create_rc_plugin_custom_conf managesieve
 create_rc_plugin_custom_conf markasjunk
+create_rc_plugin_custom_conf password
 
-# Enable required PHP modules.
-# mcrypt
-# intl
+# Always set correct user/group and permission.
+chown nginx:nginx ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
+chmod 0400 ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
 
 # TODO Create symlinks for custom skins/plugins.
 # TODO Setup cron jobs.

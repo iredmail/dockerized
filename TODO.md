@@ -1,17 +1,13 @@
 # TODO
 
+- [ ] Add Fail2ban
+
 - [ ] iRedAdmin
     - [ ] Install + configure
     - [ ] Update SQL server address, port, passwords in config files:
     - [ ] Add cron jobs
 
-- [ ] ClamAV:
-    - [ ] Run `freshclam` via cron job or supervisor?
-    - [ ] Connect to clamav via inet port, not local socket.
-
-- [ ] Add Fail2ban
 - [ ] Use only one volume
-
 - Volumes:
     - [ ] Postfix queue directory (`/var/spool/postfix`)
     - [ ] Backup directory.

@@ -6,13 +6,14 @@
 # please do __NOT__ modify it manually.
 #
 
+. /docker/entrypoints/functions.sh
+
 PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 
 RC_CONF="/opt/www/roundcubemail/config/config.inc.php"
+CUSTOM_CONF="/opt/iredmail/custom/roundcube/custom.inc.php"
 DB_NAME="roundcubemail"
 DB_USER="roundcube"
-
-. /docker/entrypoints/functions.sh
 
 cmd_mysql="mysql -u root"
 cmd_mysql_rc="mysql -u root ${DB_NAME}"
@@ -33,6 +34,11 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${RC_CONF}
     ${CMD_SED} "s#PH_ROUNDCUBE_DB_PASSWORD#${ROUNDCUBE_DB_PASSWORD}#g" ${RC_CONF}
     ${CMD_SED} "s#PH_ROUNDCUBE_DES_KEY#${ROUNDCUBE_DES_KEY}#g" ${RC_CONF}
+
+    if [[ ! -f ${CUSTOM_CONF} ]]; then
+        touch ${CUSTOM_CONF}
+        echo '<?php' >> ${CUSTOM_CONF}
+    fi
 
     # Always update SQL db.
     cd /opt/www/roundcubemail-1.4.3 && \
