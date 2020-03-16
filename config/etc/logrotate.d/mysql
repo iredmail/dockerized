@@ -1,0 +1,30 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# /root/.my.cnf is required with root password. For example:
+#
+# [mysqladmin]
+# user=root
+# password="<secret>"
+#
+# where "<secret>" is the password.
+
+/var/lib/mysql/mysqld.log
+/var/lib/mysql/slow-query.log {
+    # create 600 mysql mysql
+    notifempty
+    daily
+    rotate 90
+    missingok
+    compress
+    sharedscripts
+
+    postrotate
+        # just if mysqld is really running
+        if test -x /usr/bin/mysqladmin && /usr/bin/mysqladmin ping &>/dev/null; then
+            /usr/bin/mysqladmin flush-logs
+        fi
+    endscript
+}

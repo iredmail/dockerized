@@ -1,0 +1,14 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+/var/log/mlmmjadmin/*.log {
+    rotate 20
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+}

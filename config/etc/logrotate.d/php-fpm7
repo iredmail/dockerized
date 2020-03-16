@@ -1,0 +1,18 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+/var/log/php-fpm/*.log {
+    rotate 90
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+
+    postrotate
+        /bin/kill -SIGUSR1 `cat /run/php-fpm/php-fpm.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}

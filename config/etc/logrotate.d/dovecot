@@ -1,0 +1,18 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+/var/log/dovecot/*.log {
+    daily
+    rotate 90
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+
+    postrotate
+        /etc/init.d/rsyslog --ifstarted reload >/dev/null
+    endscript
+}

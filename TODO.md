@@ -5,11 +5,12 @@
     - [ ] Update SQL server address, port, passwords in config files:
     - [ ] Add cron jobs
 
-- [ ] Generate modular logrotate config files.
 - [ ] ClamAV:
     - [ ] Run `freshclam` via cron job or supervisor?
-    - [x] Run `freshclam` immediately if no db exists. This will speed up container launch.
     - [ ] Connect to clamav via inet port, not local socket.
+
+- [ ] Add Fail2ban
+- [ ] Use only one volume
 
 - Volumes:
     - [ ] Postfix queue directory (`/var/spool/postfix`)
