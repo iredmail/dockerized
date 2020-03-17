@@ -1,5 +1,11 @@
 #!/bin/sh
-# Some utility functions used by entrypoint scripts.
+# Author: Zhang Huangbin <zhb@iredmail.org>
+# Purpose: Some utility functions used by entrypoint scripts.
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
 
 LOG_FLAG="[iRedMail]"
 
@@ -59,4 +65,23 @@ create_sql_user() {
     #${cmd_mysql} mysql -e "UPDATE user SET Password=password('${_pw}'),authentication_string=password('${_pw}') WHERE User='${_user}';"
     ${cmd_mysql} mysql -e "ALTER USER '${_user}'@'%' IDENTIFIED BY '${_pw}';"
 
+}
+
+#
+# Roundcube
+#
+create_rc_custom_conf() {
+    # Usage: create_rc_custom_conf <conf-file-name>
+    _conf_dir="/opt/iredmail/custom/roundcube"
+    _conf="${_conf_dir}/${1}"
+
+    [ -d ${_conf_dir} ] || mkdir -p ${_conf_dir}
+
+    if [ ! -f ${_conf} ]; then
+        touch ${_conf}
+        echo '<?php' >> ${_conf}
+    fi
+
+    chown nginx:nginx ${_conf}
+    chmod 0400 ${_conf}
 }

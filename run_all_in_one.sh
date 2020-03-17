@@ -9,7 +9,7 @@
 
 # Store all data under this directory on docker host.
 data_dir='/opt/iredmail'
-[[ -d ${data_dir} ]] || mkdir -p ${data_dir}
+[ -d ${data_dir} ] || mkdir -p ${data_dir}
 
 docker run \
     --rm \

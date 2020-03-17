@@ -1,6 +1,7 @@
 # TODO
 
 - [ ] Add Fail2ban
+- [ ] Use volume for persistant data.
 
 - [ ] iRedAdmin
     - [ ] Create system user/group
@@ -9,10 +10,13 @@
     - [ ] Update SQL server address, port, passwords in config files:
     - [ ] Add cron jobs
 
-- [ ] Use only one volume
-- Volumes:
-    - [ ] Postfix queue directory (`/var/spool/postfix`)
-    - [ ] Backup directory.
+- [ ] Roundcube
+    - [ ] Create symlinks for custom skins/plugins.
+
+- [ ] Move `pre_start/iredapd_db.sh` to `entrypoints/iredapd.sh`.
+- [ ] Move `pre_start/amavisd_db.sh` to `entrypoints/antispam.sh`.
+- [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
+- [ ] Backup directory.
 
 - Add `custom.sh` for each component?
 - Use random passwords for all SQL users (for all-in-one container)?
