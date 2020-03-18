@@ -46,6 +46,6 @@ LOG "Run 'sa-update' (required by Amavisd)."
 sa-update -v
 
 if [[ ! -f "${CLAMAV_DB_DIR}/main.cvd" ]] && [[ ! -f "${CLAMAV_DB_DIR}/bytecode.cvd" ]]; then
-    LOG "Run 'freshclam --quiet' (required by ClamAV)."
-    freshclam --quiet
+    LOG "Run 'freshclam' (required by ClamAV)."
+    freshclam
 fi

@@ -25,7 +25,7 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     ${cmd_mysql} -e "SHOW DATABASES" |grep "${DB_NAME}" &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        ${cmd_mysql_rc} < roundcube.initial.mysql
+        ${cmd_mysql_rc} < /opt/www/roundcubemail/SQL/mysql.initial.sql
     fi
 
     create_sql_user ${DB_USER} ${ROUNDCUBE_DB_PASSWORD}

@@ -1,7 +1,6 @@
 # TODO
 
 - [ ] Add Fail2ban
-- [ ] Use volume for persistant data.
 
 - [ ] iRedAdmin
     - [ ] Create system user/group

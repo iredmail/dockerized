@@ -1,0 +1,191 @@
+# Require at least version '3.5' to set custom network name.
+version: '3.5'
+
+# TODO
+#   - add `depends_on:`
+#   - add top-level `volumes:`
+
+networks:
+  iredmail_net:
+    external: false
+    name: iredmail_net
+
+volumes:
+  vol_iredmail_custom_conf_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_CUSTOM_CONF_DIR:=/opt/iredmail/custom}
+  vol_iredmail_ssl_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_SSL_DIR:-/opt/iredmail/ssl}
+  vol_iredmail_backup_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_BACKUP_DIR:-/opt/iredmail/data/backup}
+  vol_iredmail_mailboxes_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_MAILBOXES_DIR:=/opt/iredmail/mailboxes
+  vol_iredmail_mysql_data_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_MYSQL_DATA_DIR:=/opt/iredmail/data/mysql}
+  vol_iredmail_clamav_db_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_CLAMAV_DB_DIR:=/opt/iredmail/data/clamav}
+  vol_iredmail_mlmmj_data_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_MLMMJ_DATA_DIR:=/opt/iredmail/data/mlmmj}
+  vol_iredmail_mlmmj_archive_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR:=/opt/iredmail/data/mlmmj-archive}
+  vol_iredmail_imapsieve_copy:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR:=/opt/iredmail/data/imapsieve_copy}
+  vol_iredmail_spamassassin_rules_dir:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR:=/opt/iredmail/data/sa_rules}
+
+services:
+  iredmail_mariadb:
+    build:
+      dockerfile: Dockerfiles/mariadb
+      context: .
+    image: iredmail_mariadb:latest
+    container_name: iredmail_mariadb
+    env_file:
+      - default_settings.conf
+      - iredmail.conf
+    ports:
+      - 3306:3306
+    volumes:
+      - vol_iredmail_mysql_data_dir:/var/lib/mysql
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_mariadb
+
+  iredmail_dovecot:
+    build:
+      dockerfile: Dockerfiles/dovecot
+      context: .
+    image: iredmail_dovecot:latest
+    container_name: iredmail_dovecot
+    env_file:
+      - default_settings.conf
+      - iredmail.conf
+    ports:
+      - 110:110
+      - 995:995
+      - 143:143
+      - 993:993
+      - 4190:4190
+      - 24:24
+      - 12340:12340
+      - 24242:24242
+    volumes:
+      - vol_iredmail_ssl:/opt/iredmail/ssl
+      - vol_iredmail_mailboxes_dir:/var/vmail/vmail1
+      - vol_iredmail_imapsieve_copy:/var/vmail/imapsieve_copy
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_dovecot
+
+  iredmail_iredapd:
+    build:
+      dockerfile: Dockerfiles/iredapd
+      context: .
+    image: iredmail_iredapd:latest
+    container_name: iredmail_iredapd
+    env_file:
+      - default_settings.conf
+      - iredmail.conf
+    ports:
+      - 7777:7777
+      - 7778:7778
+      - 7779:7779
+    volumes:
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_iredapd
+
+  iredmail_antispam:
+    build:
+      dockerfile: Dockerfiles/antispam
+      context: .
+    image: iredmail_antispam:latest
+    container_name: iredmail_antispam
+    env_file:
+      - default_settings.conf
+      - iredmail.conf
+    ports:
+      - 3310:3310
+    volumes:
+      - vol_iredmail_clamav_db_dir:/var/lib/clamav
+      - vol_iredmail_spamassassin_rules_dir:/var/lib/spamassassin
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_antispam
+
+  iredmail_postfix:
+    build:
+      dockerfile: Dockerfiles/postfix
+      context: .
+    image: iredmail_postfix:latest
+    container_name: iredmail_postfix
+    env_file:
+      - default_settings.conf
+      - iredmail.conf
+    ports:
+      - 25:25
+      - 587:587
+      - 465:465
+    volumes:
+      - vol_iredmail_ssl_dir:/opt/iredmail/ssl
+      - vol_iredmail_mlmmj_data_dir:/var/vmail/mlmmj
+      - vol_iredmail_mlmmj_archive_dir:/var/vmail/mlmmj-archive
+      - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
+    depends_on:
+      - iredmail_mariadb
+      # we need sasl auth service offered by Dovecot.
+      - iredmail_dovecot
+    networks:
+      iredmail_net:
+        aliases:
+          - iredmail_postfix
