@@ -16,61 +16,61 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_CUSTOM_CONF_DIR:=/opt/iredmail/custom}
+      device: ${DOCKER_VOLUME_CUSTOM_CONF_DIR:/opt/iredmail/custom}
   vol_iredmail_ssl_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_SSL_DIR:-/opt/iredmail/ssl}
+      device: ${DOCKER_VOLUME_SSL_DIR:/opt/iredmail/ssl}
   vol_iredmail_backup_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_BACKUP_DIR:-/opt/iredmail/data/backup}
+      device: ${DOCKER_VOLUME_BACKUP_DIR:/opt/iredmail/data/backup}
   vol_iredmail_mailboxes_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MAILBOXES_DIR:=/opt/iredmail/mailboxes
+      device: ${DOCKER_VOLUME_MAILBOXES_DIR:/opt/iredmail/mailboxes}
   vol_iredmail_mysql_data_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MYSQL_DATA_DIR:=/opt/iredmail/data/mysql}
+      device: ${DOCKER_VOLUME_MYSQL_DATA_DIR:/opt/iredmail/data/mysql}
   vol_iredmail_clamav_db_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_CLAMAV_DB_DIR:=/opt/iredmail/data/clamav}
+      device: ${DOCKER_VOLUME_CLAMAV_DB_DIR:/opt/iredmail/data/clamav}
   vol_iredmail_mlmmj_data_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MLMMJ_DATA_DIR:=/opt/iredmail/data/mlmmj}
+      device: ${DOCKER_VOLUME_MLMMJ_DATA_DIR:/opt/iredmail/data/mlmmj}
   vol_iredmail_mlmmj_archive_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR:=/opt/iredmail/data/mlmmj-archive}
+      device: ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR:/opt/iredmail/data/mlmmj-archive}
   vol_iredmail_imapsieve_copy:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR:=/opt/iredmail/data/imapsieve_copy}
+      device: ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR:/opt/iredmail/data/imapsieve_copy}
   vol_iredmail_spamassassin_rules_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR:=/opt/iredmail/data/sa_rules}
+      device: ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR:/opt/iredmail/data/sa_rules}
 
 services:
   iredmail_mariadb:
@@ -83,7 +83,7 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - vol_iredmail_mysql_data_dir:/var/lib/mysql
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
@@ -102,14 +102,14 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 110:110
-      - 995:995
-      - 143:143
-      - 993:993
-      - 4190:4190
-      - 24:24
-      - 12340:12340
-      - 24242:24242
+      - "110:110"
+      - "995:995"
+      - "143:143"
+      - "993:993"
+      - "4190:4190"
+      - "24:24"
+      - "12340:12340"
+      - "24242:24242"
     volumes:
       - vol_iredmail_ssl:/opt/iredmail/ssl
       - vol_iredmail_mailboxes_dir:/var/vmail/vmail1
@@ -132,9 +132,9 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 7777:7777
-      - 7778:7778
-      - 7779:7779
+      - "7777:7777"
+      - "7778:7778"
+      - "7779:7779"
     volumes:
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
@@ -154,7 +154,7 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 3310:3310
+      - "3310:3310"
     volumes:
       - vol_iredmail_clamav_db_dir:/var/lib/clamav
       - vol_iredmail_spamassassin_rules_dir:/var/lib/spamassassin
@@ -173,9 +173,9 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 25:25
-      - 587:587
-      - 465:465
+      - "25:25"
+      - "587:587"
+      - "465:465"
     volumes:
       - vol_iredmail_ssl_dir:/opt/iredmail/ssl
       - vol_iredmail_mlmmj_data_dir:/var/vmail/mlmmj
