@@ -111,7 +111,7 @@ services:
       - "12340:12340"
       - "24242:24242"
     volumes:
-      - vol_iredmail_ssl:/opt/iredmail/ssl
+      - vol_iredmail_ssl_dir:/opt/iredmail/ssl
       - vol_iredmail_mailboxes_dir:/var/vmail/vmail1
       - vol_iredmail_imapsieve_copy:/var/vmail/imapsieve_copy
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
