@@ -83,7 +83,7 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - vol_iredmail_mysql_data_dir:/var/lib/mysql
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
@@ -102,14 +102,14 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 110:110
-      - 995:995
-      - 143:143
-      - 993:993
-      - 4190:4190
-      - 24:24
-      - 12340:12340
-      - 24242:24242
+      - "110:110"
+      - "995:995"
+      - "143:143"
+      - "993:993"
+      - "4190:4190"
+      - "24:24"
+      - "12340:12340"
+      - "24242:24242"
     volumes:
       - vol_iredmail_ssl_dir:/opt/iredmail/ssl
       - vol_iredmail_mailboxes_dir:/var/vmail/vmail1
@@ -132,9 +132,9 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 7777:7777
-      - 7778:7778
-      - 7779:7779
+      - "7777:7777"
+      - "7778:7778"
+      - "7779:7779"
     volumes:
       - vol_iredmail_custom_conf_dir:/opt/iredmail/custom
     depends_on:
@@ -154,7 +154,7 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 3310:3310
+      - "3310:3310"
     volumes:
       - vol_iredmail_clamav_db_dir:/var/lib/clamav
       - vol_iredmail_spamassassin_rules_dir:/var/lib/spamassassin
@@ -173,9 +173,9 @@ services:
       - default_settings.conf
       - iredmail.conf
     ports:
-      - 25:25
-      - 587:587
-      - 465:465
+      - "25:25"
+      - "587:587"
+      - "465:465"
     volumes:
       - vol_iredmail_ssl_dir:/opt/iredmail/ssl
       - vol_iredmail_mlmmj_data_dir:/var/vmail/mlmmj
