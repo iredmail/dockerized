@@ -14,6 +14,9 @@ SITES_ENABLED_DIR="/etc/nginx/sites-enabled"
 sites="00-default.conf 00-default-ssl.conf"
 [[ X"${USE_AUTOCONFIG}" == X'YES' ]] && sites="${sites} autoconfig.conf"
 
+[[ -d ${CONF_ENABLED_DIR} ]] || mkdir -p ${CONF_ENABLED_DIR}
+[[ -d ${SITES_ENABLED_DIR} ]] || mkdir -p ${SITES_ENABLED_DIR}
+
 for site in ${sites}; do
     ln -sf ${SITES_AVAILABLE_DIR}/${site} ${SITES_ENABLED_DIR}/${site}
 done

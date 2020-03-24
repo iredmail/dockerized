@@ -111,6 +111,7 @@ fi
 chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
 
 # Make sure log file exists.
+create_log_dir ${postfix_log_dir}
 create_log_file ${postfix_log_file}
 # Create symbol link of mail log file.
 ln -sf ${postfix_log_file} /var/log/maillog
