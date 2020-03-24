@@ -1,4 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
 
 # Read variables DOCKER_VOLUME_* from config files.
 . ./default_settings.conf

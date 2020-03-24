@@ -1,5 +1,11 @@
-#!/bin/sh
-# Run the all-in-one container.
+#!/bin/bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
+# Purpose: Run the all-in-one container.
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
 
 # Read variables DOCKER_VOLUME_* from config files.
 . ./default_settings.conf

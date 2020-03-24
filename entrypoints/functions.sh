@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Author: Zhang Huangbin <zhb@iredmail.org>
 # Purpose: Some utility functions used by entrypoint scripts.
 

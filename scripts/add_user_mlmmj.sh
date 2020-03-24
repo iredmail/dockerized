@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
 
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,

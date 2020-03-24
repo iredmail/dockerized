@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Purpose: Install all packages for a ALL-IN-ONE docker image.
 # Author: Zhang Huangbin <zhb@iredmail.org>
 

@@ -1,4 +1,4 @@
-#!/bin/sh -xv
+#!/bin/bash
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
 #

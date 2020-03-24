@@ -1,4 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
 
 CONF_AVAILABLE_DIR="/etc/nginx/conf-available"
 CONF_ENABLED_DIR="/etc/nginx/conf-enabled"
