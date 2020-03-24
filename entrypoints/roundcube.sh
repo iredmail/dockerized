@@ -32,5 +32,9 @@ create_rc_custom_conf config_password.inc.php
 chown nginx:nginx ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
 chmod 0400 ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
 
+# Create log directory and file.
+create_log_dir /var/log/roundcube
+create_log_file /var/log/roundcube/roundcube.log
+
 # TODO Create symlinks for custom skins/plugins.
 # TODO Setup cron jobs.

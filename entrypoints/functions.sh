@@ -67,6 +67,17 @@ create_sql_user() {
 
 }
 
+create_log_dir() {
+    _dir="${1}"
+    mkdir -p ${_dir} &>/dev/null
+    chown root:root ${_dir}
+}
+
+create_log_file() {
+    _file="${1}"
+    touch root:root ${_file}
+}
+
 #
 # Roundcube
 #
@@ -84,4 +95,12 @@ create_rc_custom_conf() {
 
     chown nginx:nginx ${_conf}
     chmod 0400 ${_conf}
+}
+
+#
+# Fail2ban
+#
+enable_fail2ban_jail() {
+    _conf="${1}"
+    ln -sf /etc/fail2ban/jail-available/${_conf} /etc/fail2ban/jail.d/${_conf}
 }

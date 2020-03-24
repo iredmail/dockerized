@@ -48,8 +48,12 @@ ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
 
-LOG "Run 'sa-update' (required by Amavisd)."
-sa-update -v
+# Run `sa-update` if no rules yet.
+find ${spamassassin_rules_dir} -name '10_default_prefs.cf' &>/dev/null
+if [[ X"$?" != X'0' ]]; then
+    LOG "Run 'sa-update' (required by Amavisd)."
+    sa-update -v
+fi
 
 if [[ ! -f "${CLAMAV_DB_DIR}/main.cvd" ]] && [[ ! -f "${CLAMAV_DB_DIR}/bytecode.cvd" ]]; then
     LOG "Run 'freshclam' (required by ClamAV)."

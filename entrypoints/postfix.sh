@@ -110,8 +110,10 @@ if [[ ! -f ${DHPARAM2048_FILE} ]]; then
 fi
 chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
 
+# Make sure log file exists.
+create_log_file ${postfix_log_file}
 # Create symbol link of mail log file.
-[[ -d /var/log ]] && ln -sf /var/log/mail.log /var/log/maillog
+ln -sf ${postfix_log_file} /var/log/maillog
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${MAIN_CF}

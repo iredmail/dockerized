@@ -1,4 +1,4 @@
-# #
+#
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
 # please do __NOT__ modify it manually.
 #
@@ -18,33 +18,40 @@ RUN mkdir -p \
         ${MARIADB_PRE_START_SCRIPTS_DIR}
 
 #
-# Copy files.
+# Add patch files.
 #
-# Config files and patches
-COPY ./config/. ./patches/mlmmjadmin-2.1.patch /
+COPY ./patches/mlmmjadmin-2.1.patch /
 
-# Scripts used to add system accounts and install packages.
+#
+# Add system accounts and install packages.
+#
 COPY ./scripts/add_user_vmail.sh \
-     ./scripts/add_user_mlmmj.sh \
-     ./scripts/add_user_iredapd.sh \
-     ./scripts/install_all_pkgs.sh \
-     ${SCRIPTS_DIR}/
+    ./scripts/add_user_mlmmj.sh \
+    ./scripts/add_user_iredapd.sh \
+    ./scripts/install_all_pkgs.sh \
+    ${SCRIPTS_DIR}/
 
-# MariaDB pre-start scripts.
-COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
-
-# Entrypoint scripts.
-COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
-COPY ./entrypoints/all_in_one.sh /entrypoint.sh
-
-#
-# Run scripts
-#
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
     /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
     /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     /bin/sh ${SCRIPTS_DIR}/install_all_pkgs.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+# MariaDB pre-start scripts.
+COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
+
+#
+# Copy config files
+#
+COPY ./config/. /
+
+# entrypoint scripts
+#
+# Main entrypoint script.
+COPY ./entrypoints/all_in_one.sh /entrypoint.sh
+
+# Copy entrypoint scripts for all applications.
+COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
+
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

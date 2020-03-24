@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# Author: Zhang Huangbin <zhb@iredmail.org>
+# Puprpose:
+#   - Store banned IP address in SQL db while it's banned.
+#   - Remove unbanned IP address from SQL db while it's unbanned.
+
+# #
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Usage:
+#
+#   *) Ban an IP address:
+#
+#       banned_db ban <ip> <ports> <protocol> <jail>
+#
+#       - <ip>: One IP address each time.
+#       - <ports>: Network ports. Multiple ports must be separated by comma.
+#       - <protocol>: `tcp` or `udp`.
+#       - <jail>: Fail2ban jail name.
+#
+#   *) Unban one or multiple IP addresses. Notes:
+#       - it removes IP from all jails.
+#       - multiple IP addresses must be separated by space.
+#
+#       banned_db unban <ip> [ip] [ip]
+#
+#   *) Cleanup a jail. When Fail2ban is stopping or restarting, `cleanup` will
+#      be executed.
+
+# Examples:
+#
+#   banned_db ban   192.168.0.1 110,143,993,995 tcp dovecot-iredmail
+#   banned_db unban 192.168.0.1
+#   banned_db cleanup dovecot-iredmail
+
+#
+# Sample Fail2ban jail config file (/etc/fail2ban/jail.d/xx.local):
+#
+#   [jail-name]
+#   ...
+#   action = ...[your other actions here]...
+#            banned_db[name=jail-name, port="80", protocol=tcp]
+#
+# WARNING: the name set in `banned_db[name=]` must be same as the jail name.
+
+export PATH="/usr/bin:/usr/local/bin:/sbin:$PATH"
+export DB_NAME="fail2ban"
+export DB_TABLE="banned"
+export CMD_SQL="mysql --defaults-file=/root/.my.cnf-fail2ban fail2ban"
+
+export _action="$1"
+
+if [[ X"${_action}" == X"ban" ]]; then
+    _ip="${2}"
+    _ports="${3}"
+    _protocol="${4}"
+    _jail="${5}"
+
+    if [[ X"${_ip}" == X'' ]] || \
+        [[ X"${_ports}" == X'' ]] || \
+        [[ X"${_protocol}" == X'' ]] || \
+        [[ X"${_jail}" == X'' ]]; then
+        echo "IP, ports, protocol, or jail name is empty. Abort."
+        exit 255
+    fi
+
+    _hostname="$(hostname)"
+
+        ${CMD_SQL} <<EOF
+INSERT IGNORE INTO ${DB_TABLE} (ip, ports, protocol, jail, hostname) VALUES ('${_ip}', '${_ports}', '${_protocol}', '${_jail}', '${_hostname}');
+EOF
+    
+elif [[ X"${_action}" == X"unban" ]]; then
+    shift 1
+    _ips="$@"
+
+    if [[ X"${_ips}" == X'' ]]; then
+        echo "No IP address(es) specified."
+    else
+        for _ip in ${_ips}; do
+            ${CMD_SQL} <<EOF
+DELETE FROM ${DB_TABLE} WHERE ip='${_ip}';
+EOF
+        done
+
+        [[ X"$?" == X'0' ]] && echo "Removed."
+    fi
+
+elif [[ X"${_action}" == X"cleanup" ]]; then
+    _jail="$2"
+
+    if [[ X"${_jail}" != X'' ]]; then
+        ${CMD_SQL} <<EOF
+DELETE FROM ${DB_TABLE} WHERE jail='${_jail}';
+EOF
+    fi
+
+    [[ X"$?" == X'0' ]] && echo "Cleaned up."
+fi

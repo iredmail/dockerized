@@ -20,6 +20,7 @@ PKGS_CLAMAV="clamav clamav-libunrar"
 PKGS_IREDAPD="python2 py-pip"
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="uwsgi uwsgi-python uwsgi-syslog"
+PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
@@ -42,6 +43,7 @@ apk add --no-cache --progress \
     ${PKGS_IREDAPD} \
     ${PKGS_MLMMJ} \
     ${PKGS_MLMMJADMIN} \
+    ${PKGS_FAIL2BAN} \
     ${PKGS_ROUNDCUBE}
 
 # Install Python modules.

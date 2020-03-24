@@ -1,0 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[nginx-http-auth]
+enabled = true
+filter  = nginx-http-auth
+logpath = /var/log/nginx/error.log tail
+action  = iptables-multiport[name=nginx, port="80,443,19999", protocol=tcp]
+          

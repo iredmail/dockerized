@@ -1,0 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[dovecot-iredmail]
+enabled = true
+filter  = dovecot.iredmail
+logpath = /var/log/dovecot/*.log tail
+action  = iptables-multiport[name=dovecot, port="110,995,143,993,4190", protocol=tcp]
+          

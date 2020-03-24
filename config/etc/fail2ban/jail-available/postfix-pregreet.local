@@ -1,0 +1,13 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[postfix-pregreet]
+enabled     = true
+filter      = postfix-pregreet.iredmail
+logpath     = /var/log/mail.log tail
+maxretry    = 1
+bantime     = 86400
+action      = iptables-multiport[name=postfix-pregreet, port="25,587,465,2525,1025", protocol=tcp]
+              

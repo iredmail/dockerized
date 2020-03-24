@@ -1,0 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[roundcube-iredmail]
+enabled     = true
+filter      = roundcube.iredmail
+logpath     = /var/log/roundcube/roundcube.log tail
+action      = iptables-multiport[name=roundcube, port="80,443,19999,110,995,143,993,4190", protocol=tcp]
+              

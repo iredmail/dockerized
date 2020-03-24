@@ -1,0 +1,40 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+#
+# WARNING
+#
+#   - To override `findtime`, `bantime`, `maxretry`, `ignoreip` and all other
+#     parameters which can be placed under `[DEFAULT]` section, please update
+#     file: /opt/iredmail/custom/fail2ban/jail.local
+#
+
+[INCLUDES]
+# Do not modify file ignoreip.local
+before = ignoreip.local
+
+# This file is used for customization.
+after = /opt/iredmail/custom/fail2ban/jail.local
+
+[DEFAULT]
+# "usedns" specifies if jails should trust hostnames in logs,
+#   warn when DNS lookups are performed, or ignore all hostnames in logs
+#
+# yes:   if a hostname is encountered, a DNS lookup will be performed.
+# warn:  if a hostname is encountered, a DNS lookup will be performed,
+#        but it will be logged as a warning.
+# no:    if a hostname is encountered, will not be used for banning,
+#        but it will be logged as info.
+usedns = no
+
+# time is in seconds. 3600 = 1 hour, 86400 = 24 hours (1 day)
+findtime    = 3600
+bantime     = 3600
+maxretry    = 5
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#

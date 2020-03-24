@@ -1,0 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[sogo-iredmail]
+enabled     = true
+filter      = sogo-auth
+logpath     = /var/log/sogo/sogo.log tail
+action      = iptables-multiport[name=sogo, port="80,443,19999,110,995,143,993,4190", protocol=tcp]
+              

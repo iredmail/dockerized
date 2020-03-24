@@ -51,6 +51,11 @@ if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
     SUP_SERVICES="${SUP_SERVICES} nginx phpfpm"
 fi
 
+if [[ X"${USE_FAIL2BAN}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/fail2ban.sh
+    SUP_SERVICES="${SUP_SERVICES} fail2ban"
+fi
+
 for srv in ${SUP_SERVICES}; do
     ln -sf /etc/supervisor.d/conf-available/${srv}.conf /etc/supervisor.d/${srv}.conf
 done
