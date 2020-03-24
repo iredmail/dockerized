@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Verify `HOSTNAME`, make sure it's a FQDN.
 - [ ] How to manage/update `default_settings.conf` if we use Docker Hub?
 
 - [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
