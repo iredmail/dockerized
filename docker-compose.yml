@@ -28,7 +28,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_BACKUP_DIR:/opt/iredmail/data/backup}
+      device: ${DOCKER_VOLUME_BACKUP_DIR:/opt/iredmail/backup}
   vol_iredmail_mailboxes_dir:
     driver: local
     driver_opts:
@@ -40,37 +40,37 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MYSQL_DATA_DIR:/opt/iredmail/data/mysql}
+      device: ${DOCKER_VOLUME_MYSQL_DATA_DIR:/opt/iredmail/mysql}
   vol_iredmail_clamav_db_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_CLAMAV_DB_DIR:/opt/iredmail/data/clamav}
+      device: ${DOCKER_VOLUME_CLAMAV_DB_DIR:/opt/iredmail/clamav}
   vol_iredmail_mlmmj_data_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MLMMJ_DATA_DIR:/opt/iredmail/data/mlmmj}
+      device: ${DOCKER_VOLUME_MLMMJ_DATA_DIR:/opt/iredmail/mlmmj}
   vol_iredmail_mlmmj_archive_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR:/opt/iredmail/data/mlmmj-archive}
+      device: ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR:/opt/iredmail/mlmmj-archive}
   vol_iredmail_imapsieve_copy:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR:/opt/iredmail/data/imapsieve_copy}
+      device: ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR:/opt/iredmail/imapsieve_copy}
   vol_iredmail_spamassassin_rules_dir:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR:/opt/iredmail/data/sa_rules}
+      device: ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR:/opt/iredmail/sa_rules}
 
 services:
   iredmail_mariadb:

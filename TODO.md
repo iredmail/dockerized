@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] How to manage/update `default_settings.conf` if we use Docker Hub?
 - [ ] Add Fail2ban
 
 - [ ] iRedAdmin

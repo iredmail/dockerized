@@ -35,10 +35,12 @@ MYSQL_USE_RANDOM_ROOT_PASSWORD="${MYSQL_USE_RANDOM_ROOT_PASSWORD:=NO}"
 
 if [[ -z "$MYSQL_ROOT_PASSWORD" ]] && [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "NO" ]]; then
     if [[ ! -d "${DATA_DIR}/mysql" ]]; then
-        LOG_ERROR "Database is uninitialized due to password option is not specified."
+        LOG_ERROR "[ABORT] Database is uninitialized."
     fi
 
-    LOG_ERROR "Please specify one of MYSQL_ROOT_PASSWORD and MYSQL_USE_RANDOM_ROOT_PASSWORD."
+    LOG_ERROR "Please specify password with 'MYSQL_ROOT_PASSWORD=my-secret-pw'"
+    LOG_ERROR "or set 'MYSQL_USE_RANDOM_ROOT_PASSWORD=YES' in iredmail.conf to"
+    LOG_ERROR "use a random password each time the container runs."
     exit 255
 fi
 

@@ -1,14 +1,20 @@
+__WARNING__
+__WARNING__: THIS IS A ALPHA EDITION, DO NOT TRY IT IN PRODUCTION.__
+__WARNING__
+
 All files under `Dockerfiles/`, `config/`, `entrypoints/`, `files/` are
-generated with ansible code of iRedMail Easy.
+generated with ansible code of [iRedMail Easy platform](https://www.iredmail.org/easy.html).
 
 ## Requirements
 
-* Docker has some issue on Windows/macOS platform, please use Linux system
-  as Docker host.
+Docker has some issue on Windows/macOS platform, please use Linux system as
+Docker host.
 
 ## Preparations
 
-Create config file used to store your custom settings:
+### Create config file `iredmail.conf`
+
+Create config file `iredmail.conf` used to store your custom settings:
 
 ```
 touch iredmail.conf
@@ -37,7 +43,33 @@ There're many OPTIONAL settings defined in file `default_settings.conf`, if
 you'd like to change any of them, please write the same parameter name with
 proper value in `iredmail.conf` to override it.
 
-## Run the all-in-one container
+### Create required directories
+
+iRedMail (Docker Edition) stores all data under `/opt/iredmail`, applications
+use its own sub-directory under `/opt/iredmail`. For example:
+
+```
+/opt/iredmail/
+        |- backup/          # Store daily backup copies. e.g. SQL databases.
+        |- custom/          # Store custom configurations.
+            |- amavisd/
+            |- dovecot/
+            |- iredapd/
+            |- mlmmjadmin/
+            |- mysql/
+            |- postfix/
+            |- roundcube/
+        |- imapsieve_copy/  # temporary directory used by Dovecot plugin `imapsieve`.
+        |- mailboxes/       # All users' mailboxes.
+        |- mlmmj/           # mlmmj mailing lists.
+        |- mlmmj-archive/   # Archive of mlmmj mailing lists.
+        |- mysql/           # MySQL databases.
+        |- sa_rules/        # SpamAssassin rules.
+        |- clamav/          # ClamAV signature database.
+        |- ssl/             # SSL cert file and private key.
+```
+
+## Run the all-in-one container if you have access to GitHub repo
 
 To build and run iRedMail with an all-in-one container:
 
@@ -51,12 +83,12 @@ Notes:
 - On first run, it needs to update SpamAssassin rules and ClamAV virus
   signature database, so it may take some time to finish, please be patient.
 
-## Or, run with `docker-compose`
+## Run the all-in-one container if you use Docker Hub
 
-Note: It's not fully working, we're focusing on the all-in-one container right
-now, will fix it later.
+__WARNING__: This is not fully working right now due to missing
+`default_settings.conf` and a shell script to help run container easily.
 
 ```
-docker-compose build
-docker-compose up
+docker pull iredmail/mariadb:beta
+touch iredmail.conf     # Add content in this file by following the above `Preparations` section.
 ```
