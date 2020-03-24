@@ -45,7 +45,7 @@ ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
 LOG "Run 'sa-update' (required by Amavisd)."
 sa-update -v
 
-#if [[ ! -f "${CLAMAV_DB_DIR}/main.cvd" ]] && [[ ! -f "${CLAMAV_DB_DIR}/bytecode.cvd" ]]; then
-#    LOG "Run 'freshclam' (required by ClamAV)."
-#    freshclam
-#fi
+if [[ ! -f "${CLAMAV_DB_DIR}/main.cvd" ]] && [[ ! -f "${CLAMAV_DB_DIR}/bytecode.cvd" ]]; then
+    LOG "Run 'freshclam' (required by ClamAV)."
+    freshclam
+fi

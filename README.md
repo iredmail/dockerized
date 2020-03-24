@@ -39,14 +39,22 @@ proper value in `iredmail.conf` to override it.
 
 ## Run the all-in-one container
 
-To run iRedMail with an all-in-one container:
+To build and run iRedMail with an all-in-one container:
 
 ```
-docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
-./run.sh
+./build_all_in_one.sh
+./run_all_in_one.sh
 ```
+
+Notes:
+
+- On first run, it needs to update SpamAssassin rules and ClamAV virus
+  signature database, so it may take some time to finish, please be patient.
 
 ## Or, run with `docker-compose`
+
+Note: It's not fully working, we're focusing on the all-in-one container right
+now, will fix it later.
 
 ```
 docker-compose build

@@ -16,14 +16,14 @@ PKGS_POSTFIX="postfix postfix-pcre postfix-mysql"
 PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql"
 PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
 PKGS_SPAMASSASSIN="spamassassin"
-PKGS_CLAMAV="clamav clamav-libunrar clamav-db"
+PKGS_CLAMAV="clamav clamav-libunrar"
 PKGS_IREDAPD="python2 py-pip"
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="uwsgi uwsgi-python uwsgi-syslog"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="PyMySQL==0.9.3 web.py==0.40 sqlalchemy==1.3.15 dnspython==1.16.0 requests==2.23.0"
+PIP_MODULES="PyMySQL==0.9.3 web.py==0.50 sqlalchemy==1.3.15 dnspython==1.16.0 requests==2.23.0"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"

@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM alpine:3.11.5
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
@@ -14,7 +14,7 @@ RUN apk add --no-cache --progress python2 py-pip && \
     tar xzf 3.5.tar.gz -C /opt && \
     rm -f 3.5.tar.gz && \
     ln -sf /opt/iRedAPD-3.5 /opt/iredapd && \
-    /usr/bin/pip2 install --no-cache-dir --no-deps web.py==0.40 && \
+    /usr/bin/pip2 install --no-cache-dir --no-deps web.py==0.50 && \
     rm -rf /root/.cache
 
 COPY ./config/opt/iRedAPD-3.5/. /opt/iRedAPD-3.5/
