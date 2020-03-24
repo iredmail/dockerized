@@ -43,6 +43,7 @@ install -d -o clamav -g clamav -m 0755 ${CLAMAV_DB_DIR}
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
+${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
 
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
