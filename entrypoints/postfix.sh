@@ -6,6 +6,7 @@
 USERDB_CONF_DIR="/etc/postfix/mysql"
 MAIN_CF="/etc/postfix/main.cf"
 MASTER_CF="/etc/postfix/master.cf"
+SPOOL_DIR="/var/spool/postfix"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
 CUSTOM_DISCLAIMER_DIR="/opt/iredmail/custom/postfix/disclaimer"
 
@@ -92,12 +93,12 @@ for f in /etc/postfix/transport \
     chmod 0640 ${f}.db
 done
 
-install -d -o postfix -g root -m 0700 /var/spool/postfix/etc
+install -d -o postfix -g root -m 0700 ${SPOOL_DIR}/etc
 for f in localtime hosts resolv.conf; do
     if [[ -f /etc/${f} ]]; then
-        cp -f /etc/${f} /var/spool/postfix/etc/
-        chown postfix:root /var/spool/postfix/etc/${f}
-        chmod 0755 /var/spool/postfix/etc/${f}
+        cp -f /etc/${f} ${SPOOL_DIR}/etc/
+        chown postfix:root ${SPOOL_DIR}/etc/${f}
+        chmod 0755 ${SPOOL_DIR}/etc/${f}
     fi
 done
 
@@ -111,7 +112,6 @@ fi
 chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
 
 # Make sure log file exists.
-create_log_dir ${postfix_log_dir}
 create_log_file ${postfix_log_file}
 # Create symbol link of mail log file.
 ln -sf ${postfix_log_file} /var/log/maillog
