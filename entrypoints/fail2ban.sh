@@ -29,6 +29,10 @@ if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
     enable_fail2ban_jail roundcube.local
 fi
 
+if [[ X"${FAIL2BAN_STORE_BANNED_IP_IN_DB}" != X'YES' ]]; then
+    ${CMD_SED} 's#.*banned_db.*##g' ${fail2ban_dir_jail_conf_available}/*.local
+fi
+
 # Create log directory and file.
 create_log_dir /var/log/fail2ban
 create_log_file /var/log/fail2ban/fail2ban.log

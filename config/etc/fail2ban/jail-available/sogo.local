@@ -8,4 +8,4 @@ enabled     = true
 filter      = sogo-auth
 logpath     = /var/log/sogo/sogo.log tail
 action      = iptables-multiport[name=sogo, port="80,443,19999,110,995,143,993,4190", protocol=tcp]
-              
+              banned_db[name=sogo, port="80,443,19999,110,995,143,993,4190", protocol=tcp]

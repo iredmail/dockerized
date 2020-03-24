@@ -10,4 +10,4 @@ logpath     = /var/log/mail.log tail
 maxretry    = 1
 bantime     = 86400
 action      = iptables-multiport[name=postfix-pregreet, port="25,587,465,2525,1025", protocol=tcp]
-              
+              banned_db[name=postfix-pregreet, port="25,587,465,2525,1025", protocol=tcp]

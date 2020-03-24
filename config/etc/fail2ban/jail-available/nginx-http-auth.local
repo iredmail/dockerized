@@ -8,4 +8,4 @@ enabled = true
 filter  = nginx-http-auth
 logpath = /var/log/nginx/error.log tail
 action  = iptables-multiport[name=nginx, port="80,443,19999", protocol=tcp]
-          
+          banned_db[name=nginx, port="80,443,19999", protocol=tcp]

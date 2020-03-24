@@ -8,4 +8,4 @@ enabled     = true
 filter      = roundcube.iredmail
 logpath     = /var/log/roundcube/roundcube.log tail
 action      = iptables-multiport[name=roundcube, port="80,443,19999,110,995,143,993,4190", protocol=tcp]
-              
+              banned_db[name=roundcube, port="80,443,19999,110,995,143,993,4190", protocol=tcp]

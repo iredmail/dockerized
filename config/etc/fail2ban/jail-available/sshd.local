@@ -8,4 +8,4 @@ enabled     = true
 filter      = sshd
 logpath     = /var/log/messages tail
 action      = iptables-multiport[name=sshd, port="22", protocol=tcp]
-              
+              banned_db[name=sshd, port="22", protocol=tcp]

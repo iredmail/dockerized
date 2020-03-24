@@ -8,4 +8,4 @@ enabled = true
 filter  = dovecot.iredmail
 logpath = /var/log/dovecot/*.log tail
 action  = iptables-multiport[name=dovecot, port="110,995,143,993,4190", protocol=tcp]
-          
+          banned_db[name=dovecot, port="110,995,143,993,4190", protocol=tcp]
