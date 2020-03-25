@@ -28,7 +28,7 @@ Docker host.
 ### Create required directory and config file `/etc/iredmail-docker.conf` on Docker host
 
 - Data is stored under `/opt/iredmail` On Docker host.
-- Custom settings are stored in config file `/etc/iredmail-docker.conf`.
+- All settings are stored in config file `/etc/iredmail-docker.conf`.
 
 ```
 mkdir -p /opt/iredmail
