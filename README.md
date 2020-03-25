@@ -51,22 +51,19 @@ Directory structure:
 
 ## Requirements
 
-Docker has some issue on Windows/macOS platform, please use Linux system as
+Docker has some issue on Windows/macOS platform, please run Linux system as
 Docker host.
 
 ## Preparations
 
 ### Create required directory and config file `/etc/iredmail-docker.conf` on Docker host
 
-- Data is stored under `/opt/iredmail` On Docker host.
-- All settings are stored in config file `/etc/iredmail-docker.conf`.
-
 ```
 mkdir -p /opt/iredmail
 touch /etc/iredmail-docker.conf
 ```
 
-There're few REQUIRED parameters you should set in `/etc/iredmail-docker.conf`:
+There're few __REQUIRED__ parameters you __MUST__ set in `/etc/iredmail-docker.conf`:
 
 ```
 # Server hostname. Must be a FQDN. For example, mail.mydomain.com
@@ -93,9 +90,10 @@ Notes:
   or double quote will be treated as part of the value.
 - It will be imported as bash shell script too.
 
-There're many OPTIONAL settings defined in file `/docker/entrypoints/default_settings.conf`,
+There're many OPTIONAL settings defined in file
+`/docker/entrypoints/default_settings.conf` inside docker container,
 you'd like to change any of them, please write the same parameter name with
-proper value in `/etc/iredmail-docker.conf` to override it.
+your custom value in `/etc/iredmail-docker.conf` to override it.
 
 ## Run the all-in-one container
 
@@ -111,10 +109,13 @@ mkdir /opt/iredmail
 ./run_all_in_one.sh
 ```
 
-Notes:
+On first run, it will generate a self-signed ssl cert (if no cert exists under
+`/opt/iredmail/ssl/`). This may take a long time, please be patient.
 
-- On first run, it needs to update SpamAssassin rules and ClamAV virus
-  signature database, so it may take some time to finish, please be patient.
+Each time you run the container, few tasks will be ran:
+
+- Update SpamAssassin rules.
+- Update ClamAV virus signature database.
 
 # Exposed network ports
 
