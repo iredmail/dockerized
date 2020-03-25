@@ -62,7 +62,7 @@ Notes:
   or double quote will be treated as part of the value.
 - It will be imported as bash shell script too.
 
-There're many OPTIONAL settings defined in file `/docker/entrypoints/settings.sh`,
+There're many OPTIONAL settings defined in file `/docker/entrypoints/default_settings.conf`,
 you'd like to change any of them, please write the same parameter name with
 proper value in `/etc/iredmail-docker.conf` to override it.
 
