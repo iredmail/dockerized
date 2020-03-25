@@ -22,6 +22,11 @@ PRE_START_SCRIPTS_DIR="/docker/mariadb/pre_start"
 
 . /docker/entrypoints/functions.sh
 
+require_non_empty_var MYSQL_ROOT_PASSWORD ${MYSQL_ROOT_PASSWORD}
+require_non_empty_var VMAIL_DB_PASSWORD ${VMAIL_DB_PASSWORD}
+require_non_empty_var VMAIL_DB_ADMIN_PASSWORD ${VMAIL_DB_ADMIN_PASSWORD}
+
+# Add required directories.
 if [[ ! -d ${CUSTOM_CONF_DIR} ]]; then
     LOG "Create directory used to store custom config files: ${CUSTOM_CONF_DIR}".
     mkdir -p ${CUSTOM_CONF_DIR}
@@ -29,25 +34,6 @@ fi
 
 # Create data directory if not present
 [[ -d ${DATA_DIR} ]] || mkdir -p ${DATA_DIR}
-
-MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
-MYSQL_USE_RANDOM_ROOT_PASSWORD="${MYSQL_USE_RANDOM_ROOT_PASSWORD:=NO}"
-
-if [[ -z "$MYSQL_ROOT_PASSWORD" ]] && [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "NO" ]]; then
-    if [[ ! -d "${DATA_DIR}/mysql" ]]; then
-        LOG_ERROR "[ABORT] Database is uninitialized."
-    fi
-
-    LOG_ERROR "Please specify password with 'MYSQL_ROOT_PASSWORD=my-secret-pw'"
-    LOG_ERROR "or set 'MYSQL_USE_RANDOM_ROOT_PASSWORD=YES' in iredmail.conf to"
-    LOG_ERROR "use a random password each time the container runs."
-    exit 255
-fi
-
-# Configure root password
-if [[ "$MYSQL_USE_RANDOM_ROOT_PASSWORD" == "YES" ]]; then
-    export MYSQL_ROOT_PASSWORD="$(pwgen -c -n -s -B -v -1 32)"
-fi
 
 _first_run="NO"
 _run_pre_start="NO"

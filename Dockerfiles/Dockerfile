@@ -45,13 +45,14 @@ COPY ./scripts/mariadb/pre_start/. ${MARIADB_PRE_START_SCRIPTS_DIR}/
 #
 COPY ./config/. /
 
+#
 # entrypoint scripts
 #
+COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
+COPY ./default_settings.conf ${ENTRYPOINTS_DIR}/
+
 # Main entrypoint script.
 COPY ./entrypoints/all_in_one.sh /entrypoint.sh
 
-# Copy entrypoint scripts for all applications.
-COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
-
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

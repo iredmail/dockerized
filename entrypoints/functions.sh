@@ -28,13 +28,17 @@ LOG_WARNING() {
 # Commands.
 CMD_SED="sed -i -e"
 
+# Command used to genrate a random string.
+# Usage: password="$(${RANDOM_PASSWORD})"
+RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null || head -c 30)'
+
 require_non_empty_var() {
     # Usage: require_non_empty_var <VAR_NAME> <VAR_VALUE>
     _var="$1"
     _value="$2"
 
     if [[ X"${_value}" == X'' ]]; then
-        LOG_ERROR "Variable ${_var} can not be empty, please set it in file 'iredmail.conf'."
+        LOG_ERROR "Variable ${_var} can not be empty, please set it in ${CUSTOM_SETTINGS_CONF}."
         exit 255
     fi
 }

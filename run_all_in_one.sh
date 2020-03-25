@@ -7,9 +7,15 @@
 # please do __NOT__ modify it manually.
 #
 
-# Read variables DOCKER_VOLUME_* from config files.
-. ./default_settings.conf
-. ./iredmail.conf
+CONF='/etc/iredmail-docker.conf'
+
+if [[ ! -e ${CONF} ]]; then
+    echo "ERROR: Config file ${CONF} doesn't exist."
+    echo "ERROR: Please create it first."
+    exit 255
+fi
+
+. /etc/iredmail-docker.conf
 
 for dir in ${DOCKER_VOLUME_BASEDIR} \
     ${DOCKER_VOLUME_CUSTOM_CONF_DIR} \
@@ -31,8 +37,7 @@ done
 
 docker run \
     --rm \
-    --env-file default_settings.conf \
-    --env-file iredmail.conf \
+    --env-file ${CONF} \
     --hostname ${HOSTNAME} \
     -p 80:80 \
     -p 443:443 \

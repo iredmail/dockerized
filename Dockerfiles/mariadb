@@ -3,7 +3,7 @@ MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 
 EXPOSE 3306
 
-RUN apk add --no-cache --progress mariadb mariadb-client pwgen
+RUN apk add --no-cache --progress mariadb mariadb-client
 
 COPY --chown=mysql:mysql ./config/etc/my.cnf /etc/my.cnf
 COPY ./entrypoints/mariadb.sh /entrypoint.sh

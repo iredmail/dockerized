@@ -9,7 +9,7 @@
 
 # Required binary packages.
 PKGS_BASE="ca-certificates logrotate rsyslog rsyslog-openrc supervisor"
-PKGS_MYSQL="mariadb mariadb-client pwgen"
+PKGS_MYSQL="mariadb mariadb-client"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php7 php7-bz2 php7-curl php7-dom php7-fileinfo php7-fpm php7-session php7-gd php7-gettext php7-iconv php7-imap php7-intl php7-json php7-mbstring php7-openssl php7-xml php7-zip"
 PKGS_POSTFIX="postfix postfix-pcre postfix-mysql"
@@ -24,7 +24,7 @@ PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="PyMySQL==0.9.3 web.py==0.50 sqlalchemy==1.3.15 dnspython==1.16.0 requests==2.23.0"
+PIP_MODULES="PyMySQL==0.9.3 web.py==0.51 sqlalchemy==1.3.15 dnspython==1.16.0 requests==2.23.0"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"
