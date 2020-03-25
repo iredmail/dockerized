@@ -18,6 +18,37 @@ mkdir /opt/iredmail
 ./run_all_in_one.sh
 ```
 
+## Overview
+
+- Only one config file on Docker host: `/etc/iredmail-docker.conf`.
+- All data is stored under `/opt/iredmail`.
+
+Directory structure:
+
+```
+/opt/iredmail/
+        |- backup/          # Backup copies.
+        |- custom/          # Store custom configurations.
+            |- amavisd/
+            |- dovecot/
+            |- iredapd/
+            |- mlmmjadmin/
+            |- mysql/
+            |- nginx/
+                |- conf-enabled/
+                |- sites-enabled/
+            |- postfix/
+            |- roundcube/
+        |- imapsieve_copy/  # Used by Dovecot plugin `imapsieve`.
+        |- mailboxes/       # All users' mailboxes.
+        |- mlmmj/           # mlmmj mailing lists.
+        |- mlmmj-archive/   # Archive of mlmmj mailing lists.
+        |- mysql/           # MySQL databases.
+        |- sa_rules/        # SpamAssassin rules.
+        |- clamav/          # ClamAV signature database.
+        |- ssl/             # SSL cert file and private key.
+```
+
 ## Requirements
 
 Docker has some issue on Windows/macOS platform, please use Linux system as
@@ -65,35 +96,6 @@ Notes:
 There're many OPTIONAL settings defined in file `/docker/entrypoints/default_settings.conf`,
 you'd like to change any of them, please write the same parameter name with
 proper value in `/etc/iredmail-docker.conf` to override it.
-
-### Directory structure
-
-iRedMail (Docker Edition) stores all data under `/opt/iredmail`, applications
-use its own sub-directory under `/opt/iredmail`. For example:
-
-```
-/opt/iredmail/
-        |- backup/          # Store daily backup copies. e.g. SQL databases.
-        |- custom/          # Store custom configurations.
-            |- amavisd/
-            |- dovecot/
-            |- iredapd/
-            |- mlmmjadmin/
-            |- mysql/
-            |- nginx/
-                |- conf-enabled/
-                |- sites-enabled/
-            |- postfix/
-            |- roundcube/
-        |- imapsieve_copy/  # temporary directory used by Dovecot plugin `imapsieve`.
-        |- mailboxes/       # All users' mailboxes.
-        |- mlmmj/           # mlmmj mailing lists.
-        |- mlmmj-archive/   # Archive of mlmmj mailing lists.
-        |- mysql/           # MySQL databases.
-        |- sa_rules/        # SpamAssassin rules.
-        |- clamav/          # ClamAV signature database.
-        |- ssl/             # SSL cert file and private key.
-```
 
 ## Run the all-in-one container
 
