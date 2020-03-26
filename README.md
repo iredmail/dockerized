@@ -5,7 +5,7 @@ Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/iss
 A quick taste with [Docker Hub image](https://https://hub.docker.com/u/iredmail/):
 
 ```
-docker pull iredmail/mariadb:beta
+docker pull iredmail/mariadb:nightly
 
 mkdir /iredmail         # Create this directory under any directory you prefer.
                         # `/iredmail/` is just an example, not forced.
@@ -40,7 +40,7 @@ docker run \
     -v /iredmail/data/mysql:/var/lib/mysql \
     -v /iredmail/data/clamav:/var/lib/clamav \
     -v /iredmail/data/sa_rules:/var/lib/spamassassin \
-    iredmail/mariadb:beta
+    iredmail/mariadb:nightly
 ```
 
 On first run, it will generate a self-signed ssl cert (if no cert exists under
