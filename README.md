@@ -1,5 +1,7 @@
 __WARNING__: THIS IS A ALPHA EDITION, DO NOT TRY IT IN PRODUCTION.
 
+Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/issues).
+
 A quick taste with Docker Hub image:
 
 > WARNING: STILL WORK IN PROGRESS.
@@ -40,8 +42,8 @@ docker run \
 
 ## Overview
 
-- Only one config file on Docker host: `/etc/iredmail-docker.conf`.
-- All data is stored under `/opt/iredmail`.
+- Only one config file `/etc/iredmail-docker.conf` on Docker host.
+- All data is stored under `/opt/iredmail` on Docker host.
 
 Directory structure:
 
