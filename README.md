@@ -28,7 +28,7 @@ docker run \
     -v /opt/iredmail/custom:/opt/iredmail/custom \
     -v /opt/iredmail/ssl:/opt/iredmail/ssl \
     -v /opt/iredmail/backup:/var/vmail/backup \
-    -v /opt/iredmail/vmail1:/var/vmail/vmail1 \
+    -v /opt/iredmail/mailboxes:/var/vmail/vmail1 \
     -v /opt/iredmail/mysql:/var/lib/mysql \
     -v /opt/iredmail/clamav:/var/lib/clamav \
     -v /opt/iredmail/mlmmj:/var/vmail/mlmmj \
