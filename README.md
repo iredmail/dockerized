@@ -5,8 +5,6 @@ Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/iss
 A quick taste with [Docker Hub image](https://https://hub.docker.com/u/iredmail/):
 
 ```
-docker pull iredmail/mariadb:nightly
-
 mkdir /iredmail         # Create this directory under any directory you prefer.
                         # `/iredmail/` is just an example, not forced.
 cd /iredmail
