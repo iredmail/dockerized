@@ -134,17 +134,25 @@ your custom value in `iredmail-docker.conf` to override it.
 To build and run iRedMail with an all-in-one container:
 
 ```shell
-cd /path/to/a/directory/you/prefer
+mkdir /iredmail
+git clone https://github.com/iredmail/dockerized.git
+
+# Build the image locally.
+cd dockerized/
 docker build -t iredmail:latest -f Dockerfiles/Dockerfile . # Or, run `bash build_all_in_one.sh`
+
+# Generate config file with required parameters.
 touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
 
 cd /iredmail
+
+# Create required sub-directories used to store application data and more.
 mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
 
-# Or run `bash run_all_in_one.sh` instead.
+# Launch the container. Or run command `bash run_all_in_one.sh` instead.
 docker run \
     --rm \
     --env-file iredmail-docker.conf \
