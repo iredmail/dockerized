@@ -38,16 +38,23 @@ docker run \
     iredmail/mariadb:beta
 ```
 
+On first run, it will generate a self-signed ssl cert (if no cert exists under
+`/opt/iredmail/ssl/`). This may take a long time, please be patient.
+
+Each time you run the container, few tasks will be ran:
+
+- Update SpamAssassin rules.
+- Update ClamAV virus signature database.
+
 ## Overview
 
 - Only one config file `/etc/iredmail-docker.conf` on Docker host.
-- All data is stored under `/opt/iredmail` on Docker host.
-
-Directory structure:
+- All data is stored under `/opt/iredmail` on Docker host. Directory structure:
 
 ```
 /opt/iredmail/
         |- backup/          # Backup copies.
+        |- clamav/          # ClamAV signature database.
         |- custom/          # Store custom configurations.
             |- amavisd/
             |- dovecot/
@@ -65,8 +72,8 @@ Directory structure:
         |- mlmmj-archive/   # Archive of mlmmj mailing lists.
         |- mysql/           # MySQL databases.
         |- sa_rules/        # SpamAssassin rules.
-        |- clamav/          # ClamAV signature database.
         |- ssl/             # SSL cert file and private key.
+        |- ...
 ```
 
 ## Requirements
@@ -128,14 +135,6 @@ echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> /etc/iredmail-docker
 mkdir /opt/iredmail
 ./run_all_in_one.sh
 ```
-
-On first run, it will generate a self-signed ssl cert (if no cert exists under
-`/opt/iredmail/ssl/`). This may take a long time, please be patient.
-
-Each time you run the container, few tasks will be ran:
-
-- Update SpamAssassin rules.
-- Update ClamAV virus signature database.
 
 # Installed softwares
 

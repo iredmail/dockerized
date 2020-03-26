@@ -2,6 +2,7 @@
 
 - [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
 - [ ] Roundcube
+    - [ ] Enable http url `/mail/`.
     - [ ] Create symlinks for custom skins/plugins.
 
 - [ ] iRedAdmin
