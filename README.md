@@ -1,21 +1,41 @@
 __WARNING__: THIS IS A ALPHA EDITION, DO NOT TRY IT IN PRODUCTION.
 
-All files under `Dockerfiles/`, `config/`, `entrypoints/`, `files/` are
-generated with ansible code of [iRedMail Easy platform](https://www.iredmail.org/easy.html).
-
-A quick taste:
+A quick taste with Docker Hub image:
 
 > WARNING: STILL WORK IN PROGRESS.
 
 ```
-bash build_all_in_all.sh
+docker pull iredmail/mariadb:beta
 touch /etc/iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> /etc/iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> /etc/iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> /etc/iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> /etc/iredmail-docker.conf
+
 mkdir /opt/iredmail
-./run_all_in_one.sh
+docker run \
+    --rm \
+    --env-file /etc/iredmail-docker.conf \
+    --hostname mail.example.com \
+    -p 80:80 \
+    -p 443:443 \
+    -p 110:110 \
+    -p 995:995 \
+    -p 143:143 \
+    -p 993:993 \
+    -p 25:25 \
+    -p 587:587 \
+    -v /opt/iredmail/custom:/opt/iredmail/custom \
+    -v /opt/iredmail/ssl:/opt/iredmail/ssl \
+    -v /opt/iredmail/backup:/var/vmail/backup \
+    -v /opt/iredmail/vmail1:/var/vmail/vmail1 \
+    -v /opt/iredmail/mysql:/var/lib/mysql \
+    -v /opt/iredmail/clamav:/var/lib/clamav \
+    -v /opt/iredmail/mlmmj:/var/vmail/mlmmj \
+    -v /opt/iredmail/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v /opt/iredmail/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v /opt/iredmail/sa_rules:/var/lib/spamassassin \
+    iredmail/mariadb:beta
 ```
 
 ## Overview
@@ -86,8 +106,8 @@ ROUNDCUBE_DES_KEY=
 
 Notes:
 
-- This file will be read by Docker as an environment file, any single quote
-  or double quote will be treated as part of the value.
+- `/etc/iredmail-docker.conf` will be read by Docker as an environment file,
+  any single quote or double quote will be treated as part of the value.
 - It will be imported as bash shell script too.
 
 There're many OPTIONAL settings defined in file
@@ -95,7 +115,7 @@ There're many OPTIONAL settings defined in file
 you'd like to change any of them, please write the same parameter name with
 your custom value in `/etc/iredmail-docker.conf` to override it.
 
-## Run the all-in-one container
+## Run the all-in-one container if you have GitHub repo access
 
 To build and run iRedMail with an all-in-one container:
 
@@ -119,4 +139,13 @@ Each time you run the container, few tasks will be ran:
 
 # Exposed network ports
 
-80 443 25 465 587 143 993 110 995 4190
+- 80: HTTP
+- 443: HTTPS
+- 25: SMTP
+- 465: SMTPS (SMTP over SSL)
+- 587: SUBMISSION (SMTP over TLS)
+- 143: IMAP over TLS
+- 993: IMAP over SSL
+- 110: POP3 over TLS
+- 995: POP3 over SSL
+- 4190: Managesieve service
