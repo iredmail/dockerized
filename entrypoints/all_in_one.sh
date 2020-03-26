@@ -48,6 +48,7 @@ done
 
 # Check reuired variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}
+check_fqdn_hostname ${HOSTNAME}
 require_non_empty_var FIRST_MAIL_DOMAIN ${FIRST_MAIL_DOMAIN}
 require_non_empty_var FIRST_MAIL_DOMAIN_ADMIN_PASSWORD ${FIRST_MAIL_DOMAIN_ADMIN_PASSWORD}
 

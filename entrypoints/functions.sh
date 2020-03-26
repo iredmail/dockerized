@@ -32,6 +32,17 @@ CMD_SED="sed -i -e"
 # Usage: password="$(${RANDOM_PASSWORD})"
 RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null || head -c 30)'
 
+check_fqdn_hostname() {
+    _host="${1}"
+
+    echo ${_host} | grep '.\..*' &>/dev/null
+    if [ X"$?" != X'0' ]; then
+        LOG_ERROR "HOSTNAME is not a fully qualified domain name (FQDN)."
+        LOG_ERROR "Please fix it in ${CUSTOM_SETTINGS_CONF} first."
+        exit 255
+    fi
+}
+
 require_non_empty_var() {
     # Usage: require_non_empty_var <VAR_NAME> <VAR_VALUE>
     _var="$1"

@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Verify `HOSTNAME`, make sure it's a FQDN.
 - [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
 - [ ] Roundcube
     - [ ] Create symlinks for custom skins/plugins.
