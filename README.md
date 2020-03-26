@@ -1,10 +1,8 @@
-__WARNING__: THIS IS A ALPHA EDITION, DO NOT TRY IT IN PRODUCTION.
+__WARNING__: THIS IS A BETA EDITION, DO NOT TRY IT IN PRODUCTION.
 
 Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/issues).
 
 A quick taste with Docker Hub image:
-
-> WARNING: STILL WORK IN PROGRESS.
 
 ```
 docker pull iredmail/mariadb:beta
