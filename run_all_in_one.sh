@@ -2,12 +2,16 @@
 # Author: Zhang Huangbin <zhb@iredmail.org>
 # Purpose: Run the all-in-one container.
 
+# TODO replace all DOCKER_VOLUME_* by `${DATA_DIR}/...`.
+
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
 # please do __NOT__ modify it manually.
 #
 
-CONF='/etc/iredmail-docker.conf'
+PWD="$(pwd)"
+CONF="${PWD}/iredmail-docker.conf"
+DATA_DIR="${PWD}/data"
 
 if [[ ! -e ${CONF} ]]; then
     echo "ERROR: Config file ${CONF} doesn't exist."
@@ -15,7 +19,7 @@ if [[ ! -e ${CONF} ]]; then
     exit 255
 fi
 
-. /etc/iredmail-docker.conf
+. ${CONF}
 
 for dir in ${DOCKER_VOLUME_BASEDIR} \
     ${DOCKER_VOLUME_CUSTOM_CONF_DIR} \

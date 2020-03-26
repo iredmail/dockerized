@@ -38,7 +38,7 @@ check_fqdn_hostname() {
     echo ${_host} | grep '.\..*' &>/dev/null
     if [ X"$?" != X'0' ]; then
         LOG_ERROR "HOSTNAME is not a fully qualified domain name (FQDN)."
-        LOG_ERROR "Please fix it in ${CUSTOM_SETTINGS_CONF} first."
+        LOG_ERROR "Please fix it in 'iredmail-docker.conf' first."
         exit 255
     fi
 }
@@ -49,7 +49,7 @@ require_non_empty_var() {
     _value="$2"
 
     if [[ X"${_value}" == X'' ]]; then
-        LOG_ERROR "Variable ${_var} can not be empty, please set it in ${CUSTOM_SETTINGS_CONF}."
+        LOG_ERROR "Variable ${_var} can not be empty, please set it in 'iredmail-docker.conf'."
         exit 255
     fi
 }

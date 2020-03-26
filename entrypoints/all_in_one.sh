@@ -9,9 +9,6 @@
 ENTRYPOINTS_DIR="/docker/entrypoints"
 DEFAULT_SETTINGS_CONF="${ENTRYPOINTS_DIR}/default_settings.conf"
 
-# Custom config file on Docker host, not in container.
-CUSTOM_SETTINGS_CONF="/etc/iredmail-docker.conf"
-
 . ${ENTRYPOINTS_DIR}/functions.sh
 
 # Store env in a temporary file for further reading.
@@ -46,7 +43,7 @@ done
 # It now contains both default and custom settings.
 . ${DEFAULT_SETTINGS_CONF}
 
-# Check reuired variables.
+# Check required variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}
 check_fqdn_hostname ${HOSTNAME}
 require_non_empty_var FIRST_MAIL_DOMAIN ${FIRST_MAIL_DOMAIN}

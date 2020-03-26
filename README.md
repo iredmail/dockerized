@@ -6,16 +6,20 @@ A quick taste with Docker Hub image:
 
 ```
 docker pull iredmail/mariadb:beta
-touch /etc/iredmail-docker.conf
-echo HOSTNAME=mail.mydomain.com >> /etc/iredmail-docker.conf
-echo FIRST_MAIL_DOMAIN=mydomain.com >> /etc/iredmail-docker.conf
-echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> /etc/iredmail-docker.conf
-echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> /etc/iredmail-docker.conf
 
-mkdir /opt/iredmail
+mkdir /opt/iredmail         # Create a directory under any directory you prefer.
+                            # `/opt/iredmail/` is just an example, not forced.
+cd /opt/iredmail
+touch iredmail-docker.conf
+echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
+echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
+echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
+echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
+
+mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
 docker run \
     --rm \
-    --env-file /etc/iredmail-docker.conf \
+    --env-file iredmail-docker.conf \
     --hostname mail.example.com \
     -p 80:80 \
     -p 443:443 \
@@ -25,21 +29,21 @@ docker run \
     -p 993:993 \
     -p 25:25 \
     -p 587:587 \
-    -v /opt/iredmail/custom:/opt/iredmail/custom \
-    -v /opt/iredmail/ssl:/opt/iredmail/ssl \
-    -v /opt/iredmail/backup:/var/vmail/backup \
-    -v /opt/iredmail/mailboxes:/var/vmail/vmail1 \
-    -v /opt/iredmail/mysql:/var/lib/mysql \
-    -v /opt/iredmail/clamav:/var/lib/clamav \
-    -v /opt/iredmail/mlmmj:/var/vmail/mlmmj \
-    -v /opt/iredmail/mlmmj-archive:/var/vmail/mlmmj-archive \
-    -v /opt/iredmail/imapsieve_copy:/var/vmail/imapsieve_copy \
-    -v /opt/iredmail/sa_rules:/var/lib/spamassassin \
+    -v data/backup:/var/vmail/backup \
+    -v data/mailboxes:/var/vmail/vmail1 \
+    -v data/mlmmj:/var/vmail/mlmmj \
+    -v data/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v data/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v data/custom:/opt/iredmail/custom \
+    -v data/ssl:/opt/iredmail/ssl \
+    -v data/mysql:/var/lib/mysql \
+    -v data/clamav:/var/lib/clamav \
+    -v data/sa_rules:/var/lib/spamassassin \
     iredmail/mariadb:beta
 ```
 
 On first run, it will generate a self-signed ssl cert (if no cert exists under
-`/opt/iredmail/ssl/`). This may take a long time, please be patient.
+`data/ssl/`). This may take a long time, please be patient.
 
 Each time you run the container, few tasks will be ran:
 
@@ -48,32 +52,34 @@ Each time you run the container, few tasks will be ran:
 
 ## Overview
 
-- Only one config file `/etc/iredmail-docker.conf` on Docker host.
-- All data is stored under `/opt/iredmail` on Docker host. Directory structure:
+- Only one config file `iredmail-docker.conf` on Docker host.
+- All data is stored under `data/` on Docker host (in our example, it's
+  `/opt/iredmail/data/`). Directory structure:
 
 ```
-/opt/iredmail/
-        |- backup/          # Backup copies.
-        |- clamav/          # ClamAV signature database.
-        |- custom/          # Store custom configurations.
-            |- amavisd/
-            |- dovecot/
-            |- iredapd/
-            |- mlmmjadmin/
-            |- mysql/
-            |- nginx/
-                |- conf-enabled/
-                |- sites-enabled/
-            |- postfix/
-            |- roundcube/
-        |- imapsieve_copy/  # Used by Dovecot plugin `imapsieve`.
-        |- mailboxes/       # All users' mailboxes.
-        |- mlmmj/           # mlmmj mailing lists.
-        |- mlmmj-archive/   # Archive of mlmmj mailing lists.
-        |- mysql/           # MySQL databases.
-        |- sa_rules/        # SpamAssassin rules.
-        |- ssl/             # SSL cert file and private key.
-        |- ...
+iredmail-docker.conf    # The (only one) config file.
+data/
+    |- backup/          # Backup copies.
+    |- clamav/          # ClamAV signature database.
+    |- custom/          # Store custom configurations.
+        |- amavisd/
+        |- dovecot/
+        |- iredapd/
+        |- mlmmjadmin/
+        |- mysql/
+        |- nginx/
+            |- conf-enabled/
+            |- sites-enabled/
+        |- postfix/
+        |- roundcube/
+    |- imapsieve_copy/  # Used by Dovecot plugin `imapsieve`.
+    |- mailboxes/       # All users' mailboxes.
+    |- mlmmj/           # mlmmj mailing lists.
+    |- mlmmj-archive/   # Archive of mlmmj mailing lists.
+    |- mysql/           # MySQL databases.
+    |- sa_rules/        # SpamAssassin rules.
+    |- ssl/             # SSL cert file and private key.
+    |- ...
 ```
 
 ## Requirements
@@ -86,11 +92,11 @@ Docker host.
 ### Create required directory and config file `/etc/iredmail-docker.conf` on Docker host
 
 ```
-mkdir -p /opt/iredmail
-touch /etc/iredmail-docker.conf
+mkdir -p /opt/iredmail      # Create it or use any existing directory you prefer
+touch iredmail-docker.conf
 ```
 
-There're few __REQUIRED__ parameters you __MUST__ set in `/etc/iredmail-docker.conf`:
+There're few __REQUIRED__ parameters you __MUST__ set in `iredmail-docker.conf`:
 
 ```
 # Server hostname. Must be a FQDN. For example, mail.mydomain.com
@@ -113,27 +119,51 @@ ROUNDCUBE_DES_KEY=
 
 Notes:
 
-- `/etc/iredmail-docker.conf` will be read by Docker as an environment file,
+- `iredmail-docker.conf` will be read by Docker as an environment file,
   any single quote or double quote will be treated as part of the value.
 - It will be imported as bash shell script too.
 
 There're many OPTIONAL settings defined in file
 `/docker/entrypoints/default_settings.conf` inside docker container,
 you'd like to change any of them, please write the same parameter name with
-your custom value in `/etc/iredmail-docker.conf` to override it.
+your custom value in `iredmail-docker.conf` to override it.
 
 ## Run the all-in-one container if you have GitHub repo access
 
 To build and run iRedMail with an all-in-one container:
 
 ```shell
-bash build_all_in_all.sh
-touch /etc/iredmail-docker.conf
-echo HOSTNAME=mail.mydomain.com >> /etc/iredmail-docker.conf
-echo FIRST_MAIL_DOMAIN=mydomain.com >> /etc/iredmail-docker.conf
-echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> /etc/iredmail-docker.conf
-mkdir /opt/iredmail
-./run_all_in_one.sh
+cd /path/to/a/directory/you/prefer
+docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
+touch iredmail-docker.conf
+echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
+echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
+echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
+
+mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
+docker run \
+    --rm \
+    --env-file iredmail-docker.conf \
+    --hostname mail.example.com \
+    -p 80:80 \
+    -p 443:443 \
+    -p 110:110 \
+    -p 995:995 \
+    -p 143:143 \
+    -p 993:993 \
+    -p 25:25 \
+    -p 587:587 \
+    -v data/backup:/var/vmail/backup \
+    -v data/mailboxes:/var/vmail/vmail1 \
+    -v data/mlmmj:/var/vmail/mlmmj \
+    -v data/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v data/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v data/custom:/opt/iredmail/custom \
+    -v data/ssl:/opt/iredmail/ssl \
+    -v data/mysql:/var/lib/mysql \
+    -v data/clamav:/var/lib/clamav \
+    -v data/sa_rules:/var/lib/spamassassin \
+    iredmail:latest
 ```
 
 # Installed softwares
