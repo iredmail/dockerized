@@ -93,7 +93,7 @@ Docker host.
 ### Create required directory and config file `/etc/iredmail-docker.conf` on Docker host
 
 ```
-mkdir -p /opt/iredmail      # Create it or use any existing directory you prefer
+mkdir -p /iredmail      # Create it or use any existing directory you prefer
 touch iredmail-docker.conf
 ```
 
