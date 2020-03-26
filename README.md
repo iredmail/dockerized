@@ -7,15 +7,16 @@ A quick taste with Docker Hub image:
 ```
 docker pull iredmail/mariadb:beta
 
-mkdir /opt/iredmail         # Create a directory under any directory you prefer.
-                            # `/opt/iredmail/` is just an example, not forced.
-cd /opt/iredmail
+mkdir /iredmail         # Create this directory under any directory you prefer.
+                        # `/iredmail/` is just an example, not forced.
+cd /iredmail
 touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 
+cd /iredmail
 mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
 docker run \
     --rm \
@@ -29,16 +30,16 @@ docker run \
     -p 993:993 \
     -p 25:25 \
     -p 587:587 \
-    -v data/backup:/var/vmail/backup \
-    -v data/mailboxes:/var/vmail/vmail1 \
-    -v data/mlmmj:/var/vmail/mlmmj \
-    -v data/mlmmj-archive:/var/vmail/mlmmj-archive \
-    -v data/imapsieve_copy:/var/vmail/imapsieve_copy \
-    -v data/custom:/opt/iredmail/custom \
-    -v data/ssl:/opt/iredmail/ssl \
-    -v data/mysql:/var/lib/mysql \
-    -v data/clamav:/var/lib/clamav \
-    -v data/sa_rules:/var/lib/spamassassin \
+    -v /iredmail/data/backup:/var/vmail/backup \
+    -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
+    -v /iredmail/data/mlmmj:/var/vmail/mlmmj \
+    -v /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v /iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v /iredmail/data/custom:/opt/iredmail/custom \
+    -v /iredmail/data/ssl:/opt/iredmail/ssl \
+    -v /iredmail/data/mysql:/var/lib/mysql \
+    -v /iredmail/data/clamav:/var/lib/clamav \
+    -v /iredmail/data/sa_rules:/var/lib/spamassassin \
     iredmail/mariadb:beta
 ```
 
@@ -53,8 +54,8 @@ Each time you run the container, few tasks will be ran:
 ## Overview
 
 - Only one config file `iredmail-docker.conf` on Docker host.
-- All data is stored under `data/` on Docker host (in our example, it's
-  `/opt/iredmail/data/`). Directory structure:
+- All data is stored under `data/` on Docker host (it's `/iredmai/data/` in our
+  example). Directory structure:
 
 ```
 iredmail-docker.conf    # The (only one) config file.
@@ -124,7 +125,7 @@ Notes:
 - It will be imported as bash shell script too.
 
 There're many OPTIONAL settings defined in file
-`/docker/entrypoints/default_settings.conf` inside docker container,
+`/docker/entrypoints/settings.conf` inside docker container,
 you'd like to change any of them, please write the same parameter name with
 your custom value in `iredmail-docker.conf` to override it.
 
@@ -134,13 +135,16 @@ To build and run iRedMail with an all-in-one container:
 
 ```shell
 cd /path/to/a/directory/you/prefer
-docker build -t iredmail:latest -f Dockerfiles/Dockerfile .
+docker build -t iredmail:latest -f Dockerfiles/Dockerfile . # Or, run `bash build_all_in_one.sh`
 touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
 
+cd /iredmail
 mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
+
+# Or run `bash run_all_in_one.sh` instead.
 docker run \
     --rm \
     --env-file iredmail-docker.conf \
@@ -153,16 +157,16 @@ docker run \
     -p 993:993 \
     -p 25:25 \
     -p 587:587 \
-    -v data/backup:/var/vmail/backup \
-    -v data/mailboxes:/var/vmail/vmail1 \
-    -v data/mlmmj:/var/vmail/mlmmj \
-    -v data/mlmmj-archive:/var/vmail/mlmmj-archive \
-    -v data/imapsieve_copy:/var/vmail/imapsieve_copy \
-    -v data/custom:/opt/iredmail/custom \
-    -v data/ssl:/opt/iredmail/ssl \
-    -v data/mysql:/var/lib/mysql \
-    -v data/clamav:/var/lib/clamav \
-    -v data/sa_rules:/var/lib/spamassassin \
+    -v /iredmail/data/backup:/var/vmail/backup \
+    -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
+    -v /iredmail/data/mlmmj:/var/vmail/mlmmj \
+    -v /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v /iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v /iredmail/data/custom:/opt/iredmail/custom \
+    -v /iredmail/data/ssl:/opt/iredmail/ssl \
+    -v /iredmail/data/mysql:/var/lib/mysql \
+    -v /iredmail/data/clamav:/var/lib/clamav \
+    -v /iredmail/data/sa_rules:/var/lib/spamassassin \
     iredmail:latest
 ```
 

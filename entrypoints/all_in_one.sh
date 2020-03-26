@@ -7,7 +7,7 @@
 #
 
 ENTRYPOINTS_DIR="/docker/entrypoints"
-DEFAULT_SETTINGS_CONF="${ENTRYPOINTS_DIR}/default_settings.conf"
+SETTINGS_CONF="${ENTRYPOINTS_DIR}/settings.conf"
 
 . ${ENTRYPOINTS_DIR}/functions.sh
 
@@ -15,33 +15,33 @@ DEFAULT_SETTINGS_CONF="${ENTRYPOINTS_DIR}/default_settings.conf"
 tmp_env_file='/tmp/env'
 env > ${tmp_env_file}
 
-. ${DEFAULT_SETTINGS_CONF}
+. ${SETTINGS_CONF}
 
-params="$(grep '^[0-9a-zA-Z]' ${DEFAULT_SETTINGS_CONF} | awk -F'=' '{print $1}')"
+params="$(grep '^[0-9a-zA-Z]' ${SETTINGS_CONF} | awk -F'=' '{print $1}')"
 
 # Set random passwords.
 if [ X"${MYSQL_USE_RANDOM_PASSWORDS}" == X'YES' ]; then
     for param in ${params}; do
         if echo ${param} | grep -E '(_DB_PASSWORD|^MYSQL_ROOT_PASSWORD|^VMAIL_DB_ADMIN_PASSWORD)$' &>/dev/null; then
-            echo "${param}=$(${RANDOM_PASSWORD})" >> ${DEFAULT_SETTINGS_CONF}
+            echo "${param}=$(${RANDOM_PASSWORD})" >> ${SETTINGS_CONF}
         fi
     done
 fi
 
-# If parameters are defined as environment variables, append them to config
-# file.
+# If parameter is defined as environment variables, replace it in config file.
 for param in ${params}; do
     # Use '..*' to match non-empty value.
     _env_line="$(grep "^${param}=" ${tmp_env_file})"
     _env_value="${_env_line#*=}"
 
     if [ X"${_env_value}" != X'' ]; then
-        echo ${_env_line} >> ${DEFAULT_SETTINGS_CONF}
+        # Replace in place instead of appending it.
+        ${CMD_SED} "s#^${param}=.*#${param}=${_env_value}#g" ${SETTINGS_CONF}
     fi
 done
 
 # It now contains both default and custom settings.
-. ${DEFAULT_SETTINGS_CONF}
+. ${SETTINGS_CONF}
 
 # Check required variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}

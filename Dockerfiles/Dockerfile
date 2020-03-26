@@ -49,7 +49,7 @@ COPY ./config/. /
 # entrypoint scripts
 #
 COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
-COPY ./default_settings.conf ${ENTRYPOINTS_DIR}/
+COPY ./settings.conf ${ENTRYPOINTS_DIR}/
 
 # Main entrypoint script.
 COPY ./entrypoints/all_in_one.sh /entrypoint.sh

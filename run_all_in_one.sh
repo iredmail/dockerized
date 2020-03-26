@@ -2,8 +2,6 @@
 # Author: Zhang Huangbin <zhb@iredmail.org>
 # Purpose: Run the all-in-one container.
 
-# TODO replace all DOCKER_VOLUME_* by `${DATA_DIR}/...`.
-
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
 # please do __NOT__ modify it manually.
@@ -21,20 +19,24 @@ fi
 
 . ${CONF}
 
-for dir in ${DOCKER_VOLUME_BASEDIR} \
-    ${DOCKER_VOLUME_CUSTOM_CONF_DIR} \
-    ${DOCKER_VOLUME_SSL_DIR} \
-    ${DOCKER_VOLUME_BACKUP_DIR} \
-    ${DOCKER_VOLUME_MAILBOXES_DIR} \
-    ${DOCKER_VOLUME_MYSQL_DATA_DIR} \
-    ${DOCKER_VOLUME_CLAMAV_DB_DIR} \
-    ${DOCKER_VOLUME_MLMMJ_DATA_DIR} \
-    ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR} \
-    ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR} \
-    ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR}; do
-    if [ ! -d ${dir} ]; then
-        echo "+ Create local volume directory: ${dir}"
-        mkdir -p ${dir}
+DATA_SUB_DIRS='
+    backup
+    clamav
+    custom
+    imapsieve_copy
+    mailboxes
+    mlmmj
+    mlmmj-archive
+    mysql
+    sa_rules
+    ssl
+'
+
+for i in ${DATA_SUB_DIRS}; do
+    _dir="${DATA_DIR}/${i}"
+    if [ ! -d ${_dir} ]; then
+        echo "+ Create local volume directory: ${_dir}"
+        mkdir -p ${_dir}
     fi
 done
 
@@ -50,14 +52,14 @@ docker run \
     -p 993:993 \
     -p 25:25 \
     -p 587:587 \
-    -v ${DOCKER_VOLUME_CUSTOM_CONF_DIR}:/opt/iredmail/custom \
-    -v ${DOCKER_VOLUME_SSL_DIR}:/opt/iredmail/ssl \
-    -v ${DOCKER_VOLUME_BACKUP_DIR}:/var/vmail/backup \
-    -v ${DOCKER_VOLUME_MAILBOXES_DIR}:/var/vmail/vmail1 \
-    -v ${DOCKER_VOLUME_MYSQL_DATA_DIR}:/var/lib/mysql \
-    -v ${DOCKER_VOLUME_CLAMAV_DB_DIR}:/var/lib/clamav \
-    -v ${DOCKER_VOLUME_MLMMJ_DATA_DIR}:/var/vmail/mlmmj \
-    -v ${DOCKER_VOLUME_MLMMJ_ARCHIVE_DIR}:/var/vmail/mlmmj-archive \
-    -v ${DOCKER_VOLUME_IMAPSIEVE_COPY_DIR}:/var/vmail/imapsieve_copy \
-    -v ${DOCKER_VOLUME_SPAMASSASSIN_RULE_DIR}:/var/lib/spamassassin \
+    -v ${DATA_DIR}/custom:/opt/iredmail/custom \
+    -v ${DATA_DIR}/ssl:/opt/iredmail/ssl \
+    -v ${DATA_DIR}/backup:/var/vmail/backup \
+    -v ${DATA_DIR}/mailboxes:/var/vmail/vmail1 \
+    -v ${DATA_DIR}/mysql:/var/lib/mysql \
+    -v ${DATA_DIR}/clamav:/var/lib/clamav \
+    -v ${DATA_DIR}/mlmmj:/var/vmail/mlmmj \
+    -v ${DATA_DIR}/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v ${DATA_DIR}/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v ${DATA_DIR}/sa_rules:/var/lib/spamassassin \
     iredmail:latest

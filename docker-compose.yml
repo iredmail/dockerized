@@ -80,8 +80,7 @@ services:
     image: iredmail_mariadb:latest
     container_name: iredmail_mariadb
     env_file:
-      - default_settings.conf
-      - iredmail.conf
+      - iredmail-docker.conf
     ports:
       - "3306:3306"
     volumes:
@@ -99,8 +98,7 @@ services:
     image: iredmail_dovecot:latest
     container_name: iredmail_dovecot
     env_file:
-      - default_settings.conf
-      - iredmail.conf
+      - iredmail-docker.conf
     ports:
       - "110:110"
       - "995:995"
@@ -129,8 +127,7 @@ services:
     image: iredmail_iredapd:latest
     container_name: iredmail_iredapd
     env_file:
-      - default_settings.conf
-      - iredmail.conf
+      - iredmail-docker.conf
     ports:
       - "7777:7777"
       - "7778:7778"
@@ -151,8 +148,7 @@ services:
     image: iredmail_antispam:latest
     container_name: iredmail_antispam
     env_file:
-      - default_settings.conf
-      - iredmail.conf
+      - iredmail-docker.conf
     ports:
       - "3310:3310"
     volumes:
@@ -170,8 +166,7 @@ services:
     image: iredmail_postfix:latest
     container_name: iredmail_postfix
     env_file:
-      - default_settings.conf
-      - iredmail.conf
+      - iredmail-docker.conf
     ports:
       - "25:25"
       - "587:587"

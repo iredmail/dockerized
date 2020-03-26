@@ -7,7 +7,7 @@
 #
 
 # Read variables DOCKER_VOLUME_* from config files.
-. ./default_settings.conf
+. ./settings.conf
 . ./iredmail.conf
 
 for dir in ${DOCKER_VOLUME_SSL_DIR} \
