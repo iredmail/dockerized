@@ -2,7 +2,7 @@ __WARNING__: THIS IS A BETA EDITION, DO NOT TRY IT IN PRODUCTION.
 
 Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/issues).
 
-A quick taste with Docker Hub image:
+A quick taste with [Docker Hub image](https://https://hub.docker.com/u/iredmail/):
 
 ```
 docker pull iredmail/mariadb:beta
