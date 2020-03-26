@@ -139,6 +139,17 @@ Each time you run the container, few tasks will be ran:
 - Update SpamAssassin rules.
 - Update ClamAV virus signature database.
 
+# Installed softwares
+
+- Postfix: SMTP server.
+- Dovecot: POP3/IMAP/LMTP/Sieve server, also offers SASL AUTH service for Postfix.
+- mlmmj: mailing list manager.
+- mlmmjadmin: RESTful API server used to manage (mlmmj) mailing lists.
+- Amavisd-new + ClamAV + SpamAssassin: anti-spam and anti-virus, DKIM signing and verification, etc.
+- iRedAPD: Postfix policy server. Developed by iRedMail team.
+- Fail2ban: scans log files and bans bad clients.
+- Roundcube: webmail.
+
 # Exposed network ports
 
 - 80: HTTP
