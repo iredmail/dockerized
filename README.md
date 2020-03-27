@@ -2,11 +2,9 @@ __WARNING__: THIS IS A BETA EDITION, DO NOT TRY IT IN PRODUCTION.
 
 Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/issues).
 
-A quick taste with [Docker Hub image](https://https://hub.docker.com/u/iredmail/):
+A quick taste with [Docker Hub image](https://hub.docker.com/u/iredmail/):
 
 ```
-docker pull iredmail/mariadb:nightly
-
 mkdir /iredmail         # Create a new directory or use any directory
                         # you prefer. `/iredmail/` is just an example
 cd /iredmail
