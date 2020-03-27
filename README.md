@@ -92,8 +92,13 @@ Docker host.
 Create required directory and config file `iredmail-docker.conf` on Docker host:
 
 ```
-mkdir -p /iredmail      # Create it or use any existing directory you prefer
+mkdir /iredmail         # Create a new directory or use any directory
+                        # you prefer. `/iredmail/` is just an example
+cd /iredmail
 touch iredmail-docker.conf
+
+# Create required sub-directories used to store application data and more.
+mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
 ```
 
 There're few __REQUIRED__ parameters you __MUST__ set in `iredmail-docker.conf`:
