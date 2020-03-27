@@ -43,6 +43,10 @@ done
 # It now contains both default and custom settings.
 . ${SETTINGS_CONF}
 
+# Make sure config file is not world-readable.
+chown root ${SETTINGS_CONF}
+chmod 0400 ${SETTINGS_CONF}
+
 # Check required variables.
 require_non_empty_var HOSTNAME ${HOSTNAME}
 check_fqdn_hostname ${HOSTNAME}

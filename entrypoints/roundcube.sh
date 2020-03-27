@@ -36,5 +36,8 @@ chmod 0400 ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
 create_log_dir /var/log/roundcube
 create_log_file /var/log/roundcube/roundcube.log
 
+# Enable modular Nginx config file for `/mail/` url.
+gen_symlink_of_nginx_tmpl default-ssl roundcube 90-roundcube
+
 # TODO Create symlinks for custom skins/plugins.
 # TODO Setup cron jobs.

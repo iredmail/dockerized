@@ -7,8 +7,8 @@ A quick taste with [Docker Hub image](https://https://hub.docker.com/u/iredmail/
 ```
 docker pull iredmail/mariadb:nightly
 
-mkdir /iredmail         # Create this directory under any directory you prefer.
-                        # `/iredmail/` is just an example, not forced.
+mkdir /iredmail         # Create a new directory or use any directory
+                        # you prefer. `/iredmail/` is just an example
 cd /iredmail
 touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
@@ -18,10 +18,11 @@ echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 
 cd /iredmail
 mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
+
 docker run \
     --rm \
     --env-file iredmail-docker.conf \
-    --hostname mail.example.com \
+    --hostname mail.mydomain.com \
     -p 80:80 \
     -p 443:443 \
     -p 110:110 \
@@ -122,6 +123,7 @@ Notes:
 
 - `iredmail-docker.conf` will be read by Docker as an environment file,
   any single quote or double quote will be treated as part of the value.
+  Do not use any whitespace, tab in value, and no single or double quotes.
 - It will be imported as bash shell script too.
 
 There're many OPTIONAL settings defined in file
@@ -156,7 +158,7 @@ mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive
 docker run \
     --rm \
     --env-file iredmail-docker.conf \
-    --hostname mail.example.com \
+    --hostname mail.mydomain.com \
     -p 80:80 \
     -p 443:443 \
     -p 110:110 \

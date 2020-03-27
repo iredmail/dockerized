@@ -32,6 +32,16 @@ CMD_SED="sed -i -e"
 # Usage: password="$(${RANDOM_PASSWORD})"
 RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null || head -c 30)'
 
+# System accounts.
+SYS_USER_NGINX="nginx"
+SYS_GROUP_NGINX="nginx"
+
+#
+# Nginx
+#
+NGINX_CONF_DIR_SITES_CONF_DIR="/etc/nginx/sites-conf.d"
+NGINX_CONF_DIR_TEMPLATES="/etc/nginx/templates"
+
 check_fqdn_hostname() {
     _host="${1}"
 
@@ -68,6 +78,7 @@ create_sql_user() {
     # Usage: create_user <user> <password>
     _user="$1"
     _pw="$2"
+    _dot_my_cnf="/root/.my.cnf-${_user}"
 
     cmd_mysql="mysql -u root"
 
@@ -80,6 +91,16 @@ create_sql_user() {
     #${cmd_mysql} mysql -e "UPDATE user SET Password=password('${_pw}'),authentication_string=password('${_pw}') WHERE User='${_user}';"
     ${cmd_mysql} mysql -e "ALTER USER '${_user}'@'%' IDENTIFIED BY '${_pw}';"
 
+    cat > ${_dot_my_cnf} <<EOF
+[client]
+host=${SQL_SERVER_ADDRESS}
+port=${SQL_SERVER_PORT}
+user="${_user}"
+password="${_pw}"
+EOF
+
+    chown root ${_dot_my_cnf}
+    chmod 0400 ${_dot_my_cnf}
 }
 
 create_log_dir() {
@@ -110,6 +131,25 @@ create_rc_custom_conf() {
 
     chown nginx:nginx ${_conf}
     chmod 0400 ${_conf}
+}
+
+#
+# Nginx
+#
+gen_symlink_of_nginx_tmpl() {
+    # Usage: gen_symlink_of_tmpl <site> <src-file-name-without-ext> <dest-file-name-without-ext>
+    _site="${1}"
+    _conf_dir="${NGINX_CONF_DIR_SITES_CONF_DIR}/${_site}"
+    _src="${NGINX_CONF_DIR_TEMPLATES}/${2}.tmpl"
+    _dest="${_conf_dir}/${3}.conf"
+
+    if [[ ! -d ${_conf_dir} ]]; then
+        mkdir -p ${_conf_dir}
+        chown ${SYS_USER_NGINX}:${SYS_GROUP_NGINX} ${_conf_dir}
+        chmod 0644 ${_conf_dir}
+    fi
+
+    ln -sf ${_src} ${_dest}
 }
 
 #
