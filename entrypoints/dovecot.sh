@@ -30,7 +30,7 @@ CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
 . /docker/entrypoints/functions.sh
 
 # Create required directories
-for d in ${STORAGE_MAILBOXES_DIR} \
+for d in ${MAILBOXES_DIR} \
     ${SSL_CERT_DIR} \
     ${CUSTOM_CONF_DIR} \
     ${CUSTOM_ENABLED_CONF_DIR} \
@@ -60,8 +60,8 @@ chmod 0644 ${SSL_DHPARAM2048_FILE}
 
 # Make sure mailboxes directory has correct owner/group and permission.
 # Note: If there're many mailboxes, `chown/chmod -R` will take a long time.
-chown vmail:vmail ${STORAGE_MAILBOXES_DIR}
-chmod 0700 ${STORAGE_MAILBOXES_DIR}
+chown vmail:vmail ${MAILBOXES_DIR}
+chmod 0700 ${MAILBOXES_DIR}
 
 # Enable some modular config files.
 for f in service-imap-hibernate.conf stats.conf; do

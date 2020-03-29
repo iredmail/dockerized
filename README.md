@@ -57,10 +57,10 @@ Each time you run the container, few tasks will be ran:
     This file is optional if you prefer overwriting parameters with the `-e`
     argument while launching container. For example:
 
-        `docker run -e HOSTNAME=mail.mydomain.com FIRST_MAIL_DOMAIN=mydomain.com ...`
+    `docker run -e HOSTNAME=mail.mydomain.com FIRST_MAIL_DOMAIN=mydomain.com ...`
 
-    We recommend storing them in an env file to save some typing each time
-    you launch the container.
+    We recommend storing them in an env file (`iredmail-docker.conf` in our
+    example) to save some typing each time you launch the container.
 
 - All data is stored under `data/` on Docker host (it's `/iredmai/data/` in our
   example). Directory structure:
