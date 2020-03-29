@@ -12,6 +12,7 @@ touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
+echo MLMMJADMIN_API_TOKEN=$(openssl rand -base64 32) >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 
 cd /iredmail
@@ -121,6 +122,9 @@ FIRST_MAIL_DOMAIN=
 
 # (Plain) password of mail user `postmaster@<FIRST_MAIL_DOMAIN>`.
 FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=
+
+# A secret token used for accessing mlmmjadmin API.
+MLMMJADMIN_API_TOKEN=
 
 # The secret string used to encrypt/decrypt Roundcube session data.
 # Required if you need to run Roundcube webmail.

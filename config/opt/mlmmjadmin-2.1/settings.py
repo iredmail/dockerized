@@ -41,7 +41,7 @@ backend_cli = 'bk_iredmail_sql'
 # A list of API AUTH tokens (secret strings) used for authentication.
 # It's strong recommended to use a long string as auth token, program will log
 # first 8 characters to help you identity the client.
-api_auth_tokens = ['934mmm6546z37U6g3MudRaLQK758J78e']
+api_auth_tokens = ['PH_MLMMJADMIN_API_TOKEN']
 
 MLMMJ_SPOOL_DIR = '/var/vmail/mlmmj'
 MLMMJ_ARCHIVE_DIR = '/var/vmail/mlmmj-archive'

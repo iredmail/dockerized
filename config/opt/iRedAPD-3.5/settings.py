@@ -46,7 +46,7 @@ srs_domain = 'PH_HOSTNAME'
 # The secret key(s) used to generate cryptographic hash.
 # The first secret key is used for generating AND verifying hash in SRS
 # address. If you have old keys, you can append them also for verification only.
-srs_secrets = ['']
+srs_secrets = ['PH_IREDAPD_SRS_SECRET']
 
 # For LDAP backend.
 #

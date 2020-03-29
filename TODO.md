@@ -1,5 +1,8 @@
 # TODO
 
+- [ ] iRedMail.tips
+    - Replace all placeholders (`PH_*`)
+    - Send to `postmaster@`?
 - [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
 - [ ] Roundcube
     - [ ] Enable http url `/mail/`.

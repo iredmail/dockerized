@@ -1,0 +1,230 @@
+###########################################################################
+# iRedMail: https://www.iredmail.org/
+# Version: 2020021001
+# Backend: mariadb
+###########################################################################
+
+## Account
+
+Admin and first mail user of domain PH_FIRST_MAIL_DOMAIN:
+
+    * Account: postmaster@PH_FIRST_MAIL_DOMAIN
+    * Password: PH_FIRST_DOMAIN_ADMIN_PASSWORD
+
+You can login to web applications listed below with this account, login name is
+full email address.
+
+    - Roundcube webmail: https://PH_HOSTNAME/mail/
+    - iRedAdmin: https://PH_HOSTNAME/iredadmin/
+
+## Mail client application setup:
+
+* Account:
+
+    - Username: postmaster@PH_FIRST_MAIL_DOMAIN
+    - Password: PH_FIRST_DOMAIN_ADMIN_PASSWORD
+
+* SMTP Setting #1 (submission):
+    - Authentication type: LOGIN
+    - Port: 587
+    - Connection security: STARTTLS (or TLS)
+
+* SMTP Setting #2 (smtps):
+    - Authentication type: LOGIN
+    - Port: 465
+    - Connection security: SSL
+
+* IMAP Setting #1:
+    - Authentication type: LOGIN
+    - Port: 143
+    - Connection security: STARTTLS (or TLS)
+
+* IMAP Setting #2:
+    - Authentication type: LOGIN
+    - Port: 993
+    - Connection security: SSL
+
+* POP3 Setting #1:
+    - Authentication type: LOGIN
+    - Port: 110
+    - Connection security: STARTTLS (or TLS)
+
+* POP3 Setting #2:
+    - Authentication type: LOGIN
+    - Port: 995
+    - Connection security: SSL
+
+## Data Backup
+
+* MariaDB:
+    - Backup script: /var/vmail/backup/backup_mysql.sh
+    - See also root's cron job
+
+## SSL cert (self-signed)
+
+* Key length: 2048
+* Cert file: /opt/iredmail/ssl/cert.pem
+* Key file: /opt/iredmail/ssl/key.pem
+* Full chain: /opt/iredmail/ssl/combined.pem
+
+
+## MariaDB
+
+* Root user: root
+  Password: "PH_MYSQL_ROOT_PASSWORD"
+
+* Read-only SQL user: vmail, Password: "PH_VMAIL_DB_PASSWORD"
+* Read-write SQL user: vmailadmin, Password: "PH_VMAIL_DB_ADMIN_PASSWORD"
+* Config files:
+    - Main config file (do not touch this file): /etc/my.cnf
+    - Custom settings should be stored under: /opt/iredmail/custom/mysql/
+
+## Postfix - MTA
+
+* Config files are stored under /etc/postfix
+    - Main config files:
+        - /etc/postfix/main.cf
+        - /etc/postfix/master.cf
+    - SQL/LDAP lookup files: /etc/postfix/mysql
+
+## Dovecot (IMAP/POP3/MANAGESIEVE/LDA/LMTP server)
+
+* Config files (Do NOT modify them):
+    - config directory: /etc/dovecot (do not modify them)
+    - main config file: /etc/dovecot/dovecot.conf (do not modify it)
+    - modular config files: /etc/dovecot/conf-available (do not modify it)
+    - ENABLED modular config files: /etc/dovecot/conf-enabled (do not modify it)
+    - global sieve file: /var/vmail/sieve/dovecot.sieve (do not modify it)
+    - custom global sieve file: /opt/iredmail/custom/dovecot/dovecot.sieve (feel free to create and modify)
+
+* Settings:
+    - max IMAP connections from single IP of same user: 30
+    - max POP3 connections from single IP of same user: 30
+
+* Logs:
+    - Log directory: /var/log/dovecot
+    - Syslog config file: /etc/rsyslog.d/1-iredmail-dovecot.conf
+    - Logrotate config file: /etc/logrotate.d/dovecot
+
+## Amavisd-new
+
+* Main config file: /etc/amavisd.conf (do not modify it)
+* Custom config file: /opt/iredmail/custom/amavisd/amavisd.conf (all custom settings should goes to this file)
+* SQL Database:
+    - name: amavisd
+    - user: amavisd
+    - password: PH_AMAVISD_DB_PASSWORD
+
+* Concurrently processed mails: 4
+* DKIM keys: /opt/iredmail/custom/amavisd/dkim
+* Run command below to get DKIM keys for DNS record:
+
+    /usr/sbin/amavisd showkeys
+
+## ClamAV
+
+* Config files:
+    - ClamAV: /etc/clamav/clamd.conf
+    - freshclam: /etc/clamav/freshclam.conf
+* ClamAV local socket: /tmp/clamd.socket
+* Virus signature database directory: /var/lib/clamav
+* Logs:
+    - ClamAV log file: /var/log/clamav/clamd.log
+    - freshclam log file: /var/log/clamav/freshclam.log
+    - Syslog config file: /etc/rsyslog.d/1-iredmail-clamav.conf
+    - Logrotate config file: /etc/logrotate.d/clamd
+
+## SpamAssassin
+
+* Config files:
+    - /etc/mail/spamassassin/
+    - /etc/mail/spamassassin/local.cf
+
+## OpenDMARC
+
+* Config files:
+    - Main config file:
+        - /etc/opendmarc.conf
+        -/etc/sysconfig/opendmarc (CentOS/Debian/Ubuntu)    - Ignore hosts: /opt/iredmail/custom/opendmarc/ignore.hosts
+
+* Spool directory: /var/spool/opendmarc
+* History file: /var/spool/opendmarc/opendmarc.dat
+* Report script: /opt/iredmail/bin/opendmarc/report
+* Log:
+    - Log file: /var/log/opendmarc/opendmarc.log
+    - modular syslog config file: /etc/rsyslog.d/1-iredmail-opendmarc.conf
+    - modular logrotate config file: /etc/logrotate.d/opendmarc
+
+
+## iRedAPD - Postfix Policy Server:
+
+* Version: 3.5
+* Listen address: 0.0.0.0, port: 7777
+* SQL database account:
+    - Database name: iredapd
+    - Username: iredapd
+    - Password: PH_IREDAPD_DB_PASSWORD (See also: /root/.my.cnf-iredapd)
+* Config file: /opt/iredapd/settings.py
+* Related files:
+    - /opt/iredapd
+
+## iRedAdmin - official web-based admin panel:
+
+* Root directory: /opt/www/iredadmin
+* Config file: /opt/www/iredadmin/settings.py
+* SQL database:
+    - Database name: iredadmin
+    - Username: iredadmin
+    - Password: PH_IREDADMIN_DB_PASSWORD (See also: /root/.my.cnf-iredadmin)
+
+## Nginx - web server
+
+* Config files:
+    - All config files are stored under /etc/nginx
+    - Main config file: /etc/nginx/nginx.conf
+    - Default web sites:
+        - http: /etc/nginx/sites-available/00-default.conf
+        - https: /etc/nginx/sites-available/00-default-ssl.conf
+    - Config snippets: /etc/nginx/templates
+    - Avaialble global config snippets: /etc/nginx/conf-available
+    - Enabled global config snippets: /etc/nginx/conf-enabled
+        - Your custom global config files should be stored under /opt/iredmail/custom/nginx/conf-enabled
+    - Avaialble web host config files: /etc/nginx/sites-available
+    - Enabled web host config files: /etc/nginx/sites-enabled
+        - Your custom web host config files should be stored under /opt/iredmail/custom/nginx/sites-enabled
+
+* Web document root: /var/www/html
+    - Default index page: /var/www/html/index.html
+    - Most web applications are stored under /opt/www
+
+* Log files:
+    - Access log: /var/log/nginx/access.log
+    - Error log: /var/log/nginx/error.log
+
+## PHP
+
+* PHP config file: /etc/php7/php.ini
+
+## PHP-FPM
+
+* Main config file: /etc/php7/php-fpm.conf
+* Default pool config file: /etc/php7/php-fpm.d/www.conf
+* Log files: /var/log/php-fpm
+* Socket path: /var/run/php-fpm.socket
+
+## Fail2ban
+
+* Config files: /etc/fail2ban
+* Main config files:
+    - /etc/fail2ban/fail2ban.local
+    - /etc/fail2ban/jail.local
+* Configured jails: /etc/fail2ban/jail.d
+* Log file: /var/log/fail2ban/fail2ban.log
+* Tools:
+    - Unban IP addresses with script: /opt/iredmail/bin/fail2ban/unbanip
+* SQL Database:
+    - name: fail2ban
+    - user: fail2ban
+    - password: PH_FAIL2BAN_DB_PASSWORD
+
+
