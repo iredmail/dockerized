@@ -1,0 +1,18 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+/var/log/iredadmin/*.log {
+    rotate 20
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+
+    postrotate
+        /etc/init.d/rsyslog --ifstarted reload >/dev/null
+    endscript
+}

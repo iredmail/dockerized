@@ -14,7 +14,7 @@ COPY ./scripts/add_user_mlmmj.sh ${SCRIPTS_DIR}/
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql mlmmj altermime uwsgi uwsgi-python uwsgi-syslog
+RUN apk add --no-cache --progress postfix postfix-pcre postfix-mysql mlmmj altermime python2 py-pip libc-dev gcc linux-headers python2-dev
 
 COPY ./config/etc/postfix/. /etc/postfix/
 COPY ./entrypoints/postfix.sh /entrypoint.sh

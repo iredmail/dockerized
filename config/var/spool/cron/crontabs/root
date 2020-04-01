@@ -8,6 +8,12 @@
 1 * * * * /usr/bin/python2 /opt/iredapd/tools/cleanup_db.py >/dev/null
 #Ansible: iRedAPD: Convert SPF DNS record of specified domain names to IP
 */30 * * * * /usr/bin/python2 /opt/iredapd/tools/spf_to_greylist_whitelists.py >/dev/null
+#Ansible: iRedAdmin: cleanup Amavisd SQL database
+1 2 * * * /usr/bin/python2 /opt/www/iredadmin/tools/cleanup_amavisd_db.py >/dev/null
+#Ansible: iRedAdmin: Add cron job cleanup iRedAdmin SQL database.
+10 2 * * * /usr/bin/python2 /opt/www/iredadmin/tools/cleanup_db.py >/dev/null
+#Ansible: iRedAdmin: Delete mailboxes on file system which belong to removed accounts.
+20 2 * * * /usr/bin/python2 /opt/www/iredadmin/tools/delete_mailboxes.py
 #Ansible: mlmmj: maintenance for mailing lists.
 0 */2 * * * find /var/vmail/mlmmj -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;
 #Ansible: Roundcube: cleanup Roundcube SQL database

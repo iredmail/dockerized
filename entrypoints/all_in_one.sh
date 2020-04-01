@@ -91,6 +91,11 @@ if [[ X"${USE_FAIL2BAN}" == X'YES' ]]; then
     SUP_SERVICES="${SUP_SERVICES} fail2ban"
 fi
 
+if [[ X"${USE_IREDADMIN}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/iredadmin.sh
+    SUP_SERVICES="${SUP_SERVICES} iredadmin"
+fi
+
 for srv in ${SUP_SERVICES}; do
     ln -sf /etc/supervisor.d/conf-available/${srv}.conf /etc/supervisor.d/${srv}.conf
 done

@@ -197,6 +197,11 @@ smtp_tls_note_starttls_offer = yes
 # names that don't match their message file inode number).
 enable_long_queue_ids = yes
 
+# Do not display the name of the recipient table in the "User unknown" responses.
+# The extra detail makes trouble shooting easier but also reveals information
+# that is nobody elses business.
+show_user_unknown_table_name = no
+
 # Reject unlisted sender and recipient
 smtpd_reject_unlisted_recipient = yes
 smtpd_reject_unlisted_sender = yes

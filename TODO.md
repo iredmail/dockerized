@@ -1,19 +1,12 @@
 # TODO
 
+- [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
 - [ ] iRedMail.tips
     - Replace all placeholders (`PH_*`)
     - Send to `postmaster@`?
-- [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
-- [ ] Roundcube
-    - [ ] Enable http url `/mail/`.
-    - [ ] Create symlinks for custom skins/plugins.
 
-- [ ] iRedAdmin
-    - [ ] Create system user/group
-    - [ ] Install + configure
-    - [ ] Create required SQL database, user, tables
-    - [ ] Update SQL server address, port, passwords in config files:
-    - [ ] Add cron jobs
+- [ ] Roundcube
+    - [ ] Create symlinks for custom skins/plugins.
 
 - [ ] Custom settings:
     - [ ] Generate `README` file under `/opt/iredmail/custom/<component>/`

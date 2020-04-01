@@ -29,6 +29,7 @@ docker run \
     -p 143:143 \
     -p 993:993 \
     -p 25:25 \
+    -p 465:465 \
     -p 587:587 \
     -v /iredmail/data/backup:/var/vmail/backup \
     -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
@@ -182,6 +183,7 @@ docker run \
     -p 143:143 \
     -p 993:993 \
     -p 25:25 \
+    -p 465:465 \
     -p 587:587 \
     -v /iredmail/data/backup:/var/vmail/backup \
     -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
@@ -206,6 +208,7 @@ docker run \
 - iRedAPD: Postfix policy server. Developed by iRedMail team.
 - Fail2ban: scans log files and bans bad clients.
 - Roundcube: webmail.
+- iRedAdmin: web-based admin panel, open source edition.
 
 # Exposed network ports
 
