@@ -30,7 +30,6 @@ fi
 
 # If parameter is defined as environment variables, replace it in config file.
 for param in ${params}; do
-    # Use '..*' to match non-empty value.
     _env_line="$(grep "^${param}=" ${tmp_env_file})"
     _env_value="${_env_line#*=}"
 

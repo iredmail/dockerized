@@ -16,6 +16,8 @@
 20 2 * * * /usr/bin/python2 /opt/www/iredadmin/tools/delete_mailboxes.py
 #Ansible: mlmmj: maintenance for mailing lists.
 0 */2 * * * find /var/vmail/mlmmj -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;
+#Ansible: Fail2ban: Unban IP addresses pending for removal (stored in SQL db).
+* * * * * /bin/bash /opt/iredmail/bin/fail2ban/banned_db unban_db
 #Ansible: Roundcube: cleanup Roundcube SQL database
 2 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/cleandb.sh >/dev/null
 #Ansible: Roundcube: cleanup Roundcube temporary files under 'temp/' directory

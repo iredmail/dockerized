@@ -4,14 +4,14 @@
 #   - Store banned IP address in SQL db while it's banned.
 #   - Remove unbanned IP address from SQL db while it's unbanned.
 
-# #
+#
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
 # please do __NOT__ modify it manually.
 #
 
 # Usage:
 #
-#   *) Ban an IP address:
+#   *) Store a banned IP address:
 #
 #       banned_db ban <ip> <ports> <protocol> <jail>
 #
@@ -20,7 +20,7 @@
 #       - <protocol>: `tcp` or `udp`.
 #       - <jail>: Fail2ban jail name.
 #
-#   *) Unban one or multiple IP addresses. Notes:
+#   *) Remove an one or multiple unbanned IP addresses. Notes:
 #       - it removes IP from all jails.
 #       - multiple IP addresses must be separated by space.
 #
@@ -98,4 +98,26 @@ EOF
     fi
 
     [[ X"$?" == X'0' ]] && echo "Cleaned up."
+elif [[ X"${_action}" == X"unban_db" ]]; then
+    # Call fail2ban-client to unban given IP address(es).
+    tmp_file="$(mktemp)"
+
+    ${CMD_SQL} -e "SELECT jail,ip FROM ${DB_TABLE} WHERE remove=1" | grep -v '^jail' >> ${tmp_file}
+    while read jail ip; do
+        # Avoid SQL injection: don't allow whitespace, ';', quotes in
+        # jail name and IP address.
+        if echo ${jail} | grep "[ ;\"\']" &>/dev/null; then
+            echo "[WARNING] Invalid jail name: '${jail}'."
+            continue
+        fi
+
+        if echo ${ip} | grep "[ ;\"\']" &>/dev/null; then
+            echo "[WARNING] Invalid IP address: '${ip}'."
+            continue
+        fi
+
+        fail2ban-client set ${jail} unbanip ${ip}
+        [[ X"$?" == X'0' ]] && echo "Unbanned: jail '${jail}', IP '${ip}'."
+    done < ${tmp_file}
+    rm -f ${tmp_file} &>/dev/null
 fi

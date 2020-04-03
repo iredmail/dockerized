@@ -32,7 +32,13 @@ CMD_SED="sed -i -e"
 # Usage: password="$(${RANDOM_PASSWORD})"
 RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null || head -c 30)'
 
+#
 # System accounts.
+#
+# syslog
+SYS_USER_SYSLOG="root"
+SYS_GROUP_SYSLOG="root"
+# Nginx
 SYS_USER_NGINX="nginx"
 SYS_GROUP_NGINX="nginx"
 
@@ -105,13 +111,14 @@ EOF
 
 create_log_dir() {
     _dir="${1}"
-    mkdir -p ${_dir} &>/dev/null
-    chown root:root ${_dir}
+    [[ -d ${_dir} ]] || mkdir -p ${_dir}
+    chown ${SYS_USER_SYSLOG}:${SYS_GROUP_SYSLOG} ${_dir}
 }
 
 create_log_file() {
     _file="${1}"
-    touch root:root ${_file}
+    [[ -f ${_file} ]] || touch ${_file}
+    chown ${SYS_USER_SYSLOG}:${SYS_GROUP_SYSLOG} ${_file}
 }
 
 #

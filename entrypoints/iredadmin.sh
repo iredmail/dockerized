@@ -8,11 +8,14 @@
 
 . /docker/entrypoints/functions.sh
 
+SYS_USER_IREDADMIN="iredadmin"
+SYS_GROUP_IREDADMIN="iredadmin"
+
 IREDADMIN_WEB_ROOTDIR="/opt/www/iRedAdmin-1.0"
 IREDADMIN_WEB_ROOTDIR_SYMLINK="/opt/www/iredadmin"
 
-SYS_USER_IREDADMIN="iredadmin"
-SYS_GROUP_IREDADMIN="iredadmin"
+IREDADMIN_LOG_DIR="/var/log/iredadmin"
+IREDADMIN_LOG_FILE="/var/log/iredadmin/iredadmin.log"
 
 CONF="/opt/www/iredadmin/settings.py"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/iredadmin"
@@ -29,6 +32,9 @@ chown ${SYS_USER_IREDADMIN}:${SYS_GROUP_IREDADMIN} ${CONF} ${CUSTOM_CONF}
 chmod 0400 ${CONF} ${CUSTOM_CONF}
 
 ln -sf ${CUSTOM_CONF} ${IREDADMIN_WEB_ROOTDIR_SYMLINK}/custom_settings.py
+
+create_log_dir ${IREDADMIN_LOG_DIR}
+create_log_file ${IREDADMIN_LOG_FILE}
 
 # Enable modular Nginx config file for `/mail/` url.
 gen_symlink_of_nginx_tmpl default-ssl iredadmin 90-iredadmin

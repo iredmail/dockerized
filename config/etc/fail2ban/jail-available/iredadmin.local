@@ -1,0 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[iredadmin]
+enabled     = true
+filter      = iredadmin
+logpath     = /var/log/iredadmin/iredadmin.log tail
+action      = iptables-multiport[name=iredadmin, port="80,443", protocol=tcp]
+              banned_db[name=iredadmin, port="80,443", protocol=tcp]
