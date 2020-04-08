@@ -3,38 +3,41 @@
 
 . /docker/entrypoints/functions.sh
 
-USERDB_CONF_DIR="/etc/postfix/mysql"
-MAIN_CF="/etc/postfix/main.cf"
-MASTER_CF="/etc/postfix/master.cf"
-SPOOL_DIR="/var/spool/postfix"
-CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
-CUSTOM_DISCLAIMER_DIR="/opt/iredmail/custom/postfix/disclaimer"
+POSTFIX_USERDB_LOOKUP_CONF_DIR="/etc/postfix/mysql"
+POSTFIX_CONF_MAIN_CF="/etc/postfix/main.cf"
+POSTFIX_CONF_MASTER_CF="/etc/postfix/master.cf"
+POSTFIX_SPOOL_DIR="/var/spool/postfix"
+POSTFIX_CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
+POSTFIX_CUSTOM_DISCLAIMER_DIR="/opt/iredmail/custom/postfix/disclaimer"
 
-DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
-DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
+POSTFIX_LOG_FILE="/var/log/mail.log"
+
+SSL_DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
+SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "Disable iRedAPD."
-    ${CMD_SED} 's#check_policy_service inet:127.0.0.1:7777##' ${MAIN_CF}
+    ${CMD_SED} 's#check_policy_service inet:127.0.0.1:7777##' ${POSTFIX_CONF_MAIN_CF}
 fi
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]] || [[ X"${POSTFIX_ENABLE_SRS}" == X'NO' ]]; then
     LOG "Disable SRS."
-    ${CMD_SED} 's#tcp:127.0.0.1:7778##g' ${MAIN_CF}
-    ${CMD_SED} 's#tcp:127.0.0.1:7779##g' ${MAIN_CF}
+    ${CMD_SED} 's#tcp:127.0.0.1:7778##g' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#tcp:127.0.0.1:7779##g' ${POSTFIX_CONF_MAIN_CF}
 fi
 
 if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     LOG "Disable antispam."
-    ${CMD_SED} 's#smtp-amavis:[127.0.0.1]:10024##g' ${MAIN_CF}
-    ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${MASTER_CF}
+    ${CMD_SED} 's#smtp-amavis:[127.0.0.1]:10024##g' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
 fi
 
-install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
-install -d -o root -g root -m 0555 ${CUSTOM_DISCLAIMER_DIR}
+install -d -o root -g root -m 0555 ${POSTFIX_CUSTOM_CONF_DIR}
+install -d -o root -g root -m 0555 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
 
 # Create default disclaimer files.
-touch ${CUSTOM_DISCLAIMER_DIR}/default.{txt,html}
+touch ${POSTFIX_CUSTOM_DISCLAIMER_DIR}/default.txt
+touch ${POSTFIX_CUSTOM_DISCLAIMER_DIR}/default.html
 
 # Make sure custom config files exist with correct owner/group and permission.
 for f in /opt/iredmail/custom/postfix/aliases \
@@ -93,32 +96,35 @@ for f in /etc/postfix/transport \
     chmod 0640 ${f}.db
 done
 
-install -d -o postfix -g root -m 0700 ${SPOOL_DIR}/etc
+install -d -o postfix -g root -m 0700 ${POSTFIX_SPOOL_DIR}/etc
 for f in localtime hosts resolv.conf; do
     if [[ -f /etc/${f} ]]; then
-        cp -f /etc/${f} ${SPOOL_DIR}/etc/
-        chown postfix:root ${SPOOL_DIR}/etc/${f}
-        chmod 0755 ${SPOOL_DIR}/etc/${f}
+        cp -f /etc/${f} ${POSTFIX_SPOOL_DIR}/etc/
+        chown postfix:root ${POSTFIX_SPOOL_DIR}/etc/${f}
+        chmod 0755 ${POSTFIX_SPOOL_DIR}/etc/${f}
     fi
 done
 
-if [[ ! -f ${DHPARAM512_FILE} ]]; then
-    openssl dhparam -out ${DHPARAM512_FILE} 512 >/dev/null
+if [[ ! -f ${SSL_DHPARAM512_FILE} ]]; then
+    openssl dhparam -out ${SSL_DHPARAM512_FILE} 512 >/dev/null
 fi
-if [[ ! -f ${DHPARAM2048_FILE} ]]; then
-    LOG "Generating dh param file: ${SSL_DHPARAM2048_FILE}. It make take a long time."
-    openssl dhparam -out ${DHPARAM2048_FILE} 2048 >/dev/null
+if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
+    LOG "Generating dh param file: ${SSL_SSL_DHPARAM2048_FILE}. It make take a long time."
+    openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048 >/dev/null
 fi
-chmod 0644 ${DHPARAM512_FILE} ${DHPARAM2048_FILE}
+chmod 0644 ${SSL_DHPARAM512_FILE} ${SSL_DHPARAM2048_FILE}
 
 # Make sure log file exists.
-create_log_file ${postfix_log_file}
-# Create symbol link of mail log file.
-ln -sf ${postfix_log_file} /var/log/maillog
+create_log_file ${POSTFIX_LOG_FILE}
+
+if [ X"${POSTFIX_LOG_FILE}" != X'/var/log/maillog' ]; then
+    # Create symbol link of mail log file.
+    ln -sf ${POSTFIX_LOG_FILE} /var/log/maillog
+fi
 
 # Update parameters.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${MAIN_CF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
 
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${USERDB_CONF_DIR}/*.cf
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${USERDB_CONF_DIR}/*.cf
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${USERDB_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf

@@ -49,6 +49,9 @@ export PATH="/usr/bin:/usr/local/bin:/sbin:$PATH"
 export DB_NAME="fail2ban"
 export DB_TABLE="banned"
 export CMD_SQL="mysql --defaults-file=/root/.my.cnf-fail2ban fail2ban"
+# GeoIP
+export CMD_GEOIPLOOKUP="/usr/bin/geoiplookup"
+export CMD_GEOIPLOOKUP6="/usr/bin/geoiplookup6"
 
 export _action="$1"
 
@@ -68,8 +71,20 @@ if [[ X"${_action}" == X"ban" ]]; then
 
     _hostname="$(hostname)"
 
+    # Lookup for country name.
+    _country=''
+    if echo ${_ip} | grep ':' &>/dev/null; then
+        if [ -x ${CMD_GEOIPLOOKUP6} ]; then
+            _country="$(${CMD_GEOIPLOOKUP6} ${_ip} | grep '^GeoIP Country Edition:' | awk -F': ' '{print $2}')"
+        fi
+    else
+        if [ -x ${CMD_GEOIPLOOKUP} ]; then
+            _country="$(${CMD_GEOIPLOOKUP} ${_ip} | grep '^GeoIP Country Edition:' | awk -F': ' '{print $2}')"
+        fi
+    fi
+
         ${CMD_SQL} <<EOF
-INSERT IGNORE INTO ${DB_TABLE} (ip, ports, protocol, jail, hostname) VALUES ('${_ip}', '${_ports}', '${_protocol}', '${_jail}', '${_hostname}');
+INSERT IGNORE INTO ${DB_TABLE} (ip, ports, protocol, jail, hostname, country) VALUES ('${_ip}', '${_ports}', '${_protocol}', '${_jail}', '${_hostname}', '${_country}');
 EOF
     
 elif [[ X"${_action}" == X"unban" ]]; then

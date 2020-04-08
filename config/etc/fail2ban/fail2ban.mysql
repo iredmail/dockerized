@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `banned` (
     `jail` VARCHAR(30) NOT NULL DEFAULT 'INPUT',
     -- The server hostname which the ban/unban happens
     `hostname` VARCHAR(255) NOT NULL DEFAULT '',
+    `country` VARCHAR(255) NOT NULL DEFAULT '',
     -- When the ban happens
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     -- if `remove=1`, `ip` will be removed by cron job.
@@ -21,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `banned` (
     UNIQUE INDEX (`ip`, `ports`, `protocol`),
     INDEX (`hostname`),
     INDEX (`jail`),
+    INDEX (`country`),
     INDEX (`timestamp`),
     INDEX (`remove`)
 ) ENGINE=InnoDB;
