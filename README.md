@@ -15,7 +15,7 @@ echo MLMMJADMIN_API_TOKEN=$(openssl rand -base64 32) >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 ```
 
-* Create required volumes:
+Create required volumes:
 
 ```
 docker volume create iredmail_backup           # Backup copies
@@ -31,7 +31,7 @@ docker volume create iredmail_sa_rules         # SpamAssassin rules
 docker volume create iredmail_postfix_queue    # Postfix queues
 ```
 
-* Run:
+Run:
 
 ```
 docker run \
