@@ -17,9 +17,6 @@ echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 
 * Create required volumes:
 
-    Note: on Windows and macOS, container will fail to run if you use bind
-    mounts instead of volumes.
-
 ```
 docker volume create iredmail_data_backup           # Backup copies.
 docker volume create iredmail_data_mailboxes        # All users' mailboxes
