@@ -18,16 +18,17 @@ echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 * Create required volumes:
 
 ```
-docker volume create iredmail_data_backup           # Backup copies.
-docker volume create iredmail_data_mailboxes        # All users' mailboxes
-docker volume create iredmail_data_mlmmj            # mailing list data
-docker volume create iredmail_data_mlmmj_archive    # mailing list archive
-docker volume create iredmail_data_imapsieve_copy   # Used by Dovecot plugin 'imapsieve'
-docker volume create iredmail_data_custom           # custom config files
-docker volume create iredmail_data_ssl              # SSL cert/key files
-docker volume create iredmail_data_mysql            # MySQL databases
-docker volume create iredmail_data_clamav           # ClamAV database
-docker volume create iredmail_data_sa_rules         # SpamAssassin rules
+docker volume create iredmail_backup           # Backup copies
+docker volume create iredmail_mailboxes        # All users' mailboxes
+docker volume create iredmail_mlmmj            # mailing list data
+docker volume create iredmail_mlmmj_archive    # mailing list archive
+docker volume create iredmail_imapsieve_copy   # Used by Dovecot plugin 'imapsieve'
+docker volume create iredmail_custom           # custom config files
+docker volume create iredmail_ssl              # SSL cert/key files
+docker volume create iredmail_mysql            # MySQL databases
+docker volume create iredmail_clamav           # ClamAV database
+docker volume create iredmail_sa_rules         # SpamAssassin rules
+docker volume create iredmail_postfix_queue    # Postfix queues
 ```
 
 * Run:
@@ -47,16 +48,17 @@ docker run \
     -p 25:25 \
     -p 465:465 \
     -p 587:587 \
-    -v iredmail_data_backup:/var/vmail/backup \
-    -v iredmail_data_mailboxes:/var/vmail/vmail1 \
-    -v iredmail_data_mlmmj:/var/vmail/mlmmj \
-    -v iredmail_data_mlmmj_archive:/var/vmail/mlmmj-archive \
-    -v iredmail_data_imapsieve_copy:/var/vmail/imapsieve_copy \
-    -v iredmail_data_custom:/opt/iredmail/custom \
-    -v iredmail_data_ssl:/opt/iredmail/ssl \
-    -v iredmail_data_mysql:/var/lib/mysql \
-    -v iredmail_data_clamav:/var/lib/clamav \
-    -v iredmail_data_sa_rules:/var/lib/spamassassin \
+    -v iredmail_backup:/var/vmail/backup \
+    -v iredmail_mailboxes:/var/vmail/vmail1 \
+    -v iredmail_mlmmj:/var/vmail/mlmmj \
+    -v iredmail_mlmmj_archive:/var/vmail/mlmmj-archive \
+    -v iredmail_imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v iredmail_custom:/opt/iredmail/custom \
+    -v iredmail_ssl:/opt/iredmail/ssl \
+    -v iredmail_mysql:/var/lib/mysql \
+    -v iredmail_clamav:/var/lib/clamav \
+    -v iredmail_sa_rules:/var/lib/spamassassin \
+    -v iredmail_postfix_queue:/var/spool/postfix \
     iredmail/mariadb:nightly
 ```
 

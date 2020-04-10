@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Move Postfix queue directory (`/var/spool/postfix`) to volume.
 - [ ] iRedMail.tips
     - Replace all placeholders (`PH_*`)
     - Send to `postmaster@`?
