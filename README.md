@@ -62,8 +62,8 @@ docker run \
     iredmail/mariadb:nightly
 ```
 
-On first run, it will generate a self-signed ssl cert (if no cert exists under
-`data/ssl/`). This may take a long time, please be patient.
+On first run, it will generate a self-signed ssl cert, this may take a long
+time, please be patient.
 
 Each time you run the container, few tasks will be ran:
 
