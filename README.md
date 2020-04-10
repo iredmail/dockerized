@@ -4,6 +4,8 @@ Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/iss
 
 # Quick start
 
+Create a docker environment file used to store custom settings:
+
 ```
 touch iredmail-docker.conf
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
@@ -11,8 +13,14 @@ echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
 echo MLMMJADMIN_API_TOKEN=$(openssl rand -base64 32) >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
+```
 
-# Create required volumes.
+* Create required volumes:
+
+    Note: on Windows and macOS, container will fail to run if you use bind
+    mounts instead of volumes.
+
+```
 docker volume create iredmail_data_backup           # Backup copies.
 docker volume create iredmail_data_mailboxes        # All users' mailboxes
 docker volume create iredmail_data_mlmmj            # mailing list data
@@ -23,7 +31,11 @@ docker volume create iredmail_data_ssl              # SSL cert/key files
 docker volume create iredmail_data_mysql            # MySQL databases
 docker volume create iredmail_data_clamav           # ClamAV database
 docker volume create iredmail_data_sa_rules         # SpamAssassin rules
+```
 
+* Run:
+
+```
 docker run \
     --rm \
     --name iredmail \
