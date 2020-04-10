@@ -50,7 +50,7 @@ docker run \
     -v iredmail_data_backup:/var/vmail/backup \
     -v iredmail_data_mailboxes:/var/vmail/vmail1 \
     -v iredmail_data_mlmmj:/var/vmail/mlmmj \
-    -v iredmail_data_mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v iredmail_data_mlmmj_archive:/var/vmail/mlmmj-archive \
     -v iredmail_data_imapsieve_copy:/var/vmail/imapsieve_copy \
     -v iredmail_data_custom:/opt/iredmail/custom \
     -v iredmail_data_ssl:/opt/iredmail/ssl \
