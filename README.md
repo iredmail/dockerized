@@ -77,7 +77,9 @@ Only one config file `iredmail-docker.conf` on Docker host.
 This file is optional if you prefer overwriting parameters with the `-e`
 argument while launching container. For example:
 
-`docker run -e HOSTNAME=mail.mydomain.com FIRST_MAIL_DOMAIN=mydomain.com ...`
+```
+docker run -e HOSTNAME=mail.mydomain.com -e FIRST_MAIL_DOMAIN=mydomain.com ...
+```
 
 We recommend storing them in an env file (`iredmail-docker.conf` in our
 example) to save some typing each time you launch the container.
@@ -112,7 +114,7 @@ Notes:
 
 - `iredmail-docker.conf` will be read by Docker as an environment file,
   any single quote or double quote will be treated as part of the value.
-  Do not use any whitespace, tab in value, and no single or double quotes.
+  __Do not use any whitespace, tab in value, and no single or double quotes.__
 - It will be imported as bash shell script too.
 
 There're many OPTIONAL settings defined in file
