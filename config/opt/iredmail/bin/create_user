@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# Author:   Zhang Huangbin (zhb _at_ iredmail.org)
+# Purpose:  Create single user.
+
+# Usage:
+#   ./create_user <email> <plain_password> <quota>
+#
+# Quota must be an integer number (in MB). `0` means unlimited.
+#
+# Samples:
+#   ./create_user user@domain.com mypassword 0
+#   ./create_user user@domain.com mypassword 1024
+
+# ~/.my.cnf
+# SQL user used in this file must have privilege to insert new record to
+# `vmail` database.
+export MY_CNF='/root/.my.cnf-vmailadmin'
+
+# Storage base directory used to store user's mailbox.
+export STORAGE_BASE_DIR='/var/vmail'
+export STORAGE_NODE='vmail1'
+
+# Password scheme.
+export PASSWORD_SCHEME='SSHA512'
+
+# Default mail quota (in MB). `0` means unlimited.
+export QUOTA='0'
+
+#
+# Maildir settings
+#
+# Maildir style: hashed, normal.
+# Hashed maildir style, so that there won't be many large directories
+# in your mail storage file system. Better performance in large scale
+# deployment.
+# Format: e.g. username@domain.td
+#   hashed  -> domain.ltd/u/us/use/username/
+#   normal  -> domain.ltd/username/
+# Default hash level is 3.
+export MAILDIR_STYLE='hashed'      # hashed, normal.
+
+# Time stamp, will be appended in maildir.
+DATE="$(date +%Y.%m.%d.%H.%M.%S)"
+WC_L='wc -L'
+if [ X"$(uname -s)" == X'OpenBSD' ]; then
+    WC_L='wc -l'
+fi
+
+if [ X"$#" != X'3' ]; then
+    echo "Invalid command arguments. Usage:"
+    echo "./create_user <email> <password> <quota>"
+    exit 255
+fi
+
+# Read input
+mail="$1"
+plain_password="$2"
+quota="$3"
+
+username="$(echo $mail | awk -F'@' '{print $1}')"
+domain="$(echo $mail | awk -F'@' '{print $2}')"
+
+# Cyrpt default password.
+encrypted_password="$(/usr/bin/doveadm pw -s ${PASSWORD_SCHEME} -p ${plain_password})"
+
+# Different maildir style: hashed, normal.
+if [ X"${MAILDIR_STYLE}" == X"hashed" ]; then
+    length="$(echo ${username} | ${WC_L} )"
+    str1="$(echo ${username} | cut -c1)"
+    str2="$(echo ${username} | cut -c2)"
+    str3="$(echo ${username} | cut -c3)"
+
+    test -z "${str2}" && str2='_'
+    test -z "${str3}" && str3='_'
+
+    # Use mbox, will be changed later.
+    maildir="${domain}/${str1}/${str2}/${str3}/${username}-${DATE}/"
+else
+    maildir="${domain}/${username}-${DATE}/"
+fi
+
+mysql --defaults-file=${MY_CNF} vmail <<EOF
+INSERT INTO mailbox (username, password, name,
+                     storagebasedirectory,storagenode, maildir,
+                     quota, domain, active, passwordlastchange, created)
+             VALUES ('${mail}', '${ENCRYPTED_PASSWD}', '${username}',
+                     '${STORAGE_BASE_DIR}','${STORAGE_NODE}', '${maildir}',
+                     '${QUOTA}', '${domain}', '1', NOW(), NOW());
+
+INSERT INTO forwardings (address, forwarding, domain, dest_domain, is_forwarding)
+                 VALUES ('${mail}', '${mail}','${domain}', '${domain}', 1);
+EOF
