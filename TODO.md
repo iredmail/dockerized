@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Create SQL db/user/password for SOGo container if `USE_SOGO=YES`.
 - [ ] iRedMail.tips
     - Replace all placeholders (`PH_*`)
     - Send to `postmaster@`?

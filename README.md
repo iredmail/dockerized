@@ -7,7 +7,11 @@ Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/iss
 Create a docker environment file used to store custom settings:
 
 ```
+mkdir /iredmail         # Create a new directory or use any directory
+                        # you prefer. `/iredmail/` is just an example
+cd /iredmail
 touch iredmail-docker.conf
+
 echo HOSTNAME=mail.mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
@@ -15,7 +19,55 @@ echo MLMMJADMIN_API_TOKEN=$(openssl rand -base64 32) >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
 ```
 
-Create required volumes:
+Create required directories to store application data:
+
+```
+cd /iredmail
+mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
+```
+
+Launch the container:
+
+```
+docker run \
+    --rm \
+    --name iredmail \
+    --env-file iredmail-docker.conf \
+    --hostname mail.mydomain.com \
+    -p 80:80 \
+    -p 443:443 \
+    -p 110:110 \
+    -p 995:995 \
+    -p 143:143 \
+    -p 993:993 \
+    -p 25:25 \
+    -p 465:465 \
+    -p 587:587 \
+    -v /iredmail/data/backup:/var/vmail/backup \
+    -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
+    -v /iredmail/data/mlmmj:/var/vmail/mlmmj \
+    -v /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive \
+    -v /iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy \
+    -v /iredmail/data/custom:/opt/iredmail/custom \
+    -v /iredmail/data/ssl:/opt/iredmail/ssl \
+    -v /iredmail/data/mysql:/var/lib/mysql \
+    -v /iredmail/data/clamav:/var/lib/clamav \
+    -v /iredmail/data/sa_rules:/var/lib/spamassassin \
+    iredmail/mariadb:nightly
+```
+
+Notes:
+
+- On first run, it will generate a self-signed ssl cert, this may take a long
+time, please be patient.
+- Each time you run the container, few tasks will be ran:
+    - Update SpamAssassin rules.
+    - Update ClamAV virus signature database.
+- If you're running Docker on Windows and macOS, container will fail to launch
+  and you must switch to docker volumes as described below.
+
+If you're running Docker on Windows and macOS, or you just prefer storing
+persistent data in Docker volumes, please create required volumes:
 
 ```
 docker volume create iredmail_backup           # Backup copies
@@ -31,7 +83,7 @@ docker volume create iredmail_sa_rules         # SpamAssassin rules
 docker volume create iredmail_postfix_queue    # Postfix queues
 ```
 
-Run:
+Then launch the container with volumes:
 
 ```
 docker run \
@@ -61,14 +113,6 @@ docker run \
     -v iredmail_postfix_queue:/var/spool/postfix \
     iredmail/mariadb:nightly
 ```
-
-On first run, it will generate a self-signed ssl cert, this may take a long
-time, please be patient.
-
-Each time you run the container, few tasks will be ran:
-
-- Update SpamAssassin rules.
-- Update ClamAV virus signature database.
 
 # Overview
 
