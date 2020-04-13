@@ -58,12 +58,12 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/3.5.tar.gz && \
-tar xzf 3.5.tar.gz -C /opt && \
-rm -f 3.5.tar.gz && \
-ln -s /opt/iRedAPD-3.5 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-3.5 && \
-chmod -R 0500 /opt/iRedAPD-3.5 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/3.6.tar.gz && \
+tar xzf 3.6.tar.gz -C /opt && \
+rm -f 3.6.tar.gz && \
+ln -s /opt/iRedAPD-3.6 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-3.6 && \
+chmod -R 0500 /opt/iRedAPD-3.6 && \
 
 # Install mlmmjadmin.
 wget -c https://github.com/iredmail/mlmmjadmin/archive/2.1.tar.gz && \

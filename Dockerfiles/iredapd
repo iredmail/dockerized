@@ -10,14 +10,14 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     rm -rf ${SCRIPTS_DIR}
 
 RUN apk add --no-cache --progress python2 py-pip && \
-    wget -c https://github.com/iredmail/iRedAPD/archive/3.5.tar.gz && \
-    tar xzf 3.5.tar.gz -C /opt && \
-    rm -f 3.5.tar.gz && \
-    ln -sf /opt/iRedAPD-3.5 /opt/iredapd && \
+    wget -c https://github.com/iredmail/iRedAPD/archive/3.6.tar.gz && \
+    tar xzf 3.6.tar.gz -C /opt && \
+    rm -f 3.6.tar.gz && \
+    ln -sf /opt/iRedAPD-3.6 /opt/iredapd && \
     /usr/bin/pip2 install --no-cache-dir --no-deps web.py==0.51 && \
     rm -rf /root/.cache
 
-COPY ./config/opt/iRedAPD-3.5/. /opt/iRedAPD-3.5/
+COPY ./config/opt/iRedAPD-3.6/. /opt/iRedAPD-3.6/
 COPY ./entrypoints/iredapd.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh

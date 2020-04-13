@@ -1,6 +1,10 @@
 # TODO
 
 - [ ] Create SQL db/user/password for SOGo container if `USE_SOGO=YES`.
+- [ ] Add new env variables:
+    - [ ] set mail attachment size. Defaults to 10MB.
+    - [ ] set time zone.
+
 - [ ] iRedMail.tips
     - Replace all placeholders (`PH_*`)
     - Send to `postmaster@`?

@@ -3,6 +3,7 @@
 # Puprpose:
 #   - Store banned IP address in SQL db while it's banned.
 #   - Remove unbanned IP address from SQL db while it's unbanned.
+#   - Unban IP addresses which have column `remove=1`.
 
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
@@ -21,19 +22,27 @@
 #       - <jail>: Fail2ban jail name.
 #
 #   *) Remove an one or multiple unbanned IP addresses. Notes:
+#
 #       - it removes IP from all jails.
 #       - multiple IP addresses must be separated by space.
 #
 #       banned_db unban <ip> [ip] [ip]
 #
 #   *) Cleanup a jail. When Fail2ban is stopping or restarting, `cleanup` will
-#      be executed.
-
+#      be executed. Cleanup manually is supported too:
+#
+#       banned_db cleanup <jail>
+#
+#   *) Query SQL db and remove IP addresses which have `remove=1`.
+#
+#       banned_db unban_db
+#
 # Examples:
 #
 #   banned_db ban   192.168.0.1 110,143,993,995 tcp dovecot-iredmail
 #   banned_db unban 192.168.0.1
 #   banned_db cleanup dovecot-iredmail
+#   banned_db unban_db
 
 #
 # Sample Fail2ban jail config file (/etc/fail2ban/jail.d/xx.local):
@@ -46,9 +55,13 @@
 # WARNING: the name set in `banned_db[name=]` must be same as the jail name.
 
 export PATH="/usr/bin:/usr/local/bin:/sbin:$PATH"
+
 export DB_NAME="fail2ban"
 export DB_TABLE="banned"
-export CMD_SQL="mysql --defaults-file=/root/.my.cnf-fail2ban fail2ban"
+export DB_USER="fail2ban"
+
+export CMD_SQL="mysql --defaults-file=/root/.my.cnf-fail2ban ${DB_NAME}"
+
 # GeoIP
 export CMD_GEOIPLOOKUP="/usr/bin/geoiplookup"
 export CMD_GEOIPLOOKUP6="/usr/bin/geoiplookup6"
@@ -74,11 +87,11 @@ if [[ X"${_action}" == X"ban" ]]; then
     # Lookup for country name.
     _country=''
     if echo ${_ip} | grep ':' &>/dev/null; then
-        if [ -x ${CMD_GEOIPLOOKUP6} ]; then
+        if [[ -x ${CMD_GEOIPLOOKUP6} ]]; then
             _country="$(${CMD_GEOIPLOOKUP6} ${_ip} | grep '^GeoIP Country Edition:' | awk -F': ' '{print $2}')"
         fi
     else
-        if [ -x ${CMD_GEOIPLOOKUP} ]; then
+        if [[ -x ${CMD_GEOIPLOOKUP} ]]; then
             _country="$(${CMD_GEOIPLOOKUP} ${_ip} | grep '^GeoIP Country Edition:' | awk -F': ' '{print $2}')"
         fi
     fi
