@@ -15,3 +15,6 @@
 - [ ] Custom settings:
     - [ ] Generate `README` file under `/opt/iredmail/custom/<component>/`
     - [ ] Add `custom.sh` for each component?
+
+- [ ] SOGo
+    - Update prefork, mail attachment size, time zone

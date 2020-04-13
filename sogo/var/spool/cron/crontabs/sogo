@@ -1,0 +1,4 @@
+#Ansible: SOGo: session cleanup and email reminder, should be ran every minute.
+* * * * * /usr/sbin/sogo-tool expire-sessions 30 >/dev/null 2>&1; /usr/sbin/sogo-ealarms-notify >/dev/null 2>&1
+#Ansible: SOGo: Vacation message expiration.
+0 0 * * * /usr/sbin/sogo-tool update-autoreply -p /etc/sogo/sieve.cred >/dev/null 2>&1

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Purpose: Build image for single application.
+# Purpose: Build image with specified Dockerfile name under `Dockerfiles/`.
 # Usage:
 #
 #   ./build.sh          # Build with `Dockerfiles/Dockerfile`
@@ -10,14 +10,14 @@ shift
 
 if [[ X"${f}" == X"" ]]; then
     df="Dockerfiles/Dockerfile"
-    label="iredmail-core"
+    label="iredmail/mariadb"
 else
     df="Dockerfiles/${f}"
-    label="iredmail-${f}"
+    label="iredmail/${f}"
 fi
 
 [[ -f ${df} ]] || (echo "Docker file ${df} doesnt exist." && exit 255)
 
 docker build \
-    --tag ${label}:dev \
+    --tag ${label}:nightly \
     -f ${df} .

@@ -1,0 +1,41 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+FROM ubuntu:18.04
+MAINTAINER Zhang Huangbin <zhb@iredmail.org>
+
+# SOGo uses port `20000` by default.
+EXPOSE 20000
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL C
+
+ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/4/ubuntu/
+
+# Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the
+# post-install script of SOGo package.
+RUN apt-get update \
+    && apt-get upgrade -y \
+	&& apt-get install -y --no-install-recommends apt-transport-https \
+        apt-utils \
+		ca-certificates \
+		supervisor \
+		mariadb-client \
+		cron \
+        gnupg2 \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
+	&& echo "deb ${SOGO_MIRROR_SITE} bionic bionic" > /etc/apt/sources.list.d/sogo-nightly.list \
+	&& apt-get update \
+    && mkdir -p /usr/share/doc/sogo/ \
+    && touch /usr/share/doc/sogo/test.sh \
+	&& apt-get -y install sogo sogo-activesync memcached \
+    && rm -f /usr/share/doc/sogo/test.sh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Copy all files.
+COPY sogo/. /
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

@@ -28,6 +28,7 @@ DATA_SUB_DIRS='
     mlmmj
     mlmmj-archive
     mysql
+    postfix_queue
     sa_rules
     ssl
 '
@@ -62,4 +63,5 @@ docker run \
     -v ${DATA_DIR}/mlmmj-archive:/var/vmail/mlmmj-archive \
     -v ${DATA_DIR}/imapsieve_copy:/var/vmail/imapsieve_copy \
     -v ${DATA_DIR}/sa_rules:/var/lib/spamassassin \
-    iredmail:latest
+    -v ${DATA_DIR}/postfix_queue:/var/spool/postfix \
+    iredmail/mariadb:nightly
