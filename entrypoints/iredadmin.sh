@@ -8,9 +8,6 @@
 
 . /docker/entrypoints/functions.sh
 
-SYS_USER_IREDADMIN="iredadmin"
-SYS_GROUP_IREDADMIN="iredadmin"
-
 IREDADMIN_WEB_ROOTDIR="/opt/www/iRedAdmin-1.0"
 IREDADMIN_WEB_ROOTDIR_SYMLINK="/opt/www/iredadmin"
 

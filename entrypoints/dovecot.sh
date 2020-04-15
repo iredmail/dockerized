@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
+. /docker/entrypoints/functions.sh
+
 POSTMASTER_EMAIL="${POSTMASTER_EMAIL:=postmaster@${FIRST_MAIL_DOMAIN}}"
 
 # SSL cert.
@@ -26,8 +28,6 @@ GLOBAL_SIEVE_FILE="/var/vmail/sieve/dovecot.sieve"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
 CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
 CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
-
-. /docker/entrypoints/functions.sh
 
 # Create required directories
 for d in ${MAILBOXES_DIR} \
@@ -60,7 +60,7 @@ chmod 0644 ${SSL_DHPARAM2048_FILE}
 
 # Make sure mailboxes directory has correct owner/group and permission.
 # Note: If there're many mailboxes, `chown/chmod -R` will take a long time.
-chown vmail:vmail ${MAILBOXES_DIR}
+chown ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} ${MAILBOXES_DIR}
 chmod 0700 ${MAILBOXES_DIR}
 
 # Enable some modular config files.
@@ -71,11 +71,11 @@ done
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
 touch /etc/dovecot/dovecot-master-users
-chown dovecot:dovecot /etc/dovecot/dovecot-master-users
+chown ${SYS_USER_DOVECOT}:${SYS_GROUP_DOVECOT} /etc/dovecot/dovecot-master-users
 chmod 0400 /etc/dovecot/dovecot-master-users
 
 # Set proper owner/group and permissions.
-chown -R vmail:vmail /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve
+chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve
 chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
 
 # Update parameters.

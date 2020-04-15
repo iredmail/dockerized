@@ -10,8 +10,8 @@
 #   - Delete anonymous user
 #   - Drop 'test' database
 
-SYS_USER_MYSQL="mysql"
-SYS_GROUP_MYSQL="mysql"
+. /docker/entrypoints/functions.sh
+
 DATA_DIR="/var/lib/mysql"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
 SOCKET_PATH="/var/run/mysqld/mysqld.sock"
@@ -19,8 +19,6 @@ DOT_MY_CNF="/root/.my.cnf"
 
 # Directories used to store pre-start and initialization shell/sql scripts.
 PRE_START_SCRIPTS_DIR="/docker/mariadb/pre_start"
-
-. /docker/entrypoints/functions.sh
 
 require_non_empty_var MYSQL_ROOT_PASSWORD ${MYSQL_ROOT_PASSWORD}
 require_non_empty_var VMAIL_DB_PASSWORD ${VMAIL_DB_PASSWORD}

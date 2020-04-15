@@ -11,8 +11,10 @@ EXPOSE 20000
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C
+ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE yes
 
 ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/4/ubuntu/
+ARG ENTRYPOINTS_DIR=/docker/entrypoints
 
 # Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the
 # post-install script of SOGo package.
@@ -25,7 +27,7 @@ RUN apt-get update \
 		mariadb-client \
 		cron \
         gnupg2 \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
+        && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
 	&& echo "deb ${SOGO_MIRROR_SITE} bionic bionic" > /etc/apt/sources.list.d/sogo-nightly.list \
 	&& apt-get update \
     && mkdir -p /usr/share/doc/sogo/ \
@@ -35,7 +37,15 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Copy all files.
-COPY sogo/. /
+RUN mkdir -p ${ENTRYPOINTS_DIR}
+COPY ./entrypoints/functions.sh ${ENTRYPOINTS_DIR}/
+COPY ./settings.conf ${ENTRYPOINTS_DIR}/
 
+# Copy config files.
+COPY sogo/. /
+COPY config/etc/supervisord.conf /etc/supervisor/
+COPY config/etc/supervisor.d /etc/
+COPY ./entrypoints/sogo.sh /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

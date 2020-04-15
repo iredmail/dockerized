@@ -23,23 +23,25 @@ CUSTOM_CONF_DIR="/opt/iredmail/custom/amavisd"
 # ClamAV
 CLAMAV_DB_DIR="/var/lib/clamav"
 
+chown ${SYS_USER_ROOT}:${SYS_GROUP_AMAVISD} ${CONF}
+
 for d in ${SPOOL_DIR} ${TEMP_DIR} ${QUARANTINE_DIR} ${DB_DIR} ${VAR_DIR}; do
-    [[ -d ${d} ]] || install -d -o amavis -g amavis -m 0770 ${d}
+    [[ -d ${d} ]] || install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${d}
 done
 
-[[ -d ${CUSTOM_CONF_DIR} ]] || install -d -o root -g root -m 0555 ${CUSTOM_CONF_DIR}
+[[ -d ${CUSTOM_CONF_DIR} ]] || install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${CUSTOM_CONF_DIR}
 
 # Assign clamav daemon user to Amavisd group, so that it has permission to scan message.
-addgroup clamav amavis
+addgroup ${SYS_USER_CLAMAV} ${SYS_GROUP_AMAVISD}
 
 # Generate DKIM key for first mail domain.
-install -d -o amavis -g amavis -m 0770 ${DKIM_DIR}
+install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${DKIM_DIR}
 [[ -f ${DKIM_KEY} ]] || /usr/sbin/amavisd genrsa ${DKIM_KEY} 1024
-chown amavis:amavis ${DKIM_KEY}
+chown ${SYS_USER_AMAVISD}:${SYS_GROUP_AMAVISD} ${DKIM_KEY}
 chmod 0400 ${DKIM_KEY}
 
 # ClamAV
-install -d -o clamav -g clamav -m 0755 ${CLAMAV_DB_DIR}
+install -d -o ${SYS_USER_CLAMAV} -g ${SYS_GROUP_CLAMAV} -m 0755 ${CLAMAV_DB_DIR}
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}

@@ -6,10 +6,9 @@
 # please do __NOT__ modify it manually.
 #
 
-CLAMAV_USER='clamav'
-CLAMAV_GROUP='clamav'
-CLAMAV_DB_DIR='/var/lib/clamav'
+. /docker/entrypoints/functions.sh
 
+CLAMAV_DB_DIR='/var/lib/clamav'
 CLAMD_CONF='/etc/clamav/clamd.conf'
 FRESHCLAM_CONF='/etc/clamav/freshclam.conf'
 
@@ -17,7 +16,7 @@ FRESHCLAM_CONF='/etc/clamav/freshclam.conf'
 [[ ! -d ${CLAMAV_DB_DIR} ]] || mkdir -p ${CLAMAV_DB_DIR}
 
 # Always set correct user/group and permission.
-chown -R ${CLAMAV_USER}:${CLAMAV_GROUP} ${CLAMAV_DB_DIR}
+chown -R ${SYS_USER_CLAMAV}:${SYS_GROUP_CLAMAV} ${CLAMAV_DB_DIR}
 
 # If DB files exist, start the clamav daemon.
 _ready_to_start=YES

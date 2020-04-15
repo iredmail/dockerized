@@ -15,6 +15,11 @@ POSTFIX_LOG_FILE="/var/log/mail.log"
 SSL_DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
 SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
+# Update message size limit.
+_size="$((MESSAGE_SIZE_LIMIT_IN_MB * 1024 * 1024))"
+${CMD_SED} "s#^mailbox_size_limit.*#mailbox_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
+${CMD_SED} "s#^message_size_limit.*#message_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
+
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "Disable iRedAPD."
     ${CMD_SED} 's#check_policy_service inet:127.0.0.1:7777##' ${POSTFIX_CONF_MAIN_CF}
@@ -32,8 +37,8 @@ if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
 fi
 
-install -d -o root -g root -m 0555 ${POSTFIX_CUSTOM_CONF_DIR}
-install -d -o root -g root -m 0555 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_CONF_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
 
 # Create default disclaimer files.
 touch ${POSTFIX_CUSTOM_DISCLAIMER_DIR}/default.txt
@@ -52,35 +57,34 @@ for f in /opt/iredmail/custom/postfix/aliases \
     /opt/iredmail/custom/postfix/sender_bcc \
     /opt/iredmail/custom/postfix/recipient_bcc; do
     touch ${f}
-    chown root:postfix ${f}
+    chown ${SYS_USER_ROOT}:${SYS_GROUP_ROOT} ${f}
     chmod 0640 ${f}
 done
 
 # Update /etc/postfix/aliases
-for u in amavis \
-    named \
-    clamav \
-    dovecot \
-    iredadmin \
-    iredapd \
-    memcached \
-    mlmmj \
-    mysql \
-    netdata \
-    nginx \
-    ldap \
-    postgres \
-    postfix \
-    prosody \
-    sogo \
-    root \
-    vmail; do
+for u in ${SYS_USER_AMAVISD} \
+    ${SYS_USER_CLAMAV} \
+    ${SYS_USER_DOVECOT} \
+    ${SYS_USER_IREDADMIN} \
+    ${SYS_USER_IREDAPD} \
+    ${SYS_USER_MEMCACHED} \
+    ${SYS_USER_MLMMJ} \
+    ${SYS_USER_MYSQL} \
+    ${SYS_USER_NETDATA} \
+    ${SYS_USER_NGINX} \
+    ${SYS_USER_POSTFIX} \
+    ${SYS_USER_SOGO} \
+    ${SYS_USER_SYSLOG} \
+    ${SYS_USER_BIND} \
+    ldap postgres prosody \
+    ${SYS_USER_VMAIL}; do
     if ! grep "^${u}:" /etc/postfix/aliases &>/dev/null; then
         echo "${u}: root" >> /etc/postfix/aliases
     fi
 done
+
 ${CMD_SED} 's#^root:.*##g' /etc/postfix/aliases
-echo "root: ${POSTMASTER_EMAIL}" >> /etc/postfix/aliases
+echo "${SYS_USER_ROOT}: ${POSTMASTER_EMAIL}" >> /etc/postfix/aliases
 postalias /etc/postfix/aliases
 postalias /opt/iredmail/custom/postfix/aliases
 
@@ -92,15 +96,15 @@ for f in /etc/postfix/transport \
     /opt/iredmail/custom/postfix/recipient_bcc; do
     postmap hash:${f}
 
-    chown root:postfix ${f}.db
+    chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${f}.db
     chmod 0640 ${f}.db
 done
 
-install -d -o postfix -g root -m 0700 ${POSTFIX_SPOOL_DIR}/etc
+install -d -o ${SYS_USER_POSTFIX} -g ${SYS_GROUP_ROOT} -m 0700 ${POSTFIX_SPOOL_DIR}/etc
 for f in localtime hosts resolv.conf; do
     if [[ -f /etc/${f} ]]; then
         cp -f /etc/${f} ${POSTFIX_SPOOL_DIR}/etc/
-        chown postfix:root ${POSTFIX_SPOOL_DIR}/etc/${f}
+        chown ${SYS_USER_POSTFIX}:${SYS_GROUP_ROOT} ${POSTFIX_SPOOL_DIR}/etc/${f}
         chmod 0755 ${POSTFIX_SPOOL_DIR}/etc/${f}
     fi
 done

@@ -8,9 +8,6 @@
 
 . /docker/entrypoints/functions.sh
 
-SYS_USER_MLMMJ="mlmmj"
-SYS_GROUP_MLMMJ="mlmmj"
-
 MLMMJ_SPOOL_DIR="/var/vmail/mlmmj"
 MLMMJ_ARCHIVE_DIR="/var/vmail/mlmmj-archive"
 

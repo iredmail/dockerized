@@ -6,6 +6,8 @@
 # please do __NOT__ modify it manually.
 #
 
+. /docker/entrypoints/functions.sh
+
 RC_DOCUMENTROOT="/opt/www/roundcubemail-1.4.3"
 RC_DOCUMENTROOT_SYMLINK="/opt/www/roundcubemail"
 RC_CONF="/opt/www/roundcubemail/config/config.inc.php"
@@ -15,8 +17,6 @@ CUSTOM_CONF="/opt/iredmail/custom/roundcube/custom.inc.php"
 
 DB_NAME="roundcubemail"
 DB_USER="roundcube"
-
-. /docker/entrypoints/functions.sh
 
 require_non_empty_var ROUNDCUBE_DB_PASSWORD ${ROUNDCUBE_DB_PASSWORD}
 require_non_empty_var ROUNDCUBE_DES_KEY ${ROUNDCUBE_DES_KEY}
@@ -29,8 +29,11 @@ create_rc_custom_conf config_markasjunk.inc.php
 create_rc_custom_conf config_password.inc.php
 
 # Always set correct user/group and permission.
-chown nginx:nginx ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
+chown ${SYS_USER_NGINX}:${SYS_GROUP_NGINX} ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
 chmod 0400 ${RC_CONF} ${CUSTOM_CONF} ${CUSTOM_CONF_DIR}/config_*.inc.php
+
+# Update message size limit.
+${CMD_SED} "s#\(.*max_message_size.*\)=.*#\1 = '${MESSAGE_SIZE_LIMIT_IN_MB}M';#g" ${RC_CONF}
 
 # Create log directory and file.
 create_log_dir /var/log/roundcube
