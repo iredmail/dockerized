@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-[sogo-iredmail]
+[sogo]
 enabled     = true
 filter      = sogo-auth
 logpath     = /var/log/sogo/sogo.log tail

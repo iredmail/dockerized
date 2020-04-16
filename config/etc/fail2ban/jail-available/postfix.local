@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-[postfix-iredmail]
+[postfix]
 enabled     = true
 filter      = postfix.iredmail
 logpath     = /var/log/mail.log tail

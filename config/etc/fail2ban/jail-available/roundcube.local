@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-[roundcube-iredmail]
+[roundcube]
 enabled     = true
 filter      = roundcube.iredmail
 logpath     = /var/log/roundcube/roundcube.log tail

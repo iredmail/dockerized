@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Author: Zhang Huangbin <zhb@iredmail.org>
 # Puprpose:
-#   - Store banned IP address in SQL db while it's banned.
-#   - Remove unbanned IP address from SQL db while it's unbanned.
+#   - Store banned IP address in SQL db while it's banned by Fail2ban.
+#   - Remove unbanned IP address from SQL db while it's unbanned by Fail2ban.
 #   - Unban IP addresses which have column `remove=1`.
 
 #
@@ -152,7 +152,8 @@ EOF
         # fail2ban-client returns number of processed rows on command line,
         # let's discard it to avoid noise/confusion.
         fail2ban-client set ${jail} unbanip ${ip} >/dev/null
-        [[ X"$?" == X'0' ]] && echo "Unbanned ${ip} from jail [${jail}]."
+
+        #[[ X"$?" == X'0' ]] && echo "Unbanned ${ip} from jail [${jail}]."
     done < ${tmp_file}
     rm -f ${tmp_file} &>/dev/null
 fi

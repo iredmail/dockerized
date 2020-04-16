@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-[dovecot-iredmail]
+[dovecot]
 enabled = true
 filter  = dovecot.iredmail
 logpath = /var/log/dovecot/*.log tail

@@ -22,7 +22,7 @@ PKGS_IREDADMIN="python2 py-pip libc-dev gcc linux-headers python2-dev"
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="python2 py-pip libc-dev gcc linux-headers python2-dev"
 PKGS_FAIL2BAN="fail2ban"
-PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
+PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
 PIP_MODULES="uwsgi==2.0.18 PyMySQL==0.9.3 web.py==0.51 sqlalchemy==1.3.16 dnspython==1.16.0 requests==2.23.0 Jinja2==2.11.1"
