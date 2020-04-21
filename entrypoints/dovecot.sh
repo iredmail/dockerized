@@ -70,9 +70,9 @@ done
 
 touch ${CUSTOM_GLOBAL_SIEVE_FILE}
 
-touch /etc/dovecot/dovecot-master-users
-chown ${SYS_USER_DOVECOT}:${SYS_GROUP_DOVECOT} /etc/dovecot/dovecot-master-users
-chmod 0400 /etc/dovecot/dovecot-master-users
+touch /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
+chown ${SYS_USER_DOVECOT}:${SYS_GROUP_DOVECOT} /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
+chmod 0400 /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
 
 # Set proper owner/group and permissions.
 chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve
