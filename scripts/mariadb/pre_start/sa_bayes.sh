@@ -10,8 +10,8 @@
 
 PRE_START_SCRIPT_DIR="/docker/mariadb/pre_start"
 
-DB_NAME="amavisd"
-DB_USER="amavisd"
+DB_NAME="sa_bayes"
+DB_USER="sa_bayes"
 
 cmd_mysql="mysql -u root"
 cmd_mysql_db="mysql -u root ${DB_NAME}"
@@ -22,16 +22,15 @@ if [[ X"${USE_ANTISPAM}" == X"YES" ]] || [[ X"${USE_IREDAPD}}" == X'YES' ]]; the
     if [[ X"$?" != X'0' ]]; then
         LOG "+ Create database ${DB_NAME}."
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        ${cmd_mysql_db} < amavisd.mysql
     fi
 
-    create_sql_user ${DB_USER} ${AMAVISD_DB_PASSWORD}
-    ${cmd_mysql} -e "GRANT SELECT,INSERT,UPDATE,DELETE ON ${DB_NAME}.* TO '${DB_USER}'@'%'; FLUSH PRIVILEGES;"
-
-    # Default global spam policy.
-    ${cmd_mysql_db} -e "SELECT id FROM policy WHERE policy_name='@.' LIMIT 1" | grep 'id' &>/dev/null
+    # Make sure sql tables have been created.
+    ${cmd_mysql_db} -e "SHOW TABLES" |grep "bayes_vars" &>/dev/null
     if [[ X"$?" != X'0' ]]; then
-        LOG "+ Create default spam policy."
-        ${cmd_mysql_db} < default_spam_policy.mysql
+        LOG "+ Import sa_bayes.mysql"
+        ${cmd_mysql_db} < sa_bayes.mysql
     fi
+
+    create_sql_user ${DB_USER} ${SA_BAYES_DB_PASSWORD}
+    ${cmd_mysql} -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%'; FLUSH PRIVILEGES;"
 fi

@@ -1,0 +1,199 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# These two lines will not affect due to Amavisd use its
+# own variables setting in /etc/amavisd/amavisd.conf.
+#required_score      5.0
+#rewrite_header      subject [ SPAM ]
+
+report_safe         0
+lock_method         flock
+
+#
+# Bayesian support
+#
+# References:
+# - http://wiki.apache.org/spamassassin/BayesInSpamAssassin
+# - http://svn.apache.org/repos/asf/spamassassin/branches/3.3/sql/README.bayes
+# Addition plugin for Roundcube webmail to call sa-learn
+# - http://www.tehinterweb.co.uk/roundcube/#pimarkasjunk2
+#
+use_bayes          1
+bayes_auto_learn   1
+bayes_auto_expire  1
+
+# Store bayesian data in MySQL
+bayes_store_module Mail::SpamAssassin::BayesStore::MySQL
+bayes_sql_dsn      DBI:mysql:sa_bayes:PH_SQL_SERVER_ADDRESS:3306
+
+bayes_sql_username sa_bayes
+bayes_sql_password PH_SA_BAYES_DB_PASSWORD
+
+# Override the username used for storing data in the database.
+# This could be used to group users together to share bayesian filter data.
+# You can also use this config option to trick sa-learn to learn data as a
+# specific user.
+#
+# In iRedMail, SpamAssassin is called by Amavisd, so it's better to learn as
+# amavisd daemon user.
+bayes_sql_override_username amavis
+
+# For SpamAssassin-3.2.x. Reference:
+# http://spamassassin.apache.org/full/3.2.x/doc/Mail_SpamAssassin_Plugin_SPF.html
+#do_not_use_mail_spf 0
+#do_not_use_mail_spf_query   1
+#ignore_received_spf_header  1
+
+# Trusted networks. Examples:
+#   192.168/16            # all in 192.168.*.*
+#   212.17.35.15          # just that host
+#   !10.0.1.5 10.0.1/24   # all in 10.0.1.* but not 10.0.1.5
+#   DEAD:BEEF::/32        # all in that ipv6 prefix
+# Local host (127.0.0.1) will automatically be trusted implicitly.
+#trusted_networks 192.168/16
+
+# Whitelist from SPF.
+#whitelist_from_spf joe@example.com fred@example.com
+#whitelist_from_spf *@example.com
+
+# Whitelist from DKIM.
+loadplugin Mail::SpamAssassin::Plugin::DKIM
+whitelist_from_dkim *@paypal.com
+whitelist_from_dkim *@linkedin.com
+whitelist_from_dkim *@twitter.com
+whitelist_from_dkim *@bounce.twitter.com
+
+# Whitelist domains.
+# Reference: http://wiki.apache.org/spamassassin/ManualWhitelist
+#whitelist_from         *@gmail.com
+
+# Locales.
+ok_locales          all
+
+# Some sample custom file rules. Refer to SpamAssassin wiki site for more
+# details: http://wiki.apache.org/spamassassin/WritingRules
+#
+# Filter Headers.
+# -- Subject
+#header LOCAL_DEMONSTRATION_SUBJECT      Subject =~ /\btest\b/i
+#score LOCAL_DEMONSTRATION_SUBJECT       0.1
+# -- From
+#header LOCAL_DEMONSTRATION_FROM From =~ /test\.com/i
+#score LOCAL_DEMONSTRATION_FROM  0.1
+# -- Look at all the headers and match if any of them contain the specified regex:
+#header LOCAL_DEMONSTRATION_ALL  ALL =~ /test\.com/i
+#score LOCAL_DEMONSTRATION_ALL   0.1
+#
+# Filter mail body.
+#body LOCAL_DEMONSTRATION_RULE /test/
+#score LOCAL_DEMONSTRATION_RULE 0.1
+#describe LOCAL_DEMONSTRATION_RULE This is a simple test rule
+
+# Decrease score for authenticated senders.
+# IMPORTANT NOTES:
+#
+#   1) Please replace 'your\.server\.com' by the value of Postfix parameter
+#      "myhostname".
+#   2) Please set 'smtpd_sasl_authenticated_header = yes' in Postfix main.cf.
+#
+#header AUTHENTICATED_SENDER Received =~ /Authenticated\ sender\:.*by\ your\.server\.com/
+#describe AUTHENTICATED_SENDER Header 'Received:' contains 'Authenticated sender:'
+#score AUTHENTICATED_SENDER -3
+
+# Checks if domain name of an envelope sender address matches the domain name
+# of the first untrusted relay (if any), or any trusted relay otherwise.
+# https://wiki.apache.org/spamassassin/Rules/RP_MATCHES_RCVD
+#score RP_MATCHES_RCVD 0
+
+razor_config /etc/mail/spamassassin/razor.conf
+
+#
+# Adjust spam scores.
+#
+score ALL_TRUSTED 0.1
+
+#
+# Spamhaus
+#
+score URIBL_DBL_SPAM 10
+score URIBL_DBL_PHISH 10
+score URIBL_DBL_MALWARE 10
+score URIBL_DBL_BOTNETCC 3
+# Contains an abused spamvertized URL listed in the Spamhaus DBL blocklist
+score URIBL_DBL_ABUSE_SPAM 10
+score URIBL_DBL_ABUSE_REDIR 3
+score URIBL_DBL_ABUSE_PHISH 5
+score URIBL_DBL_ABUSE_MALW 5
+score URIBL_DBL_ABUSE_BOTCC 3
+score URIBL_DBL_ERROR 0
+# Contains an URL's NS IP listed in the Spamhaus SBL blocklist
+score URIBL_SBL 10
+# Contains URL's A record listed in the Spamhaus SBL blocklist
+score URIBL_SBL_A 10
+
+# multi.surbl.org
+score URIBL_WS_SURBL 10
+score URIBL_PH_SURBL 10
+score URIBL_MW_SURBL 10
+score URIBL_CR_SURBL 10
+score URIBL_SC_SURBL 10
+score URIBL_OB_SURBL 10
+score URIBL_AB_SURBL 10
+score URIBL_JP_SURBL 10
+score URIBL_ABUSE_SURBL 5
+score SURBL_BLOCKED 0
+
+# multi.urlbl.com
+score URIBL_BLACK 10
+#score URIBL_GREY 3
+#score URIBL_RED 0
+score URIBL_BLOCKED 0
+
+# DNSBL
+score RCVD_IN_SBL 10
+score RCVD_IN_SBL_CSS 10
+score RCVD_IN_XBL 10
+score RCVD_IN_PBL 10
+
+score RCVD_IN_BL_SPAMCOP_NET 5
+score RCVD_IN_PSBL 5
+score RCVD_IN_RP_RNBL 5
+
+# SPF
+# sender does not match SPF record (fail)
+score SPF_FAIL 5
+
+# To == From and direct-to-MX
+score TO_EQ_FM_DIRECT_MX 5
+# To domain == From domain and HTML image link
+score TO_EQ_FM_DOM_HTML_IMG 5
+# To domain == From domain and HTML only
+score TO_EQ_FM_DOM_HTML_ONLY 5
+# To domain == From domain and external SPF failed
+score TO_EQ_FM_DOM_SPF_FAIL 5
+# To == From and HTML only
+score TO_EQ_FM_HTML_ONLY 5
+# To == From and external SPF failed
+score TO_EQ_FM_SPF_FAIL 5
+
+# Malformed From address
+score FROM_ADDR_WS 5
+
+# From: has too many raw illegal characters
+score SUBJ_ILLEGAL_CHARS 5
+
+# Custom scores
+header CUSTOM_SPAM_SUBJ Subject =~ /\b(sex|sexgal|penis|viagra|drug|drugshop)\b/i
+score CUSTOM_SPAM_SUBJ 20
+
+#
+# Store your new custom settings or override existing settings in file below.
+#
+include /opt/iredmail/custom/spamassassin/custom.cf
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#

@@ -60,6 +60,9 @@ run_entrypoint ${ENTRYPOINTS_DIR}/postfix.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/mlmmj.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/mlmmjadmin.sh
 
+# Update all placeholders in /root/iRedMail/iRedMail.tips.
+. ${ENTRYPOINTS_DIR}/tip_file.sh
+
 # Applications controlled by supervisor.
 # Program name must be the name of modular config files without '.conf'.
 SUP_SERVICES="cron rsyslog mariadb dovecot postfix mlmmjadmin"

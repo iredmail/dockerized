@@ -1,2 +1,11 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Do not modify `ignoreip` in this file to add whitelisted IP or networks,
+# please add or modify `ignoreip` parameter in /opt/iredmail/custom/fail2ban/jail.local
+# and update there.
+
 [DEFAULT]
 ignoreip = 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 192.168.1.1 172.0.0.0/8 172.16.0.0/12  192.168.1.2 192.168.0.0/24 

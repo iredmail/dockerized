@@ -14,7 +14,7 @@ DB_NAME="iredapd"
 DB_USER="iredapd"
 
 cmd_mysql="mysql -u root"
-cmd_mysql_iredapd="mysql -u root ${DB_NAME}"
+cmd_mysql_db="mysql -u root ${DB_NAME}"
 cd ${PRE_START_SCRIPT_DIR}
 
 if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
@@ -22,16 +22,16 @@ if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
     if [[ X"$?" != X'0' ]]; then
         LOG "+ Create database ${DB_NAME}."
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        ${cmd_mysql_iredapd} < /opt/iredapd/SQL/iredapd.mysql
+        ${cmd_mysql_db} < /opt/iredapd/SQL/iredapd.mysql
     fi
 
     create_sql_user ${DB_USER} ${IREDAPD_DB_PASSWORD}
     ${cmd_mysql} -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%'; FLUSH PRIVILEGES;"
 
     # Default greylisting setting.
-    ${cmd_mysql_iredapd} -e "SELECT id FROM greylisting WHERE account='@.' LIMIT 1" | grep 'id' &>/dev/null
+    ${cmd_mysql_db} -e "SELECT id FROM greylisting WHERE account='@.' LIMIT 1" | grep 'id' &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         LOG "+ Enable greylisting."
-        ${cmd_mysql_iredapd} < /opt/iredapd/SQL/enable_global_greylisting.sql
+        ${cmd_mysql_db} < /opt/iredapd/SQL/enable_global_greylisting.sql
     fi
 fi

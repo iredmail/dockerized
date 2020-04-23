@@ -62,7 +62,7 @@ full email address.
 
 ## SSL cert (self-signed)
 
-* Key length: 2048
+* Key length: 4096
 * Cert file: /opt/iredmail/ssl/cert.pem
 * Key file: /opt/iredmail/ssl/key.pem
 * Full chain: /opt/iredmail/ssl/combined.pem
@@ -137,8 +137,13 @@ full email address.
 ## SpamAssassin
 
 * Config files:
-    - /etc/mail/spamassassin/
-    - /etc/mail/spamassassin/local.cf
+    - /etc/mail/spamassassin/local.cf (Do not modify this file)
+    - /opt/iredmail/custom/spamassassin/custom.cf
+
+* SQL Database:
+    - name: sa_bayes
+    - user: sa_bayes
+    - password: PH_SA_BAYES_DB_PASSWORD
 
 ## OpenDMARC
 

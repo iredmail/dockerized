@@ -19,13 +19,19 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     DB_USER="roundcube"
 
     cmd_mysql="mysql -u root"
-    cmd_mysql_rc="mysql -u root ${DB_NAME}"
+    cmd_mysql_db="mysql -u root ${DB_NAME}"
     cd ${PRE_START_SCRIPT_DIR}
 
     ${cmd_mysql} -e "SHOW DATABASES" |grep "${DB_NAME}" &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        ${cmd_mysql_rc} < /opt/www/roundcubemail/SQL/mysql.initial.sql
+    fi
+
+    # Make sure sql tables have been created.
+    ${cmd_mysql_db} -e "SHOW TABLES" |grep "system" &>/dev/null
+    if [[ X"$?" != X'0' ]]; then
+        LOG "+ Import /opt/www/roundcubemail/SQL/mysql.initial.sql"
+        ${cmd_mysql_db} < /opt/www/roundcubemail/SQL/mysql.initial.sql
     fi
 
     create_sql_user ${DB_USER} ${ROUNDCUBE_DB_PASSWORD}

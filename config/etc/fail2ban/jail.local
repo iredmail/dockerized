@@ -12,7 +12,8 @@
 #
 
 [INCLUDES]
-# Do not modify file ignoreip.local
+# Do not modify file /etc/fail2ban/ignoreip.local to add whitelisted IP
+# or networks, modify /opt/iredmail/custom/fail2ban/jail.local instead.
 before = ignoreip.local
 
 # This file is used for customization.

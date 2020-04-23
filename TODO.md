@@ -5,7 +5,6 @@
     - [ ] set time zone.
 
 - [ ] iRedMail.tips
-    - Replace all placeholders (`PH_*`)
     - Send to `postmaster@`?
 
 - [ ] Roundcube

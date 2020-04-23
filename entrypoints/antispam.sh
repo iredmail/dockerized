@@ -8,48 +8,64 @@
 
 . /docker/entrypoints/functions.sh
 
-CONF="/etc/amavisd.conf"
-SPOOL_DIR="/var/spool/amavisd"
-TEMP_DIR="/var/spool/amavisd/tmp"
-QUARANTINE_DIR="/var/spool/amavisd/quarantine"
-DB_DIR="/var/spool/amavisd/db"
-VAR_DIR="/var/spool/amavisd/var"
+AMAVISD_CONF="/etc/amavisd.conf"
+AMAVISD_CUSTOM_CONF_DIR="/opt/iredmail/custom/amavisd"
 
-DKIM_DIR="/opt/iredmail/custom/amavisd/dkim"
-DKIM_KEY="${DKIM_DIR}/${FIRST_MAIL_DOMAIN}.pem"
+AMAVISD_SPOOL_DIR="/var/spool/amavisd"
+AMAVISD_TEMP_DIR="/var/spool/amavisd/tmp"
+AMAVISD_QUARANTINE_DIR="/var/spool/amavisd/quarantine"
+AMAVISD_DB_DIR="/var/spool/amavisd/db"
+AMAVISD_VAR_DIR="/var/spool/amavisd/var"
 
-CUSTOM_CONF_DIR="/opt/iredmail/custom/amavisd"
+AMAVISD_DKIM_DIR="/opt/iredmail/custom/amavisd/dkim"
+DKIM_KEY="${AMAVISD_DKIM_DIR}/${FIRST_MAIL_DOMAIN}.pem"
+
+# SpamAssassin
+SPAMASSASSIN_CONF_LOCAL="/etc/mail/spamassassin/local.cf"
+SPAMASSASSIN_PLUGIN_RAZOR_CONF="/etc/mail/spamassassin/razor.conf"
+SPAMASSASSIN_CUSTOM_CONF_DIR="/opt/iredmail/custom/spamassassin"
+SPAMASSASSIN_CUSTOM_CONF="/opt/iredmail/custom/spamassassin/custom.cf"
 
 # ClamAV
 CLAMAV_DB_DIR="/var/lib/clamav"
 
-chown ${SYS_USER_ROOT}:${SYS_GROUP_AMAVISD} ${CONF}
+chown ${SYS_USER_ROOT}:${SYS_GROUP_AMAVISD} ${AMAVISD_CONF}
 
-for d in ${SPOOL_DIR} ${TEMP_DIR} ${QUARANTINE_DIR} ${DB_DIR} ${VAR_DIR}; do
-    [[ -d ${d} ]] || install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${d}
+for d in \
+    ${AMAVISD_SPOOL_DIR} \
+    ${AMAVISD_TEMP_DIR} \
+    ${AMAVISD_QUARANTINE_DIR} \
+    ${AMAVISD_DB_DIR} \
+    ${AMAVISD_VAR_DIR}; do
+    install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${d}
 done
 
-[[ -d ${CUSTOM_CONF_DIR} ]] || install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${CUSTOM_CONF_DIR}
+# Amavisd
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${AMAVISD_CUSTOM_CONF_DIR}
+install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${AMAVISD_DKIM_DIR}
+# ClamAV
+install -d -o ${SYS_USER_CLAMAV} -g ${SYS_GROUP_CLAMAV} -m 0755 ${CLAMAV_DB_DIR}
+# SpamAssassin
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${SPAMASSASSIN_CUSTOM_CONF_DIR}
+touch_files ${SYS_USER_AMAVISD} ${SYS_GROUP_AMAVISD} 0640 ${SPAMASSASSIN_CONF_LOCAL} ${SPAMASSASSIN_PLUGIN_RAZOR_CONF} ${SPAMASSASSIN_CUSTOM_CONF}
 
 # Assign clamav daemon user to Amavisd group, so that it has permission to scan message.
 addgroup ${SYS_USER_CLAMAV} ${SYS_GROUP_AMAVISD}
 
 # Generate DKIM key for first mail domain.
-install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${DKIM_DIR}
 [[ -f ${DKIM_KEY} ]] || /usr/sbin/amavisd genrsa ${DKIM_KEY} 1024
-chown ${SYS_USER_AMAVISD}:${SYS_GROUP_AMAVISD} ${DKIM_KEY}
-chmod 0400 ${DKIM_KEY}
-
-# ClamAV
-install -d -o ${SYS_USER_CLAMAV} -g ${SYS_GROUP_CLAMAV} -m 0755 ${CLAMAV_DB_DIR}
+touch_files ${SYS_USER_AMAVISD} ${SYS_GROUP_AMAVISD} 0400 ${DKIM_KEY}
 
 # Update parameters.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
-${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${AMAVISD_CONF}
+${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${AMAVISD_CONF}
 
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
-${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${AMAVISD_CONF} ${SPAMASSASSIN_CONF_LOCAL}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${AMAVISD_CONF} ${SPAMASSASSIN_CONF_LOCAL}
+
+${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${AMAVISD_CONF}
+
+${CMD_SED} "s#PH_SA_BAYES_DB_PASSWORD#${SA_BAYES_DB_PASSWORD}#g" ${SPAMASSASSIN_CONF_LOCAL}
 
 # Run `sa-update` if no rules yet.
 LOG "Run 'sa-update' (required by Amavisd)."

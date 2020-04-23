@@ -7,23 +7,7 @@
 # please do __NOT__ modify it manually.
 #
 
-LOG_FLAG="[iRedMail]"
-
-LOG() {
-    echo -e "\e[32m${LOG_FLAG}\e[0m $@"
-}
-
-LOGN() {
-    echo -ne "\e[32m${LOG_FLAG}\e[0m $@"
-}
-
-LOG_ERROR() {
-    echo -e "\e[31m${LOG_FLAG} ERROR:\e[0m $@" >&2
-}
-
-LOG_WARNING() {
-    echo -e "\e[33m${LOG_FLAG} WARNING:\e[0m $@"
-}
+TIP_FILE='/root/iRedMail/iRedMail.tips'
 
 # System accounts.
 SYS_USER_ROOT="root"
@@ -82,6 +66,23 @@ SYS_GROUP_NGINX="nginx"
 NGINX_CONF_DIR_SITES_CONF_DIR="/etc/nginx/sites-conf.d"
 NGINX_CONF_DIR_TEMPLATES="/etc/nginx/templates"
 
+LOG_FLAG="[iRedMail]"
+LOG() {
+    echo -e "\e[32m${LOG_FLAG}\e[0m $@"
+}
+
+LOGN() {
+    echo -ne "\e[32m${LOG_FLAG}\e[0m $@"
+}
+
+LOG_ERROR() {
+    echo -e "\e[31m${LOG_FLAG} ERROR:\e[0m $@" >&2
+}
+
+LOG_WARNING() {
+    echo -e "\e[33m${LOG_FLAG} WARNING:\e[0m $@"
+}
+
 check_fqdn_hostname() {
     _host="${1}"
 
@@ -112,6 +113,21 @@ run_entrypoint() {
 
     LOG "[Entrypoint] ${_script} ${_opts}"
     . ${_script} ${_opts}
+}
+
+touch_files() {
+    # Usage: touch_files <user> <group> <mode> <file> [<file> <file> ...]
+    _user="${1}"
+    _group="${2}"
+    _mode="${3}"
+    shift 3
+    _files="$@"
+
+    for _f in ${_files}; do
+        touch ${_f}
+        chown ${_user}:${_group} ${_f}
+        chmod ${_mode} ${_f}
+    done
 }
 
 create_sql_user() {
@@ -172,6 +188,19 @@ create_rc_custom_conf() {
 
     chown nginx:nginx ${_conf}
     chmod 0400 ${_conf}
+}
+
+create_rc_symlink_subdir() {
+    # Link all sub-directories under given directory to another one.
+    _src_dir="${1}"
+    _dest_dir="${2}"
+
+    cd ${_src_dir}
+
+    _dirs="$(ls -l | grep '^d' | awk '{print $NF}')"
+    for dir in ${_dirs}; do
+        ln -sf ${_src_dir}/${dir} ${_dest_dir}/${dir}
+    done
 }
 
 #
