@@ -39,7 +39,14 @@ create_rc_custom_conf config_markasjunk.inc.php
 create_rc_custom_conf config_password.inc.php
 
 # Always set correct user/group and permission.
-touch_files ${SYS_USER_NGINX} ${SYS_GROUP_NGINX} 0400 ${ROUNDCUBE_CONF} ${ROUNDCUBE_CUSTOM_CONF} ${ROUNDCUBE_CUSTOM_CONF_DIR}/config_*.inc.php
+touch_files ${SYS_USER_NGINX} ${SYS_GROUP_NGINX} 0440 \
+    ${ROUNDCUBE_CONF} \
+    ${ROUNDCUBE_CUSTOM_CONF} \
+    ${ROUNDCUBE_CUSTOM_CONF_DIR}/config_*.inc.php \
+    /opt/www/roundcubemail/plugins/managesieve/config.inc.php \
+    /opt/www/roundcubemail/plugins/password/config.inc.php \
+    /opt/www/roundcubemail/plugins/markasjunk/config.inc.php \
+
 
 # Update message size limit.
 ${CMD_SED} "s#\(.*max_message_size.*\)=.*#\1 = '${MESSAGE_SIZE_LIMIT_IN_MB}M';#g" ${ROUNDCUBE_CONF}

@@ -37,6 +37,8 @@ if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
 fi
 
+chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+
 install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_CONF_DIR}
 install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
 
@@ -57,7 +59,7 @@ for f in /opt/iredmail/custom/postfix/aliases \
     /opt/iredmail/custom/postfix/sender_bcc \
     /opt/iredmail/custom/postfix/recipient_bcc; do
     touch ${f}
-    chown ${SYS_USER_ROOT}:${SYS_GROUP_ROOT} ${f}
+    chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${f}
     chmod 0640 ${f}
 done
 

@@ -94,7 +94,7 @@ full email address.
     - main config file: /etc/dovecot/dovecot.conf (do not modify it)
     - modular config files: /etc/dovecot/conf-available (do not modify it)
     - ENABLED modular config files: /etc/dovecot/conf-enabled (do not modify it)
-    - global sieve file: /var/vmail/sieve/dovecot.sieve (do not modify it)
+    - global sieve file: /opt/iredmail/custom/dovecot/dovecot.sieve (do not modify it)
     - custom global sieve file: /opt/iredmail/custom/dovecot/dovecot.sieve (feel free to create and modify)
 
 * Settings:

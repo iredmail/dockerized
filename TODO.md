@@ -4,6 +4,7 @@
 - [ ] Add new env variables:
     - [ ] set time zone.
 
+- [ ] Add cron job to run `sa-update` regularly, run `sa-compile` if files were updated..
 - [ ] iRedMail.tips
     - Send to `postmaster@`?
 

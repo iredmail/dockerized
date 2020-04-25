@@ -17,24 +17,25 @@ SSL_CERT_CITY='Domzale'
 SSL_CERT_DEPARTMENT='IT'
 SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
-CONF="/etc/dovecot/dovecot.conf"
-USERDB_CONF="/etc/dovecot/dovecot-mysql.conf"
-CONF_DIR="/etc/dovecot"
-AVAILABLE_CONF_DIR="/etc/dovecot/conf-available"
-ENABLED_CONF_DIR="/etc/dovecot/conf-enabled"
-GLOBAL_SIEVE_FILE="/var/vmail/sieve/dovecot.sieve"
+DOVECOT_CONF="/etc/dovecot/dovecot.conf"
+DOVECOT_USERDB_CONF="/etc/dovecot/dovecot-mysql.conf"
+DOVECOT_CONF_DIR="/etc/dovecot"
+DOVECOT_AVAILABLE_CONF_DIR="/etc/dovecot/conf-available"
+DOVECOT_ENABLED_CONF_DIR="/etc/dovecot/conf-enabled"
+DOVECOT_CONF_MASTER_USERS="/etc/dovecot/dovecot-master-users"
 
 # Custom config files.
-CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
-CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
-CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
+DOVECOT_CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
+DOVECOT_CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
+DOVECOT_CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
+DOVECOT_CUSTOM_CONF_MASTER_USER="/opt/iredmail/custom/dovecot/master-users"
 
 # Create required directories
 for d in ${MAILBOXES_DIR} \
     ${SSL_CERT_DIR} \
-    ${CUSTOM_CONF_DIR} \
-    ${CUSTOM_ENABLED_CONF_DIR} \
-    ${ENABLED_CONF_DIR}; do
+    ${DOVECOT_CUSTOM_CONF_DIR} \
+    ${DOVECOT_CUSTOM_ENABLED_CONF_DIR} \
+    ${DOVECOT_ENABLED_CONF_DIR}; do
     [[ -d ${d} ]] || mkdir -p ${d}
 done
 
@@ -65,31 +66,40 @@ chmod 0700 ${MAILBOXES_DIR}
 
 # Enable some modular config files.
 for f in service-imap-hibernate.conf stats.conf; do
-    ln -s ${AVAILABLE_CONF_DIR}/${f} ${ENABLED_CONF_DIR}/${f}
+    ln -s ${DOVECOT_AVAILABLE_CONF_DIR}/${f} ${DOVECOT_ENABLED_CONF_DIR}/${f}
 done
 
-touch ${CUSTOM_GLOBAL_SIEVE_FILE}
+# Must be readable by `vmail` user which runs Dovecot LDA as Postfix transport.
+touch_files ${SYS_USER_ROOT} ${SYS_GROUP_ROOT} 0644 ${DOVECOT_CONF}
+touch_files ${SYS_USER_DOVECOT} ${SYS_GROUP_DOVECOT} 0640 \
+    ${DOVECOT_USERDB_CONF} \
+    /etc/dovecot/dovecot-used-quota.conf \
+    /etc/dovecot/dovecot-last-login.conf \
+    /etc/dovecot/dovecot-share-folder.conf \
+    /etc/dovecot/dovecot-master-users \
+    ${DOVECOT_CONF_MASTER_USERS} \
+    ${DOVECOT_CUSTOM_CONF_MASTER_USERS} \
 
-touch /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
-chown ${SYS_USER_DOVECOT}:${SYS_GROUP_DOVECOT} /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
-chmod 0400 /etc/dovecot/dovecot-master-users /opt/iredmail/custom/dovecot/master-users
+touch_files ${SYS_USER_VMAIL} ${SYS_GROUP_VMAIL} 0700 ${DOVECOT_CUSTOM_GLOBAL_SIEVE_FILE}
 
 # Set proper owner/group and permissions.
-chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve
+chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} \
+    /usr/local/bin/scan_reported_mails \
+    /usr/local/bin/imapsieve
 chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh
 
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${USERDB_CONF}
-${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" ${USERDB_CONF} ${CONF_DIR}/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
+${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${DOVECOT_USERDB_CONF}
+${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
 
 #LOG "Running Dovecot..."
 #if [[ X"$1" == X'--background' ]]; then
 #    shift 1
-#    dovecot -c ${CONF}
+#    dovecot -c ${DOVECOT_CONF}
 #else
-#    dovecot -c ${CONF} -F
+#    dovecot -c ${DOVECOT_CONF} -F
 #fi

@@ -65,11 +65,24 @@ $config['markasjunk_email_attach'] = true;
 $config['markasjunk_email_subject'] = 'learn this message as %t';
 $config['markasjunk_sauserprefs_config'] = '../sauserprefs/config.inc.php';
 $config['markasjunk_amacube_config'] = '../amacube/config.inc.php';
+
 $config['markasjunk_spam_patterns'] = array(
     'patterns'     => array(),
     'replacements' => array()
 );
+
 $config['markasjunk_ham_patterns'] = array(
     'patterns'     => array(),
     'replacements' => array()
 );
+
+// Load extra config file.
+require_once "/opt/iredmail/custom/roundcube/config_markasjunk.inc.php";
+
+//
+// This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+// please do __NOT__ modify it manually.
+//
+
+// Please add your custom settings in file "/opt/iredmail/custom/roundcube/config_markasjunk.inc.php"
+// WARNING: First line of "/opt/iredmail/custom/roundcube/config_markasjunk.inc.php" must be '<?php'.

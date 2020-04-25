@@ -187,7 +187,7 @@ create_rc_custom_conf() {
     fi
 
     chown nginx:nginx ${_conf}
-    chmod 0400 ${_conf}
+    chmod 0440 ${_conf}
 }
 
 create_rc_symlink_subdir() {
