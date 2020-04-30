@@ -286,13 +286,20 @@ myhostname = PH_HOSTNAME
 myorigin = PH_HOSTNAME
 mydomain = PH_HOSTNAME
 
-# trusted SMTP clients which are allowed to relay mail through Postfix.
+# Trusted SMTP clients which are allowed to relay mail through Postfix.
 #
-# Note: additional IP addresses/networks listed in mynetworks should be listed
-#       in iRedAPD setting 'MYNETWORKS' (in `/opt/iredapd/settings.py`) too.
-#       for example:
+# You may want to whitelist same trusted clients in other applications to avoid
+# access control or spam/virus scanning:
 #
-#       MYNETWORKS = ['xx.xx.xx.xx', 'xx.xx.xx.0/24', ...]
+#   - iRedAPD parameter 'MYNETWORKS' (in `/opt/iredmail/custom/iredapd/settings.py`).
+#     For example:
+#
+#       MYNETWORKS = ['X.X.X.X', 'Y.Y.Y.0/24', ...]
+#
+#   - SpamAssassin, parameter `trusted_networks` (in `/opt/iredmail/custom/spamassassin/custom.cf`).
+#     For example:
+#
+#       trusted_networks X.X.X.X Y.Y.Y.0/24
 #
 mynetworks = 127.0.0.1   192.168.1.1 172.0.0.0/8 172.16.0.0/12
 
