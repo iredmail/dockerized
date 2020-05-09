@@ -1,3 +1,6 @@
+Set Docker env `MAIL_THE_TIP_FILE=NO` to disable sending this file to
+postmaster each time you launch the container.
+
 ###########################################################################
 # iRedMail: https://www.iredmail.org/
 # Version: 2020041601

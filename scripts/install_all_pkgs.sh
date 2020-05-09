@@ -8,7 +8,7 @@
 #
 
 # Required binary packages.
-PKGS_BASE="ca-certificates logrotate rsyslog rsyslog-openrc supervisor"
+PKGS_BASE="ca-certificates logrotate mailx rsyslog rsyslog-openrc supervisor"
 PKGS_MYSQL="mariadb mariadb-client"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php7 php7-bz2 php7-curl php7-dom php7-fileinfo php7-fpm php7-session php7-gd php7-gettext php7-iconv php7-imap php7-intl php7-json php7-mbstring php7-openssl php7-xml php7-zip"
