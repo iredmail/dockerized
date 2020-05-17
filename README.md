@@ -1,6 +1,8 @@
-__WARNING__: THIS IS A BETA EDITION, DO NOT TRY IT IN PRODUCTION.
+__WARNING__: THIS IS A BETA EDITION AND NOT ALWAYS STABLE, DO NOT TRY IT IN PRODUCTION (YET).
 
-Report issues to [iRedMail GitHub repo](https://github.com/iredmail/iRedMail/issues).
+- [GitHub](https://github.com/iredmail/dockerized).
+  Bug report, feedback, patches are always welcome.
+- Dockerized iRedMail follows the [Best Practice of iRedMail Easy platform](https://docs.iredmail.org/iredmail-easy.best.practice.html).
 
 # Quick start
 
