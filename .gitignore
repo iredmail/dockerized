@@ -1,2 +1,6 @@
 iredmail.conf
 data
+deploy.sh
+hosts
+.DS_STORE
+vars.yml
