@@ -192,3 +192,8 @@ your custom value in `iredmail-docker.conf` to override it.
 - 110: POP3 over TLS
 - 995: POP3 over SSL
 - 4190: Managesieve service
+
+# Links
+
+- If you're trying to deploy this docker image with Ansible, user @ricristian
+  already have some code for your reference: <https://github.com/ricristian/ansible-dockerized-iredmail>
