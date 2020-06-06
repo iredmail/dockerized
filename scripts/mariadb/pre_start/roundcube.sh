@@ -49,6 +49,6 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     create_rc_custom_conf config_password.inc.php
 
     # Always update SQL db.
-    cd /opt/www/roundcubemail-1.4.4 && \
+    cd /opt/www/roundcubemail-1.4.5 && \
         ./bin/updatedb.sh --dir=./SQL --package roundcube
 fi

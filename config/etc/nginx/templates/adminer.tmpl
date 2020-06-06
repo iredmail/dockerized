@@ -28,6 +28,10 @@ location ~ ^/adminer$ {
     include /opt/iredmail/custom/nginx/webapps/admine?.conf;
 }
 
+location ~ ^/adminer.css$ {
+    alias /opt/www/adminer/adminer.css;
+}
+
 location = /adminer/ {
     return 301 /adminer;
 }

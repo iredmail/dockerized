@@ -24,7 +24,7 @@ $config['managesieve_host'] = '127.0.0.1';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
 // or none. Optional, defaults to best method supported by server.
-$config['managesieve_auth_type'] = null;
+$config['managesieve_auth_type'] = "LOGIN";
 
 // Optional managesieve authentication identifier to be used as authorization proxy.
 // Authenticate as a different user but act on behalf of the logged in user.

@@ -14,12 +14,14 @@
 #
 #   *) Store a banned IP address:
 #
-#       banned_db ban <ip> <ports> <protocol> <jail>
+#       banned_db ban <ip> <ports> <protocol> <jail> <failures> [loglines]
 #
 #       - <ip>: One IP address each time.
 #       - <ports>: Network ports. Multiple ports must be separated by comma.
 #       - <protocol>: `tcp` or `udp`.
 #       - <jail>: Fail2ban jail name.
+#       - <failures>: number of times the failure occurred in the log file.
+#       - [loglines]: matched log lines. OPTIONAL.
 #
 #   *) Remove an one or multiple unbanned IP addresses. Notes:
 #
@@ -39,7 +41,7 @@
 #
 # Examples:
 #
-#   banned_db ban   192.168.0.1 110,143,993,995 tcp dovecot-iredmail
+#   banned_db ban   192.168.0.1 110,143,993,995 tcp dovecot-iredmail 3
 #   banned_db unban 192.168.0.1
 #   banned_db cleanup dovecot-iredmail
 #   banned_db unban_db
@@ -54,7 +56,7 @@
 #
 # WARNING: the name set in `banned_db[name=]` must be same as the jail name.
 
-export PATH="/usr/bin:/usr/local/bin:/sbin:$PATH"
+export PATH="/usr/bin:/usr/local/bin:$PATH"
 
 export DB_NAME="fail2ban"
 export DB_TABLE="banned"
@@ -65,6 +67,8 @@ export CMD_SQL="mysql --defaults-file=/root/.my.cnf-fail2ban ${DB_NAME}"
 # GeoIP
 export CMD_GEOIPLOOKUP="/usr/bin/geoiplookup"
 export CMD_GEOIPLOOKUP6="/usr/bin/geoiplookup6"
+# `dig`. Used to query reverse hostname.
+export CMD_DIG="/usr/bin/dig"
 
 export _action="$1"
 
@@ -73,6 +77,12 @@ if [[ X"${_action}" == X"ban" ]]; then
     _ports="${3}"
     _protocol="${4}"
     _jail="${5}"
+    _failures="${6}"
+
+    shift 6
+    _rest="$@"
+    # Avoid SQL injection.
+    printf -v _loglines "${_rest}"
 
     if [[ X"${_ip}" == X'' ]] || \
         [[ X"${_ports}" == X'' ]] || \
@@ -84,7 +94,7 @@ if [[ X"${_action}" == X"ban" ]]; then
 
     _hostname="$(hostname)"
 
-    # Lookup for country name.
+    # Lookup country name.
     _country=''
     if echo ${_ip} | grep ':' &>/dev/null; then
         if [[ -x ${CMD_GEOIPLOOKUP6} ]]; then
@@ -96,8 +106,23 @@ if [[ X"${_action}" == X"ban" ]]; then
         fi
     fi
 
+    # Lookup reverse DNS name.
+    _rdns=''
+    if [ -x ${CMD_DIG} ]; then
+        _rdns_orig="$(CMD_DIG} +short +timeout=3 -x ${_ip} 2>/dev/null)"
+        _rdns_strip="${_rdns_orig%\.}"
+        printf -v _rdns "${_rdns_strip}"
+    fi
+
         ${CMD_SQL} <<EOF
-INSERT IGNORE INTO ${DB_TABLE} (ip, ports, protocol, jail, hostname, country) VALUES ('${_ip}', '${_ports}', '${_protocol}', '${_jail}', '${_hostname}', '${_country}');
+INSERT IGNORE INTO ${DB_TABLE} (
+        ip, ports, protocol, jail,
+        hostname, country, rdns, timestamp,
+        failures, loglines)
+    VALUES (
+        '${_ip}', '${_ports}', '${_protocol}', '${_jail}',
+        '${_hostname}', '${_country}', '${_rdns}', UTC_TIMESTAMP(),
+        '${_failures}', '${_loglines}');
 EOF
     
 elif [[ X"${_action}" == X"unban" ]]; then

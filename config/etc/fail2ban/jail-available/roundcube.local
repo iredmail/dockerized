@@ -4,6 +4,8 @@
 #
 
 [roundcube]
+backend = polling
+journalmatch =
 enabled     = true
 filter      = roundcube.iredmail
 logpath     = /var/log/roundcube/roundcube.log tail

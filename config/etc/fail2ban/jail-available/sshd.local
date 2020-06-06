@@ -4,6 +4,8 @@
 #
 
 [sshd]
+backend = polling
+journalmatch =
 enabled     = true
 filter      = sshd
 logpath     = /var/log/messages tail

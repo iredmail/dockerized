@@ -4,6 +4,8 @@
 #
 
 [sogo]
+backend = polling
+journalmatch =
 enabled     = true
 filter      = sogo-auth
 logpath     = /var/log/sogo/sogo.log tail

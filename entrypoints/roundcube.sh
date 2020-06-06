@@ -8,7 +8,7 @@
 
 . /docker/entrypoints/functions.sh
 
-ROUNDCUBE_DOCUMENT_ROOT="/opt/www/roundcubemail-1.4.4"
+ROUNDCUBE_DOCUMENT_ROOT="/opt/www/roundcubemail-1.4.5"
 ROUNDCUBE_DOCUMENT_ROOT_SYMLINK="/opt/www/roundcubemail"
 ROUNDCUBE_CONF="/opt/www/roundcubemail/config/config.inc.php"
 

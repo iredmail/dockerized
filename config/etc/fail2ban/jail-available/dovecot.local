@@ -4,6 +4,8 @@
 #
 
 [dovecot]
+backend = polling
+journalmatch =
 enabled = true
 filter  = dovecot.iredmail
 logpath = /var/log/dovecot/*.log tail
