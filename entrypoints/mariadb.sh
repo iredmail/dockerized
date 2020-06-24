@@ -96,6 +96,7 @@ create_root_user() {
 -- What's done in this file shouldn't be replicated
 -- or products like mysql-fabric won't work
 SET @@SESSION.SQL_LOG_BIN=0;
+UPDATE mysql.proc SET definer = 'root@localhost' WHERE definer='mariadb.sys@localhost';
 DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root', 'mysql') OR host NOT IN ('localhost') ;
 SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
