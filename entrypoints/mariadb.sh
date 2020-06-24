@@ -61,7 +61,6 @@ start_temp_mysql_instance() {
     echo "${_pid}" > /tmp/temp_instance_pid
 
     # Wait until MariaDB instance is started
-    #LOG "Waiting for MariaDB service ..."
     for i in $(seq 30); do
         if mysqladmin --socket="${SOCKET_PATH}" ping &>/dev/null; then
             break
@@ -96,8 +95,8 @@ create_root_user() {
 -- What's done in this file shouldn't be replicated
 -- or products like mysql-fabric won't work
 SET @@SESSION.SQL_LOG_BIN=0;
-UPDATE mysql.proc SET definer = 'root@localhost' WHERE definer='mariadb.sys@localhost';
-DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root', 'mysql') OR host NOT IN ('localhost') ;
+-- UPDATE mysql.proc SET definer = 'root@localhost' WHERE definer='mariadb.sys@localhost';
+-- DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root', 'mysql', 'mariadb.sys') OR host NOT IN ('localhost') ;
 SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
 
