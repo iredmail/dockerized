@@ -27,15 +27,15 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
         ${cmd_mysql} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
     fi
 
+    create_sql_user ${DB_USER} ${ROUNDCUBE_DB_PASSWORD}
+    ${cmd_mysql} -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${ROUNDCUBE_DB_PASSWORD}'; FLUSH PRIVILEGES;"
+
     # Make sure sql tables have been created.
     ${cmd_mysql_db} -e "SHOW TABLES" |grep "system" &>/dev/null
     if [[ X"$?" != X'0' ]]; then
         LOG "+ Import /opt/www/roundcubemail/SQL/mysql.initial.sql"
         ${cmd_mysql_db} < /opt/www/roundcubemail/SQL/mysql.initial.sql
     fi
-
-    create_sql_user ${DB_USER} ${ROUNDCUBE_DB_PASSWORD}
-    ${cmd_mysql} -e "GRANT ALL ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${ROUNDCUBE_DB_PASSWORD}'; FLUSH PRIVILEGES;"
 
     # Update config files.
     ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${RC_CONF}
