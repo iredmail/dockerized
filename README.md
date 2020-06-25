@@ -25,7 +25,7 @@ Create required directories to store application data:
 
 ```
 cd /iredmail
-mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl}
+mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl,postfix_queue}
 ```
 
 Launch the container:
@@ -55,6 +55,7 @@ docker run \
     -v /iredmail/data/mysql:/var/lib/mysql \
     -v /iredmail/data/clamav:/var/lib/clamav \
     -v /iredmail/data/sa_rules:/var/lib/spamassassin \
+    -v /iredmail/data/postfix_queue:/var/spool/postfix \
     iredmail/mariadb:nightly
 ```
 
@@ -65,6 +66,7 @@ time, please be patient.
 - Each time you run the container, few tasks will be ran:
     - Update SpamAssassin rules.
     - Update ClamAV virus signature database.
+- `FIRST_MAIL_DOMAIN_ADMIN_PASSWORD` is only set/reset on first run, not each run.
 - If you're running Docker on Windows and macOS, container will fail to launch
   and you must switch to docker volumes as described below.
 

@@ -28,7 +28,7 @@ DOVECOT_CONF_MASTER_USERS="/etc/dovecot/dovecot-master-users"
 DOVECOT_CUSTOM_CONF_DIR="/opt/iredmail/custom/dovecot"
 DOVECOT_CUSTOM_ENABLED_CONF_DIR="/opt/iredmail/custom/dovecot/conf-enabled"
 DOVECOT_CUSTOM_GLOBAL_SIEVE_FILE="/opt/iredmail/custom/dovecot/dovecot.sieve"
-DOVECOT_CUSTOM_CONF_MASTER_USER="/opt/iredmail/custom/dovecot/master-users"
+DOVECOT_CUSTOM_CONF_MASTER_USERS="/opt/iredmail/custom/dovecot/master-users"
 
 # Create required directories
 for d in ${MAILBOXES_DIR} \
@@ -78,7 +78,7 @@ touch_files ${SYS_USER_DOVECOT} ${SYS_GROUP_DOVECOT} 0640 \
     /etc/dovecot/dovecot-share-folder.conf \
     /etc/dovecot/dovecot-master-users \
     ${DOVECOT_CONF_MASTER_USERS} \
-    ${DOVECOT_CUSTOM_CONF_MASTER_USERS} \
+    ${DOVECOT_CUSTOM_CONF_MASTER_USERS}
 
 touch_files ${SYS_USER_VMAIL} ${SYS_GROUP_VMAIL} 0700 ${DOVECOT_CUSTOM_GLOBAL_SIEVE_FILE}
 
