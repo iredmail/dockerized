@@ -86,7 +86,7 @@ iredapd_db_password = 'PH_IREDAPD_DB_PASSWORD'
 from custom_settings import *
 ############################################################
 
-MYNETWORKS += ['192.168.1.1', '172.0.0.0/8', '172.16.0.0/12', ]
+MYNETWORKS += ['172.0.0.0/8', ]
 
 SQL_DB_DRIVER = 'pymysql'
 
