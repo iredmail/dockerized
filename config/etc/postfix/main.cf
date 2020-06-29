@@ -303,7 +303,7 @@ mydomain = PH_HOSTNAME
 #
 # NOTE: IPv6 address must be put inside "[]", otherwise it will be mistakenly
 #       considered as a "type:table" pattern.
-mynetworks = 127.0.0.1   192.168.1.1 172.0.0.0/8 172.16.0.0/12
+mynetworks = 127.0.0.1  
 
 # Accepted local emails
 mydestination = $myhostname, localhost, localhost.localdomain
