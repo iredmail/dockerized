@@ -75,13 +75,13 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
 chmod -R 0500 /opt/mlmmjadmin-2.1
 
 # Install Roundcube.
-wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.6/roundcubemail-1.4.6-complete.tar.gz && \
-tar zxf roundcubemail-1.4.6-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.4.6-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.4.6 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.4.6 && \
-chmod -R 0755 /opt/www/roundcubemail-1.4.6 && \
-cd /opt/www/roundcubemail-1.4.6 && \
+wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.7/roundcubemail-1.4.7-complete.tar.gz && \
+tar zxf roundcubemail-1.4.7-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.4.7-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.4.7 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.4.7 && \
+chmod -R 0755 /opt/www/roundcubemail-1.4.7 && \
+cd /opt/www/roundcubemail-1.4.7 && \
 chown -R nginx:nginx temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 

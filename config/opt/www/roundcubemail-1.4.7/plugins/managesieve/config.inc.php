@@ -36,7 +36,7 @@ $config['managesieve_auth_pw'] = null;
 
 // use or not TLS for managesieve server connection
 // Note: tls:// prefix in managesieve_host is also supported
-$config['managesieve_usetls'] = true;
+$config['managesieve_usetls'] = false;
 
 // Connection scket context options
 // See http://php.net/manual/en/context.ssl.php

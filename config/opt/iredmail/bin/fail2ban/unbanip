@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
 # Purpose: Unban given IP address(es) from all Fail2ban jails.
 # Author: Zhang Huangbin <zhb@iredmail.org>
 
