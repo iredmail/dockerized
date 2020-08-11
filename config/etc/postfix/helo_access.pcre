@@ -83,28 +83,35 @@
 /(\badsl\b)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 
 # bypass "[IP_ADDRESS]"
-/^\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]$/ DUNNO
+/^\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]$/ OK
 
 # bypass some HELOs which contains IP address
-/^o\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.outbound-mail\.sendgrid\.net$/ DUNNO
-/^\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.mail-(mail|campmail)\.facebook\.com$/ DUNNO
-/^outbound-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.pinterestmail\.com$/ DUNNO
+/^o\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.outbound-mail\.sendgrid\.net$/ OK
+/^\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.mail-(mail|campmail)\.facebook\.com$/ OK
+/^outbound-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.pinterestmail\.com$/ OK
 
 # reject HELO which contains IP address
 /(\d{1,3}[\.-]\d{1,3}[\.-]\d{1,3}[\.-]\d{1,3})/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
-/(\d{1,3}\.ip\.-\d{1,3}-\d{1,3}-\d{1,3}\.eu)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+/(\d{1,3}\.ip\.-\d{1,3}-\d{1,3}-\d{1,3}\.eu)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+
+# nsXX.ip-XX-XX-XX.eu
+# ipXX.ip-XX-XX-XX.eu
+# XX.ip-XX-XX-XX.eu
+/^[(ns|ip)]*\d+\.ip-\d{1,3}-\d{1,3}-\d{1,3}\.eu$/ REJECT Dynamic - Please relay via ISP
+
 /(pppoe)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
-/(dsl\.brasiltelecom\.net\.br)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+/(dsl\.brasiltelecom\.net\.br)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(dsl\.optinet\.hr)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(dsl\.telesp\.net\.br)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(dialup)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(dhcp)/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
-/(static-pool-[\d\.-]*\.flagman\.zp\.ua)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
-
 /(speedy\.com\.ar)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(speedyterra\.com\.br)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(static\.sbb\.rs)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 /(static\.vsnl\.net\.in)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+/\.(static\.quadranet\.com)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+/static-pool-[\d\.-]*\.flagman\.zp\.ua$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
+/^\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}-static\.hfc\.comcastbusiness\.net$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server appears to be on a dynamic IP address that should not be doing direct mail delivery
 
 /(advance\.com\.ar)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
 /(airtelbroadband\.in)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
