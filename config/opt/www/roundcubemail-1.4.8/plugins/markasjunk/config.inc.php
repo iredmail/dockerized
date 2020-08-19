@@ -28,7 +28,7 @@ $config['markasjunk_toolbar'] = true;
 
 // Learn any message moved to the spam mailbox as spam (not just when the button is pressed)
 //
-// Note: iRedMail has Dovecot imapsieve plugin enabled to learn messages moved
+// Note: iRedMail has Dovecot `imapsieve` plugin enabled to learn messages moved
 //       to spam mailbox, this option is unnecessary.
 $config['markasjunk_move_spam'] = false;
 
