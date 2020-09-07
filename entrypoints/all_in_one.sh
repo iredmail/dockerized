@@ -20,13 +20,16 @@ env > ${tmp_env_file}
 params="$(grep '^[0-9a-zA-Z]' ${SETTINGS_CONF} | awk -F'=' '{print $1}')"
 
 # Set random passwords.
-if [ X"${MYSQL_USE_RANDOM_PASSWORDS}" == X'YES' ]; then
-    for param in ${params}; do
-        if echo ${param} | grep -E '(_DB_PASSWORD|^MYSQL_ROOT_PASSWORD|^VMAIL_DB_ADMIN_PASSWORD)$' &>/dev/null; then
+for param in ${params}; do
+    if echo ${param} | grep -E '(_DB_PASSWORD|^MLMMJADMIN_API_TOKEN|^IREDAPD_SRS_SECRET|^ROUNDCUBE_DES_KEY|^MYSQL_ROOT_PASSWORD|^VMAIL_DB_ADMIN_PASSWORD)$' &>/dev/null; then
+        if grep "^${param}\$" ${SETTINGS_CONF} &>/dev/null; then
+            # Replace existing variable to avoid add duplicate line.
+            ${CMD_SED} "s#^\(${param}=\).*#\1$(${RANDOM_PASSWORD})#g" ${SETTINGS_CONF}
+        else
             echo "${param}=$(${RANDOM_PASSWORD})" >> ${SETTINGS_CONF}
         fi
-    done
-fi
+    fi
+done
 
 # If parameter is defined as environment variables, replace it in config file.
 for param in ${params}; do

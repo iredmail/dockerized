@@ -24,10 +24,10 @@ ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${CONF}
-${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
-${CMD_SED} "s#PH_IREDAPD_DB_PASSWORD#${IREDAPD_DB_PASSWORD}#g" ${CONF}
+update_iredapd_setting vmail_db_password ${VMAIL_DB_PASSWORD}
+update_iredapd_setting amavisd_db_password ${AMAVISD_DB_PASSWORD}
+update_iredapd_setting iredapd_db_password ${IREDAPD_DB_PASSWORD}
 
 if [[ X"${IREDAPD_SRS_SECRET}" != X'' ]]; then
-    ${CMD_SED} "s#PH_IREDAPD_SRS_SECRET#${IREDAPD_SRS_SECRET}#g" ${CONF}
+    update_iredapd_setting iredapd_srs_secret ${IREDAPD_SRS_SECRET}
 fi

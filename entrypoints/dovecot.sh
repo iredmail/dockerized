@@ -93,13 +93,6 @@ ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr
 
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${DOVECOT_USERDB_CONF}
-${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
 
-#LOG "Running Dovecot..."
-#if [[ X"$1" == X'--background' ]]; then
-#    shift 1
-#    dovecot -c ${DOVECOT_CONF}
-#else
-#    dovecot -c ${DOVECOT_CONF} -F
-#fi
+${CMD_SED} "s#\(.*user=vmail password=\).*#\1${VMAIL_DB_PASSWORD}#g" ${DOVECOT_USERDB_CONF}
+${CMD_SED} "s#\(.*user=vmailadmin password=\).*#\1${VMAIL_DB_ADMIN_PASSWORD}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf

@@ -38,10 +38,8 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     fi
 
     # Update config files.
-    ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${RC_CONF}
-    ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${RC_CONF}
-    ${CMD_SED} "s#PH_ROUNDCUBE_DB_PASSWORD#${ROUNDCUBE_DB_PASSWORD}#g" ${RC_CONF}
-    ${CMD_SED} "s#PH_ROUNDCUBE_DES_KEY#${ROUNDCUBE_DES_KEY}#g" ${RC_CONF}
+    update_rc_setting db_dsnw "mysqli://${DB_USER}:${ROUNDCUBE_DB_PASSWORD}@${SQL_SERVER_ADDRESS}:${SQL_SERVER_PORT}/${DB_NAME}"
+    update_rc_setting des_key "${ROUNDCUBE_DES_KEY}"
 
     create_rc_custom_conf custom.inc.php
     create_rc_custom_conf config_managesieve.inc.php

@@ -36,32 +36,32 @@ create_log_file ${IREDADMIN_LOG_FILE}
 # Enable modular Nginx config file for `/mail/` url.
 gen_symlink_of_nginx_tmpl default-ssl iredadmin 90-iredadmin
 
-# Update placeholders in config file.
+# Update parameters for initial run.
 ${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
-${CMD_SED} "s#PH_VMAIL_DB_ADMIN_PASSWORD#${VMAIL_DB_ADMIN_PASSWORD}#g" ${CONF}
-${CMD_SED} "s#PH_IREDADMIN_DB_PASSWORD#${IREDADMIN_DB_PASSWORD}#g" ${CONF}
-${CMD_SED} "s#PH_MLMMJADMIN_API_TOKEN#${MLMMJADMIN_API_TOKEN}#g" ${CONF}
+update_iredadmin_setting vmail_db_password ${VMAIL_DB_ADMIN_PASSWORD}
+update_iredadmin_setting iredadmin_db_password ${IREDADMIN_DB_PASSWORD}
+update_iredadmin_setting mlmmjadmin_api_token ${MLMMJADMIN_API_TOKEN}
 
 if [[ X"${USE_ANTISPAM}" == X'YES' ]]; then
-    ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${CONF}
+    update_iredadmin_setting amavisd_db_password ${AMAVISD_DB_PASSWORD}
 else
-    ${CMD_SED} "s#^amavisd_enable_logging = True#amavisd_enable_logging = False#g" ${CONF}
-    ${CMD_SED} "s#^amavisd_enable_quarantine = True#amavisd_enable_quarantine = False#g" ${CONF}
-    ${CMD_SED} "s#^amavisd_enable_policy_lookup = True#amavisd_enable_policy_lookup = False#g" ${CONF}
+    update_iredadmin_setting amavisd_enable_logging False bool
+    update_iredadmin_setting amavisd_enable_quarantine False bool
+    update_iredadmin_setting amavisd_enable_policy_lookup False bool
 fi
 
 if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
-    ${CMD_SED} "s#PH_IREDAPD_DB_PASSWORD#${IREDAPD_DB_PASSWORD}#g" ${CONF}
+    update_iredadmin_setting iredapd_enable_policy_lookup ${IREDAPD_DB_PASSWORD}
 else
-    ${CMD_SED} "s#^iredapd_enabled = True#iredapd_enabled = False#g" ${CONF}
+    update_iredadmin_setting iredapd_enabled False bool
 fi
 
 if [[ X"${FAIL2BAN_STORE_BANNED_IP_IN_DB}" == X'YES' ]]; then
-    ${CMD_SED} "s#PH_FAIL2BAN_DB_PASSWORD#${FAIL2BAN_DB_PASSWORD}#g" ${CONF}
+    update_iredadmin_setting fail2ban_db_password ${FAIL2BAN_DB_PASSWORD}
 else
-    ${CMD_SED} "s#^fail2ban_enabled = True#fail2ban_enabled = False#g" ${CONF}
+    update_iredadmin_setting fail2ban_enabled False bool
 fi

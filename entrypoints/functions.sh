@@ -174,6 +174,24 @@ create_log_file() {
 #
 # Roundcube
 #
+update_rc_setting() {
+    _var="$1"
+    _value="$2"
+
+    # Value type: str, bool.
+    #   - `bool`: no single quotes around the value.
+    # Defaults to `str` if not present.
+    _type="$3"
+
+    _conf="/opt/www/roundcubemail/config/config.inc.php"
+
+    if [ X"${_type}" == X'bool' ]; then
+        ${CMD_SED} "s#^\(.config..${_var}.. =\).*#\1 ${_value};#g" ${_conf}
+    else
+        ${CMD_SED} "s#^\(.config..${_var}.. =\).*#\1 '${_value}';#g" ${_conf}
+    fi
+}
+
 create_rc_custom_conf() {
     # Usage: create_rc_custom_conf <conf-file-name>
     _conf_dir="/opt/iredmail/custom/roundcube"
@@ -228,4 +246,42 @@ gen_symlink_of_nginx_tmpl() {
 enable_fail2ban_jail() {
     _conf="${1}"
     ln -sf /etc/fail2ban/jail-available/${_conf} /etc/fail2ban/jail.d/${_conf}
+}
+
+#
+# iRedAdmin, iRedAPD, mlmmjadmin
+#
+update_py_conf() {
+    # Usage: <config_file> <param> <value> <value_type>
+    _conf="$1"
+    _var="$2"
+    _value="$3"
+
+    # Value type: str, bool, int, list
+    #   - `bool`, `int`: no single quotes around the value.
+    # Defaults to `str` if not present.
+    _type="$4"
+
+    if [ X"${_type}" == X'bool' -o X"${_type}" == X'int' ]; then
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 ${_value}#g" ${_conf}
+    elif [ X"${_type}" == X'list' ]; then
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 ['${_value}']#g" ${_conf}
+    else
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 '${_value}'#g" ${_conf}
+    fi
+}
+
+update_iredadmin_setting() {
+    # Usage: <param> <value> <value_type>
+    update_py_conf /opt/www/iredadmin/settings.py $1 $2 $3
+}
+
+update_iredapd_setting() {
+    # Usage: <param> <value> <value_type>
+    update_py_conf /opt/iredapd/settings.py $1 $2 $3
+}
+
+update_mlmmjadmin_setting() {
+    # Usage: <param> <value> <value_type>
+    update_py_conf /opt/mlmmjadmin/settings.py $1 $2 $3
 }

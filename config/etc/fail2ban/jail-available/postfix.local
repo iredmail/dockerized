@@ -9,5 +9,5 @@ journalmatch =
 enabled     = true
 filter      = postfix.iredmail
 logpath     = /var/log/mail.log tail
-action      = iptables-multiport[name=postfix, port="25,587,465,2525,1025", protocol=tcp]
-              banned_db[name=postfix, port="25,587,465,2525,1025", protocol=tcp]
+action      = iptables-multiport[name=postfix, port="25,587,465,2525", protocol=tcp]
+              banned_db[name=postfix, port="25,587,465,2525", protocol=tcp]

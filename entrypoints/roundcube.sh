@@ -47,9 +47,10 @@ touch_files ${SYS_USER_NGINX} ${SYS_GROUP_NGINX} 0440 \
     /opt/www/roundcubemail/plugins/password/config.inc.php \
     /opt/www/roundcubemail/plugins/markasjunk/config.inc.php \
 
-
-# Update message size limit.
-${CMD_SED} "s#\(.*max_message_size.*\)=.*#\1 = '${MESSAGE_SIZE_LIMIT_IN_MB}M';#g" ${ROUNDCUBE_CONF}
+# Always update SQL password and des_key.
+update_rc_setting db_dsnw "mysqli://${DB_USER}:${ROUNDCUBE_DB_PASSWORD}@${SQL_SERVER_ADDRESS}:${SQL_SERVER_PORT}/${DB_NAME}"
+update_rc_setting des_key "${ROUNDCUBE_DES_KEY}"
+update_rc_setting max_message_size "${MESSAGE_SIZE_LIMIT_IN_MB}M"
 
 # Create log directory and file.
 create_log_dir /var/log/roundcube

@@ -3,7 +3,7 @@ postmaster each time you launch the container.
 
 ###########################################################################
 # iRedMail: https://www.iredmail.org/
-# Version: 2020070701
+# Version: 2020082501
 # Backend: mariadb
 ###########################################################################
 
