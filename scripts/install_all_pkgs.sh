@@ -25,7 +25,7 @@ PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="web.py==0.51"
+PIP_MODULES="web.py==0.61"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"
@@ -49,7 +49,7 @@ apk add --no-cache --progress \
     ${PKGS_ROUNDCUBE}
 
 # Install Python modules.
-/usr/bin/pip2 install \
+/usr/bin/pip3 install \
     --no-cache-dir \
      \
     ${PIP_MODULES}
@@ -58,21 +58,21 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/3.6.tar.gz && \
-tar xzf 3.6.tar.gz -C /opt && \
-rm -f 3.6.tar.gz && \
-ln -s /opt/iRedAPD-3.6 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-3.6 && \
-chmod -R 0500 /opt/iRedAPD-3.6 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/4.4.tar.gz && \
+tar xzf 4.4.tar.gz -C /opt && \
+rm -f 4.4.tar.gz && \
+ln -s /opt/iRedAPD-4.4 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-4.4 && \
+chmod -R 0500 /opt/iRedAPD-4.4 && \
 
 # Install mlmmjadmin.
-wget -c https://github.com/iredmail/mlmmjadmin/archive/2.1.tar.gz && \
-tar zxf 2.1.tar.gz -C /opt && \
-rm -f 2.1.tar.gz && \
-ln -s /opt/mlmmjadmin-2.1 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-2.1 && patch -p1 < /mlmmjadmin-2.1.patch && rm -f /mlmmjadmin-2.1.patch && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
-chmod -R 0500 /opt/mlmmjadmin-2.1
+wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.4.tar.gz && \
+tar zxf 3.0.4.tar.gz -C /opt && \
+rm -f 3.0.4.tar.gz && \
+ln -s /opt/mlmmjadmin-3.0.4 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.0.4 && patch -p1 < /mlmmjadmin-2.1.patch && rm -f /mlmmjadmin-2.1.patch && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.4 && \
+chmod -R 0500 /opt/mlmmjadmin-3.0.4
 
 # Install Roundcube.
 wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.9/roundcubemail-1.4.9-complete.tar.gz && \
@@ -86,10 +86,10 @@ chown -R nginx:nginx temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c https://dl.iredmail.org/yum/misc/iRedAdmin-1.0.tar.bz2 && \
-tar xjf iRedAdmin-1.0.tar.bz2 -C /opt/www && \
-rm -f iRedAdmin-1.0.tar.bz2 && \
-ln -s /opt/www/iRedAdmin-1.0 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.0 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.0
+wget -c https://dl.iredmail.org/yum/misc/iRedAdmin-beta.tar.bz2 && \
+tar xjf iRedAdmin-beta.tar.bz2 -C /opt/www && \
+rm -f iRedAdmin-beta.tar.bz2 && \
+ln -s /opt/www/iRedAdmin-beta /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-beta && \
+chmod -R 0555 /opt/www/iRedAdmin-beta
 

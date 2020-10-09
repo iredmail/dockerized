@@ -8,7 +8,7 @@
 
 . /docker/entrypoints/functions.sh
 
-IREDADMIN_WEB_ROOTDIR="/opt/www/iRedAdmin-1.0"
+IREDADMIN_WEB_ROOTDIR="/opt/www/iRedAdmin-beta"
 IREDADMIN_WEB_ROOTDIR_SYMLINK="/opt/www/iredadmin"
 
 IREDADMIN_LOG_DIR="/var/log/iredadmin"
