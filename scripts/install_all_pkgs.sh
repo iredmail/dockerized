@@ -17,15 +17,15 @@ PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dove
 PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav clamav-libunrar"
-PKGS_IREDAPD="python2 py-pip"
-PKGS_IREDADMIN="python2 py-pip libc-dev gcc linux-headers python2-dev"
+PKGS_IREDAPD="python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools"
+PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces uwsgi uwsgi-python3 uwsgi-syslog"
 PKGS_MLMMJ="mlmmj altermime"
-PKGS_MLMMJADMIN="python2 py-pip libc-dev gcc linux-headers python2-dev"
+PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools uwsgi-python3 uwsgi-syslog"
 PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="uwsgi==2.0.18 PyMySQL==0.9.3 more-itertools==5.0.0 web.py==0.51 sqlalchemy==1.3.19 dnspython==1.16.0 requests==2.23.0 Jinja2==2.11.2"
+PIP_MODULES="web.py==0.51"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"
@@ -75,13 +75,13 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-2.1 && \
 chmod -R 0500 /opt/mlmmjadmin-2.1
 
 # Install Roundcube.
-wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.8/roundcubemail-1.4.8-complete.tar.gz && \
-tar zxf roundcubemail-1.4.8-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.4.8-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.4.8 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.4.8 && \
-chmod -R 0755 /opt/www/roundcubemail-1.4.8 && \
-cd /opt/www/roundcubemail-1.4.8 && \
+wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.9/roundcubemail-1.4.9-complete.tar.gz && \
+tar zxf roundcubemail-1.4.9-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.4.9-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.4.9 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.4.9 && \
+chmod -R 0755 /opt/www/roundcubemail-1.4.9 && \
+cd /opt/www/roundcubemail-1.4.9 && \
 chown -R nginx:nginx temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
@@ -93,4 +93,3 @@ ln -s /opt/www/iRedAdmin-1.0 /opt/www/iredadmin && \
 chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.0 && \
 chmod -R 0555 /opt/www/iRedAdmin-1.0
 
-apk del gcc python2-dev pkgconf libc-dev linux-headers

@@ -2,7 +2,7 @@
 #   - Copy amavisd + spamassassin config files.
 #   - Create SQL db and tables for SpamAssassin.
 
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 10024 10026 9998 10027 3310
 
