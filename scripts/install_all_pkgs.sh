@@ -18,7 +18,7 @@ PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrz
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav clamav-libunrar"
 PKGS_IREDAPD="python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools"
-PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces uwsgi uwsgi-python3 uwsgi-syslog"
+PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces py3-simplejson uwsgi uwsgi-python3 uwsgi-syslog"
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools uwsgi-python3 uwsgi-syslog"
 PKGS_FAIL2BAN="fail2ban"
@@ -58,12 +58,12 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/4.4.tar.gz && \
-tar xzf 4.4.tar.gz -C /opt && \
-rm -f 4.4.tar.gz && \
-ln -s /opt/iRedAPD-4.4 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-4.4 && \
-chmod -R 0500 /opt/iRedAPD-4.4 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/4.5.tar.gz && \
+tar xzf 4.5.tar.gz -C /opt && \
+rm -f 4.5.tar.gz && \
+ln -s /opt/iRedAPD-4.5 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-4.5 && \
+chmod -R 0500 /opt/iRedAPD-4.5 && \
 
 # Install mlmmjadmin.
 wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.4.tar.gz && \
