@@ -8,6 +8,8 @@ POSTFIX_CONF_MAIN_CF="/etc/postfix/main.cf"
 POSTFIX_CONF_MASTER_CF="/etc/postfix/master.cf"
 POSTFIX_SPOOL_DIR="/var/spool/postfix"
 POSTFIX_CUSTOM_CONF_DIR="/opt/iredmail/custom/postfix"
+POSTFIX_CUSTOM_CONF_MAIN_CF="/opt/iredmail/custom/postfix/main.cf"
+POSTFIX_CUSTOM_CONF_MASTER_CF="/opt/iredmail/custom/postfix/master.cf"
 POSTFIX_CUSTOM_DISCLAIMER_DIR="/opt/iredmail/custom/postfix/disclaimer"
 
 POSTFIX_LOG_FILE="/var/log/mail.log"
@@ -134,3 +136,16 @@ ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
 ${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+
+# Use custom main.cf/master.cf
+if [ -f ${POSTFIX_CUSTOM_CONF_MAIN_CF} ]; then
+    LOG "Found and use custom config file: ${POSTFIX_CUSTOM_CONF_MAIN_CF}."
+    mv ${POSTFIX_CONF_MAIN_CF}{,.bak}
+    ln -sf ${POSTFIX_CUSTOM_CONF_MAIN_CF} ${POSTFIX_CONF_MAIN_CF}
+fi
+
+if [ -f ${POSTFIX_CUSTOM_CONF_MASTER_CF} ]; then
+    LOG "Found and use custom config file: ${POSTFIX_CUSTOM_CONF_MASTER_CF}."
+    mv ${POSTFIX_CONF_MASTER_CF}{,.bak}
+    ln -sf ${POSTFIX_CUSTOM_CONF_MASTER_CF} ${POSTFIX_CONF_MASTER_CF}
+fi

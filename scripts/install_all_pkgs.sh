@@ -58,12 +58,12 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/4.5.tar.gz && \
-tar xzf 4.5.tar.gz -C /opt && \
-rm -f 4.5.tar.gz && \
-ln -s /opt/iRedAPD-4.5 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-4.5 && \
-chmod -R 0500 /opt/iRedAPD-4.5 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/4.6.tar.gz && \
+tar xzf 4.6.tar.gz -C /opt && \
+rm -f 4.6.tar.gz && \
+ln -s /opt/iRedAPD-4.6 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-4.6 && \
+chmod -R 0500 /opt/iRedAPD-4.6 && \
 
 # Install mlmmjadmin.
 wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.4.tar.gz && \
@@ -86,10 +86,10 @@ chown -R nginx:nginx temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c https://dl.iredmail.org/yum/misc/iRedAdmin-beta.tar.bz2 && \
-tar xjf iRedAdmin-beta.tar.bz2 -C /opt/www && \
-rm -f iRedAdmin-beta.tar.bz2 && \
-ln -s /opt/www/iRedAdmin-beta /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-beta && \
-chmod -R 0555 /opt/www/iRedAdmin-beta
+wget -c https://github.com/iredmail/iRedAdmin/archive/1.2.tar.gz && \
+tar xjf 1.2.tar.gz -C /opt/www && \
+rm -f 1.2.tar.gz && \
+ln -s /opt/www/iRedAdmin-1.2 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.2 && \
+chmod -R 0555 /opt/www/iRedAdmin-1.2
 

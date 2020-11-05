@@ -1353,7 +1353,7 @@
 /^host(-[12]?[0-9]{1,2}){4}\.cpe\.syzefxis\.ote\.gr$/ REJECT Generic - Please relay via ISP (ote.gr)
 /^athedsl-[0-9]{3,9}\.home\.otenet\.gr$/ REJECT Generic - Please relay via ISP (otenet.gr)
 /^([12]?[0-9]{1,2}\.){4}otvk\.pl$/ REJECT Generic - Please relay via ISP (otvk.pl)
-/^ns[0-9]{4,7}\.ovh\.net$/ REJECT Generic - Please relay via ISP (ovh.net)
+#/^ns[0-9]{4,7}\.ovh\.net$/ REJECT Generic - Please relay via ISP (ovh.net)
 /^(adsl|ppp)(-[12]?[0-9]{1,2}){4}\.dsl\.[a-z]{2,7}[0-9]{0,3}\.pacbell\.net$/ REJECT Generic - Please relay via ISP (pacbell.net)
 /^adsl(-[12]?[0-9]{1,2}){4}\.dsl\.[a-z0-9]{3,8}\.pacbell\.net$/ REJECT Generic - Please relay via ISP (pacbell.net)
 /^a[12]?[0-9]{1,2}-[12]?[0-9]{1,2}\.adsl\.paltel\.net$/ REJECT Generic - Please relay via ISP (paltel.net)

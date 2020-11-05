@@ -1,0 +1,8 @@
+# upcoming stable release
+
+- Based on alpine-3.12.1.
+- Use custom Postfix config files (main.cf/master.cf) it found under
+  /opt/iredmail/custom/postfix/.
+- Updated packages:
+    - iRedAPD-4.6
+    - iRedAdmin-1.2

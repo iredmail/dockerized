@@ -4,7 +4,7 @@
 #
 
 # Run all applications in one container.
-FROM alpine:3.12.0
+FROM alpine:3.12.1
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
