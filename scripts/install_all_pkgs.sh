@@ -87,7 +87,7 @@ chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
 wget -c https://github.com/iredmail/iRedAdmin/archive/1.2.tar.gz && \
-tar xjf 1.2.tar.gz -C /opt/www && \
+tar xzf 1.2.tar.gz -C /opt/www && \
 rm -f 1.2.tar.gz && \
 ln -s /opt/www/iRedAdmin-1.2 /opt/www/iredadmin && \
 chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.2 && \
