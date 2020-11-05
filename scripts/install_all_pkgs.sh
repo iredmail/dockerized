@@ -70,7 +70,7 @@ wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.4.tar.gz && \
 tar zxf 3.0.4.tar.gz -C /opt && \
 rm -f 3.0.4.tar.gz && \
 ln -s /opt/mlmmjadmin-3.0.4 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.0.4 && patch -p1 < /mlmmjadmin-2.1.patch && rm -f /mlmmjadmin-2.1.patch && \
+cd /opt/mlmmjadmin-3.0.4 && \
 chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.4 && \
 chmod -R 0500 /opt/mlmmjadmin-3.0.4
 
