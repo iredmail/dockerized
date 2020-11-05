@@ -87,7 +87,6 @@ from custom_settings import *
 ############################################################
 
 
-SQL_DB_DRIVER = 'pymysql'
 
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,

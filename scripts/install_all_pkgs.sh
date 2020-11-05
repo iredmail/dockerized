@@ -18,9 +18,9 @@ PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrz
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav clamav-libunrar"
 PKGS_IREDAPD="python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools"
-PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces py3-simplejson uwsgi uwsgi-python3 uwsgi-syslog"
+PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces py3-simplejson py3-mysqlclient uwsgi uwsgi-python3 uwsgi-syslog"
 PKGS_MLMMJ="mlmmj altermime"
-PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools uwsgi-python3 uwsgi-syslog"
+PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools py3-mysqlclient uwsgi-python3 uwsgi-syslog"
 PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 

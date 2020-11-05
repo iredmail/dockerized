@@ -43,7 +43,8 @@ fi
 # Always add/reset POSTMASTER_EMAIL as a global admin.
 _admin="postmaster@${FIRST_MAIL_DOMAIN}"
 _pw="${FIRST_MAIL_DOMAIN_ADMIN_PASSWORD}"
-_pw_hash="$(doveadm pw -s SSHA512 -p ${_pw})"
+
+_pw_hash="{CRYPT}$(echo ${_pw} | openssl passwd -6 -stdin)"
 
 ${cmd_mysql_db} -e "SELECT username FROM mailbox WHERE username='${_admin}' LIMIT 1" | grep 'username' &>/dev/null
 if [[ X"$?" != X'0' ]]; then
