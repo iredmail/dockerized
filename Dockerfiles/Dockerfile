@@ -18,11 +18,6 @@ RUN mkdir -p \
         ${MARIADB_PRE_START_SCRIPTS_DIR}
 
 #
-# Add patch files.
-#
-COPY ./patches/mlmmjadmin-2.1.patch /
-
-#
 # Add system accounts and install packages.
 #
 COPY ./scripts/*.sh ${SCRIPTS_DIR}/
