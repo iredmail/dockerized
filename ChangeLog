@@ -6,6 +6,7 @@
 
 - Fixed issues:
   - Incorrect path to uwsgi program.
+  - Missing cyrus-sasl packages required by Postfix.
 
 - Updated packages:
     - iRedAPD-4.6
