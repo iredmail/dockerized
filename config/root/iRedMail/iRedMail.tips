@@ -118,7 +118,7 @@ full email address.
     - user: amavisd
     - password: PH_AMAVISD_DB_PASSWORD
 
-* Concurrently processed mails: 4
+* Concurrently processed mails: 3
 * DKIM keys: /opt/iredmail/custom/amavisd/dkim
 * Run command below to get DKIM keys for DNS record:
 

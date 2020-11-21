@@ -66,13 +66,13 @@ chown -R iredapd:iredapd /opt/iRedAPD-4.6 && \
 chmod -R 0500 /opt/iRedAPD-4.6 && \
 
 # Install mlmmjadmin.
-wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.4.tar.gz && \
-tar zxf 3.0.4.tar.gz -C /opt && \
-rm -f 3.0.4.tar.gz && \
-ln -s /opt/mlmmjadmin-3.0.4 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.0.4 && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.4 && \
-chmod -R 0500 /opt/mlmmjadmin-3.0.4
+wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.5.tar.gz && \
+tar zxf 3.0.5.tar.gz -C /opt && \
+rm -f 3.0.5.tar.gz && \
+ln -s /opt/mlmmjadmin-3.0.5 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.0.5 && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.5 && \
+chmod -R 0500 /opt/mlmmjadmin-3.0.5
 
 # Install Roundcube.
 wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.9/roundcubemail-1.4.9-complete.tar.gz && \

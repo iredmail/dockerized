@@ -1,4 +1,13 @@
-# upcoming stable release
+# Nov 21, 2020
+
+- Add missing script `/usr/bin/mlmmj-amime-receive`. fixes #29
+- Remove SpamAssassin rules: `URIBL_SBL`, `URIBL_SBL_A` due to too many false
+  detections.
+- Update `/opt/iredmail/bin/fail2ban/banned_db` to avoid possible SQL injection.
+- Slightly reduce concurrently processed messages to 3 (was 4). 
+- Upgrade mlmmjadmin to 3.0.5.
+
+# old
 
 - Based on alpine-3.12.1.
 - Use custom Postfix config files (main.cf/master.cf) it found under

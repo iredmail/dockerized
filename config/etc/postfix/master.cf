@@ -79,7 +79,7 @@ mlmmj   unix  -       n       n       -       -       pipe
     flags=ORhu user=mlmmj:mlmmj argv=/usr/bin/mlmmj-amime-receive -L /var/vmail/mlmmj/${nexthop}
 
 # Amavisd integration.
-smtp-amavis unix -  -   n   -   4 smtp
+smtp-amavis unix -  -   n   -   3 smtp
     -o syslog_name=postfix/amavis
     -o smtp_tls_security_level=none
     -o smtpd_tls_security_level=none

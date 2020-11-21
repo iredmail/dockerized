@@ -128,10 +128,6 @@ score URIBL_DBL_ABUSE_PHISH 5
 score URIBL_DBL_ABUSE_MALW 5
 score URIBL_DBL_ABUSE_BOTCC 3
 score URIBL_DBL_ERROR 0
-# Contains an URL's NS IP listed in the Spamhaus SBL blocklist
-score URIBL_SBL 10
-# Contains URL's A record listed in the Spamhaus SBL blocklist
-score URIBL_SBL_A 10
 
 # multi.surbl.org
 score URIBL_WS_SURBL 10

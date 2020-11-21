@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# File name: mlmmj-amime-receive
+# Purpose: Read mail messages from stdin, pipe it to altermime to add footer
+#          in MIME-aware way, then pipe modified message to mlmmj-receive for
+#          final delivery.
+#
+# Requirements:
+#   - altermime: http://www.pldaniels.com/altermime/
+#
+# Authors:
+#   - Original wrote by Gerd v. Egidy <gerd@egidy.de>, MIT License.
+#   - Updated by Zhang Huangbin <zhb@iredmail.org>.
+
+export PATH="/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin:$PATH"
+
+# Command used to log to syslog.
+export LOGGER='logger -t mlmmj-amime-receive -p mail.info'
+export LOGGER_ERROR='logger -t mlmmj-amime-receive -p mail.err'
+
+# All `mlmmj-*` programs must be ran with absolute path to the program.
+if [[ -x /usr/local/bin/mlmmj-receive ]]; then
+    export CMD_MLMMJ_RECEIVE='/usr/local/bin/mlmmj-receive'
+else
+    export CMD_MLMMJ_RECEIVE='/usr/bin/mlmmj-receive'
+fi
+
+if [[ -x /usr/local/bin/altermime ]]; then
+    export CMD_ALTERMIME='/usr/local/bin/altermime'
+else
+    export CMD_ALTERMIME='/usr/bin/altermime'
+fi
+
+# File names used to store footer in different MIME types:
+# plain text, html, base64 encoded.
+# WARNING: both `footer_text` and `footer_html` must exist.
+export FILE_FOOTER_TEXT='footer_text'
+export FILE_FOOTER_HTML='footer_html'
+
+# Make sure programs exist and executable
+if [ ! -x ${CMD_MLMMJ_RECEIVE} ]; then
+    ${LOGGER} "Command ${CMD_MLMMJ_RECEIVE} doesn't exist or not executable, mail delivery aborted"
+    exit 1
+fi
+
+# Get mailing list directory passed to '-L' argument
+ML_DIR=''
+_has_L='NO'
+for i in $@; do
+    if [ X"${_has_L}" == X'NO' ]; then
+        if [ X"$i" == X'-L' ]; then
+            _has_L='YES'
+        fi
+    else
+        ML_DIR="$i"
+        break
+    fi
+done
+
+if [ X"${ML_DIR}" == X'' ]; then
+    ${LOGGER} "No mailing list directory specified (-L /path/to/listdir), mail delivery aborted"
+    exit 1
+fi
+
+if [ ! -d "${ML_DIR}" ]; then
+    ${LOGGER} "Mailing list directory (${ML_DIR}) does not exist or not a directory, mail delivery aborted"
+    exit 1
+fi
+
+# Mailing list sub-directory: control
+ML_SUBDIR_CONTROL="${ML_DIR}/control"
+
+if [ ! -d "${ML_SUBDIR_CONTROL}" ]; then
+    ${LOGGER} "Mailing list control directory (${ML_SUBDIR_CONTROL}) does not exist or not a directory, mail delivery aborted"
+    exit 1
+fi
+
+# Path to footer files
+PATH_FOOTER_TEXT="${ML_SUBDIR_CONTROL}/${FILE_FOOTER_TEXT}"
+PATH_FOOTER_HTML="${ML_SUBDIR_CONTROL}/${FILE_FOOTER_HTML}"
+
+# go to a dir where altermime can write it's tmp-files safely
+cd ${ML_DIR}
+
+if [[ -x ${CMD_ALTERMIME} ]] && [[ -f ${PATH_FOOTER_TEXT} ]] && [[ -f ${PATH_FOOTER_HTML} ]]; then
+    # pipe to altermime for MIME modification, then pipe to mlmmj-receive for final delivery.
+    ${CMD_ALTERMIME} --input=- \
+        --altersigned \
+        --log-syslog \
+        --disclaimer=${PATH_FOOTER_TEXT} \
+        --disclaimer-html=${PATH_FOOTER_HTML} \
+        --htmltoo \
+        --force-for-bad-html | ${CMD_MLMMJ_RECEIVE} "$@"
+
+    if [[ X"$?" == X'0' ]]; then
+        ${LOGGER} "Email sent (with footer)."
+    else
+        ${LOGGER_ERROR} "Email was not successfully sent (with footer)."
+    fi
+else
+    ${CMD_MLMMJ_RECEIVE} "$@"
+
+    if [[ X"$?" == X'0' ]]; then
+        ${LOGGER} "Email sent (without footer)."
+    else
+        ${LOGGER_ERROR} "Email was not successfully sent (without footer)."
+    fi
+fi
