@@ -15,5 +15,7 @@ for d in ${MLMMJ_SPOOL_DIR} ${MLMMJ_ARCHIVE_DIR}; do
     [[ -d ${d} ]] || mkdir -p ${d}
 done
 
+touch_files ${SYS_USER_MLMMJ} ${SYS_GROUP_MLMMJ} 0550 /usr/bin/mlmmj-amime-receive
+
 # Always set correct owner/group and permission of the data directories.
 chown ${SYS_USER_MLMMJ}:${SYS_GROUP_MLMMJ} ${MLMMJ_SPOOL_DIR} ${MLMMJ_ARCHIVE_DIR}
