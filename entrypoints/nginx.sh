@@ -33,7 +33,7 @@ for dir in \
     ${NGINX_CUSTOM_DEFAULT_SITE_CONF_DIR} \
     ${NGINX_CUSTOM_DEFAULT_SSL_SITE_CONF_DIR} \
     ${NGINX_CUSTOM_WEBAPP_CONF_DIR}; do
-    install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${dir}
+    install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${dir}
 done
 
 for site in ${sites}; do

@@ -41,12 +41,12 @@ for d in \
 done
 
 # Amavisd
-install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${AMAVISD_CUSTOM_CONF_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${AMAVISD_CUSTOM_CONF_DIR}
 install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${AMAVISD_DKIM_DIR}
 # ClamAV
 install -d -o ${SYS_USER_CLAMAV} -g ${SYS_GROUP_CLAMAV} -m 0755 ${CLAMAV_DB_DIR}
 # SpamAssassin
-install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${SPAMASSASSIN_CUSTOM_CONF_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${SPAMASSASSIN_CUSTOM_CONF_DIR}
 touch_files ${SYS_USER_AMAVISD} ${SYS_GROUP_AMAVISD} 0640 ${SPAMASSASSIN_CONF_LOCAL} ${SPAMASSASSIN_PLUGIN_RAZOR_CONF} ${SPAMASSASSIN_CUSTOM_CONF}
 
 # Assign clamav daemon user to Amavisd group, so that it has permission to scan message.

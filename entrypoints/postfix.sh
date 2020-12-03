@@ -41,8 +41,8 @@ fi
 
 chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
 
-install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_CONF_DIR}
-install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0555 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${POSTFIX_CUSTOM_CONF_DIR}
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
 
 # Create default disclaimer files.
 touch ${POSTFIX_CUSTOM_DISCLAIMER_DIR}/default.txt
@@ -104,7 +104,7 @@ for f in /etc/postfix/transport \
     chmod 0640 ${f}.db
 done
 
-install -d -o ${SYS_USER_POSTFIX} -g ${SYS_GROUP_ROOT} -m 0700 ${POSTFIX_SPOOL_DIR}/etc
+install -d -o ${SYS_USER_POSTFIX} -g ${SYS_GROUP_ROOT} -m 0770 ${POSTFIX_SPOOL_DIR}/etc
 for f in localtime hosts resolv.conf; do
     if [[ -f /etc/${f} ]]; then
         cp -f /etc/${f} ${POSTFIX_SPOOL_DIR}/etc/
