@@ -104,7 +104,7 @@ for f in /etc/postfix/transport \
     chmod 0640 ${f}.db
 done
 
-install -d -o ${SYS_USER_POSTFIX} -g ${SYS_GROUP_ROOT} -m 0770 ${POSTFIX_SPOOL_DIR}/etc
+install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_POSTFIX} -m 0770 ${POSTFIX_SPOOL_DIR}/etc
 for f in localtime hosts resolv.conf; do
     if [[ -f /etc/${f} ]]; then
         cp -f /etc/${f} ${POSTFIX_SPOOL_DIR}/etc/
