@@ -1,4 +1,4 @@
-FROM alpine:3.12.1
+FROM alpine:3.12.3
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
@@ -10,14 +10,14 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     rm -rf ${SCRIPTS_DIR}
 
 RUN apk add --no-cache --progress python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools && \
-    wget -c https://github.com/iredmail/iRedAPD/archive/4.6.tar.gz && \
-    tar xzf 4.6.tar.gz -C /opt && \
-    rm -f 4.6.tar.gz && \
-    ln -sf /opt/iRedAPD-4.6 /opt/iredapd && \
-    /usr/bin/pip3 install --no-cache-dir --no-deps web.py==0.61 && \
+    wget -c https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
+    tar xzf 4.7.tar.gz -C /opt && \
+    rm -f 4.7.tar.gz && \
+    ln -sf /opt/iRedAPD-4.7 /opt/iredapd && \
+    /usr/bin/pip3 install --no-cache-dir --no-deps web.py==0.62 && \
     rm -rf /root/.cache
 
-COPY ./config/opt/iRedAPD-4.6/. /opt/iRedAPD-4.6/
+COPY ./config/opt/iRedAPD-4.7/. /opt/iRedAPD-4.7/
 COPY ./entrypoints/iredapd.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh

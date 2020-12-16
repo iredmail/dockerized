@@ -3,7 +3,7 @@ postmaster each time you launch the container.
 
 ###########################################################################
 # iRedMail: https://www.iredmail.org/
-# Version: 2020082501
+# Version: 2020121101
 # Backend: mariadb
 ###########################################################################
 
@@ -118,7 +118,7 @@ full email address.
     - user: amavisd
     - password: PH_AMAVISD_DB_PASSWORD
 
-* Concurrently processed mails: 3
+* Concurrently processed mails: 1
 * DKIM keys: /opt/iredmail/custom/amavisd/dkim
 * Run command below to get DKIM keys for DNS record:
 
@@ -166,7 +166,7 @@ full email address.
 
 ## iRedAPD - Postfix Policy Server:
 
-* Version: 4.6
+* Version: 4.7
 * Listen address: 0.0.0.0, port: 7777
 * SQL database account:
     - Database name: iredapd

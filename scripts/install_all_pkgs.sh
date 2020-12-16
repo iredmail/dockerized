@@ -25,7 +25,7 @@ PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
 
 # Required Python modules.
-PIP_MODULES="web.py==0.61"
+PIP_MODULES="web.py==0.62"
 
 # Required directories.
 WEB_APP_ROOTDIR="/opt/www"
@@ -58,12 +58,12 @@ apk add --no-cache --progress \
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/4.6.tar.gz && \
-tar xzf 4.6.tar.gz -C /opt && \
-rm -f 4.6.tar.gz && \
-ln -s /opt/iRedAPD-4.6 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-4.6 && \
-chmod -R 0500 /opt/iRedAPD-4.6 && \
+wget -c https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
+tar xzf 4.7.tar.gz -C /opt && \
+rm -f 4.7.tar.gz && \
+ln -s /opt/iRedAPD-4.7 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-4.7 && \
+chmod -R 0500 /opt/iRedAPD-4.7 && \
 
 # Install mlmmjadmin.
 wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.7.tar.gz && \
