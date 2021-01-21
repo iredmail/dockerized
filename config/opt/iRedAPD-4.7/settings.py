@@ -35,7 +35,7 @@ log_level = 'info'
 backend = 'mysql'
 
 # Enabled plugins.
-plugins = ['reject_null_sender', 'reject_sender_login_mismatch', 'greylisting', 'throttle', 'amavisd_wblist', 'sql_alias_access_policy']
+plugins = ['reject_null_sender', 'reject_sender_login_mismatch', 'greylisting', 'throttle', 'amavisd_wblist', 'sql_alias_access_policy', 'sql_ml_access_policy']
 
 # SRS (Sender Rewriting Scheme)
 #

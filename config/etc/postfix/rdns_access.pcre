@@ -1655,6 +1655,7 @@
 /^[12]?[0-9]{1,2}(-[12]?[0-9]{1,2}){3}\.jetstream\.xtra\.co\.nz$/ REJECT Generic - Please relay via ISP (xtra.co.nz)
 /^[12]?[0-9]{1,2}(-[12]?[0-9]{1,2}){3}\.yaknet\.ca$/ REJECT Generic - Please relay via ISP (yaknet.ca)
 /^[12]?[0-9]{1,2}(-[12]?[0-9]{1,2}){3}\.clients\.your-server\.de$/ REJECT Generic - Please relay via ISP (your-server.de)
+/^static\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.clients\.your-server\.de$/ REJECT Generic - Please relay via ISP (your-server.de)
 /^([12]?[0-9]{1,2}-){4}wimax\.bb\.zain\.com$/ REJECT Generic - Please relay via ISP (zain.com)
 /^adsl-.*\.zebra\.lt$/ REJECT Generic - Please relay via ISP (zebra.lt)
 /\.(dsl|ip|static)\.zebra\.lt$/ REJECT Generic - Please relay via ISP (zebra.lt)
