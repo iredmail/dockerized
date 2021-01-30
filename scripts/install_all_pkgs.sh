@@ -12,7 +12,7 @@ PKGS_BASE="ca-certificates coreutils logrotate mailx rsyslog rsyslog-openrc supe
 PKGS_MYSQL="mariadb mariadb-client"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php7 php7-bz2 php7-curl php7-dom php7-fileinfo php7-fpm php7-session php7-gd php7-gettext php7-iconv php7-imap php7-intl php7-json php7-mbstring php7-openssl php7-xml php7-zip"
-PKGS_POSTFIX="postfix postfix-pcre cyrus-sasl cyrus-sasl-login cyrus-sasl-plain postfix-mysql"
+PKGS_POSTFIX="postfix postfix-pcre cyrus-sasl cyrus-sasl-login postfix-mysql"
 PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql"
 PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
 PKGS_SPAMASSASSIN="spamassassin"
@@ -23,6 +23,22 @@ PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools py3-mysqlclient uwsgi-python3 uwsgi-syslog"
 PKGS_FAIL2BAN="fail2ban"
 PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
+PKGS_ALL="
+    ${PKGS_BASE}
+    ${PKGS_MYSQL}
+    ${PKGS_NGINX}
+    ${PKGS_PHP_FPM}
+    ${PKGS_POSTFIX}
+    ${PKGS_DOVECOT}
+    ${PKGS_AMAVISD}
+    ${PKGS_SPAMASSASSIN}
+    ${PKGS_CLAMAV}
+    ${PKGS_IREDAPD}
+    ${PKGS_IREDADMIN}
+    ${PKGS_MLMMJ}
+    ${PKGS_MLMMJADMIN}
+    ${PKGS_FAIL2BAN}
+    ${PKGS_ROUNDCUBE}"
 
 # Required Python modules.
 PIP_MODULES="web.py==0.62"
@@ -31,22 +47,8 @@ PIP_MODULES="web.py==0.62"
 WEB_APP_ROOTDIR="/opt/www"
 
 # Install packages.
-apk add --no-cache --progress \
-    ${PKGS_BASE} \
-    ${PKGS_MYSQL} \
-    ${PKGS_NGINX} \
-    ${PKGS_PHP_FPM} \
-    ${PKGS_POSTFIX} \
-    ${PKGS_DOVECOT} \
-    ${PKGS_AMAVISD} \
-    ${PKGS_SPAMASSASSIN} \
-    ${PKGS_CLAMAV} \
-    ${PKGS_IREDAPD} \
-    ${PKGS_IREDADMIN} \
-    ${PKGS_MLMMJ} \
-    ${PKGS_MLMMJADMIN} \
-    ${PKGS_FAIL2BAN} \
-    ${PKGS_ROUNDCUBE}
+echo "Install packages: ${PKGS_ALL}"
+apk add --no-cache --progress ${PKGS_ALL}
 
 # Install Python modules.
 /usr/bin/pip3 install \
