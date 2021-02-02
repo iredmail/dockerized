@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE yes
 
-ARG SOGO_MIRROR_SITE=http://192.168.0.100/mirrors/SOGo/nightly/4/ubuntu/
+ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/4/ubuntu/
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 
 # Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the
@@ -25,12 +25,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 		mariadb-client \
 		cron \
         gnupg2 \
-        && perl -pi -e \
-        's#http://archive.ubuntu.com/ubuntu/#[trusted=yes] https://mirrors.cloud.tencent.com/ubuntu/#g' \
-        /etc/apt/sources.list \
-    && perl -pi -e \
-        's#http://security.ubuntu.com/ubuntu/#[trusted=yes] https://mirrors.cloud.tencent.com/ubuntu/#g' \
-        /etc/apt/sources.list \
         && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
 	&& echo "deb ${SOGO_MIRROR_SITE} bionic bionic" > /etc/apt/sources.list.d/sogo-nightly.list \
 	&& apt-get update \

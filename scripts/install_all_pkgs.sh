@@ -58,7 +58,7 @@ apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommen
 # Install Python modules.
 /usr/bin/pip3 install \
     --no-cache-dir \
-    -i http://192.168.0.100/mirrors/pypi/ --trusted-host 192.168.0.100 \
+     \
     ${PIP_MODULES}
 
 apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
@@ -67,24 +67,24 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q http://192.168.0.100/mirrors/misc/iRedAPD-4.7.tar.gz && \
-tar xzf iRedAPD-4.7.tar.gz -C /opt && \
-rm -f iRedAPD-4.7.tar.gz && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
+tar xzf 4.7.tar.gz -C /opt && \
+rm -f 4.7.tar.gz && \
 ln -s /opt/iRedAPD-4.7 /opt/iredapd && \
 chown -R iredapd:iredapd /opt/iRedAPD-4.7 && \
 chmod -R 0500 /opt/iRedAPD-4.7 && \
 
 # Install mlmmjadmin.
-wget -c -q http://192.168.0.100/mirrors/misc/mlmmjadmin-3.0.7.tar.gz && \
-tar zxf mlmmjadmin-3.0.7.tar.gz -C /opt && \
-rm -f mlmmjadmin-3.0.7.tar.gz && \
+wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.0.7.tar.gz && \
+tar zxf 3.0.7.tar.gz -C /opt && \
+rm -f 3.0.7.tar.gz && \
 ln -s /opt/mlmmjadmin-3.0.7 /opt/mlmmjadmin && \
 cd /opt/mlmmjadmin-3.0.7 && \
 chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.7 && \
 chmod -R 0500 /opt/mlmmjadmin-3.0.7
 
 # Install Roundcube.
-wget -c -q http://192.168.0.100/mirrors/misc/roundcubemail-1.4.10-complete.tar.gz && \
+wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.10/roundcubemail-1.4.10-complete.tar.gz && \
 tar zxf roundcubemail-1.4.10-complete.tar.gz -C /opt/www && \
 rm -f roundcubemail-1.4.10-complete.tar.gz && \
 ln -s /opt/www/roundcubemail-1.4.10 /opt/www/roundcubemail && \
@@ -95,9 +95,9 @@ chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q http://192.168.0.100/mirrors/misc/iRedAdmin-1.2.tar.gz && \
-tar xzf iRedAdmin-1.2.tar.gz -C /opt/www && \
-rm -f iRedAdmin-1.2.tar.gz && \
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.2.tar.gz && \
+tar xzf 1.2.tar.gz -C /opt/www && \
+rm -f 1.2.tar.gz && \
 ln -s /opt/www/iRedAdmin-1.2 /opt/www/iredadmin && \
 chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.2 && \
 chmod -R 0555 /opt/www/iRedAdmin-1.2

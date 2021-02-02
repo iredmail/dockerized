@@ -21,8 +21,6 @@ RUN mkdir -p \
 # Add system accounts and install packages.
 #
 COPY ./scripts/*.sh ${SCRIPTS_DIR}/
-RUN sed -i -e "s#http://archive.ubuntu.com/ubuntu#http://192.168.0.100/mirrors/ubuntu#g" /etc/apt/sources.list
-RUN sed -i -e "s#http://security.ubuntu.com/ubuntu#http://192.168.0.100/mirrors/ubuntu#g" /etc/apt/sources.list
 
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
     /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
