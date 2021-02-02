@@ -13,6 +13,6 @@
     sharedscripts
 
     postrotate
-        /etc/init.d/rsyslog --ifstarted reload >/dev/null
+        /usr/lib/rsyslog/rsyslog-rotate
     endscript
 }

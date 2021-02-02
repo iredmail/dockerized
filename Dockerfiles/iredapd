@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 7777 7778 7779
 
@@ -9,10 +9,11 @@ COPY ./scripts/add_user_iredapd.sh ${SCRIPTS_DIR}/
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-RUN apk add --no-cache --progress python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools && \
-    wget -c https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
-    tar xzf 4.7.tar.gz -C /opt && \
-    rm -f 4.7.tar.gz && \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends python3-sqlalchemy python3-dnspython python3-pymysql python3-ldap python3-psycopg2 python3-more-itertools && \
+    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/* && \
+    wget -c http://192.168.0.100/mirrors/misc/iRedAPD-4.7.tar.gz && \
+    tar xzf iRedAPD-4.7.tar.gz -C /opt && \
+    rm -f iRedAPD-4.7.tar.gz && \
     ln -sf /opt/iRedAPD-4.7 /opt/iredapd && \
     /usr/bin/pip3 install --no-cache-dir --no-deps web.py==0.62 && \
     rm -rf /root/.cache

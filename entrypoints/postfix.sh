@@ -80,7 +80,7 @@ for u in ${SYS_USER_AMAVISD} \
     ${SYS_USER_SOGO} \
     ${SYS_USER_SYSLOG} \
     ${SYS_USER_BIND} \
-    ldap postgres prosody \
+    openldap postgres prosody \
     ${SYS_USER_VMAIL}; do
     if ! grep "^${u}:" /etc/postfix/aliases &>/dev/null; then
         echo "${u}: root" >> /etc/postfix/aliases

@@ -6,5 +6,9 @@
 # please do __NOT__ modify it manually.
 #
 
-addgroup -g 2003 mlmmj
-adduser -D -H -u 2003 -G mlmmj -s /sbin/nologin mlmmj
+groupadd --gid 2003 mlmmj
+useradd \
+    --uid 2003 \
+    --gid mlmmj \
+    --shell /sbin/nologin \
+    mlmmj

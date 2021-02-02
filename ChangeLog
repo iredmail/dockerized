@@ -1,3 +1,7 @@
+# Feb 2, 2021
+
+- Switch from Alpine to Ubuntu-20.04 (focal).
+
 # Nov 21, 2020
 
 - Add missing script `/usr/bin/mlmmj-amime-receive`.

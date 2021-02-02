@@ -84,12 +84,12 @@ touch_files ${SYS_USER_VMAIL} ${SYS_GROUP_VMAIL} 0700 ${DOVECOT_CUSTOM_GLOBAL_SI
 
 # Set proper owner/group and permissions.
 chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} \
-    /usr/local/bin/scan_reported_mails \
-    /usr/local/bin/imapsieve
-chmod 0550 /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/*
+    /opt/iredmail/bin/dovecot/scan_reported_mails \
+    /opt/iredmail/bin/dovecot/sieve
+chmod 0550 /opt/iredmail/bin/dovecot/scan_reported_mails /opt/iredmail/bin/dovecot/sieve/*
 
 # Update parameters.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /usr/local/bin/scan_reported_mails /usr/local/bin/imapsieve/imapsieve_copy /usr/local/bin/imapsieve/quota_warning.sh
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /opt/iredmail/bin/dovecot/scan_reported_mails /opt/iredmail/bin/dovecot/sieve/imapsieve_copy /opt/iredmail/bin/dovecot/quota_warning.sh
 
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf

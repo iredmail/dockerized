@@ -6,5 +6,9 @@
 # please do __NOT__ modify it manually.
 #
 
-addgroup -g 2000 vmail
-adduser -D -H -u 2000 -G vmail -s /sbin/nologin vmail
+groupadd --gid 2000 vmail
+useradd \
+    --uid 2000 \
+    --gid vmail \
+    --shell /sbin/nologin \
+    vmail

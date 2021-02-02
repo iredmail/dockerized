@@ -57,6 +57,7 @@
 #
 # WARNING: the name set in `banned_db[name=]` must be same as the jail name.
 
+export LC_ALL=C
 export PATH="/usr/bin:/usr/local/bin:$PATH"
 
 export DB_NAME="fail2ban"

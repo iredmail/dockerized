@@ -77,7 +77,7 @@ start_temp_mysql_instance() {
 }
 
 stop_temp_mysql_instance() {
-    # Stop the temporary mysql instance
+    LOG "Stopping the temporary mysql instance."
     _pid="$(cat /tmp/temp_instance_pid)"
 
     if ! kill -s TERM "${_pid}" || ! wait "${_pid}"; then
@@ -86,6 +86,7 @@ stop_temp_mysql_instance() {
     fi
 
     rm -f /tmp/temp_instance_pid
+    LOG "Stopped the temporary mysql instance."
 }
 
 create_root_user() {

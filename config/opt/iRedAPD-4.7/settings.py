@@ -41,7 +41,7 @@ plugins = ['reject_null_sender', 'reject_sender_login_mismatch', 'greylisting', 
 #
 # Rewrite address will be 'xxx@<srs_domain>', so please make sure `srs_domain`
 # is a resolvable mail domain name and pointed to your server.
-srs_domain = 'PH_HOSTNAME'
+srs_domain = 'localhost'
 
 # The secret key(s) used to generate cryptographic hash.
 # The first secret key is used for generating AND verifying hash in SRS
@@ -87,6 +87,7 @@ from custom_settings import *
 ############################################################
 
 
+SQL_DB_DRIVER = 'pymysql'
 
 #
 # This file is managed by iRedMail Team <support@iredmail.org> with Ansible,

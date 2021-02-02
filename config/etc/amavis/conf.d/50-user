@@ -19,7 +19,7 @@ $daemon_user  = 'amavis';    # (no default;  customary: vscan or amavis), -u
 $daemon_group = 'amavis';    # (no default;  customary: vscan or amavis), -g
 
 # Set hostname.
-$myhostname = "PH_HOSTNAME";
+$myhostname = "localhost";
 $mydomain = $myhostname;
 $localhost_name = $myhostname;
 
@@ -37,14 +37,14 @@ $quarantine_subdir_levels = 2;  # add level of subdirs to disperse quarantine
 # $daemon_chroot_dir = $MYHOME;   # chroot directory or undef, -R
 # $helpers_home = "$MYHOME/var";  # working directory for SpamAssassin, -S
 
-$lock_file = "/var/amavis/var/amavisd.lock";  # -L
-$pid_file = "/var/amavis/var/amavisd.pid";   # -P
+$lock_file = "/var/run/amavis/amavisd.lock";  # -L
+$pid_file = "/var/run/amavis/amavisd.pid";   # -P
 
 @local_domains_maps = 1;
 @mynetworks = qw( 127.0.0.0/8 [::1] );
 
 # Socket file, used by amavisd-release or amavis-milter.
-$unix_socketname = "/var/amavis/amavisd.sock";
+$unix_socketname = "/var/run/amavis/amavisd.sock";
 
 #
 # BDB

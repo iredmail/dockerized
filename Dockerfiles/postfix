@@ -4,7 +4,7 @@
 # - connect to iRedAPD
 # - if `USE_ANTISPAM=NO`, don't set smtp port 10027 in mlmmjadmin config file.
 
-FROM alpine:3.13
+FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 25 465 587 7790
 
@@ -14,7 +14,8 @@ COPY ./scripts/add_user_mlmmj.sh ${SCRIPTS_DIR}/
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \
     rm -rf ${SCRIPTS_DIR}
 
-RUN apk add --no-cache --progress postfix postfix-pcre cyrus-sasl cyrus-sasl-login postfix-mysql mlmmj altermime python3 py3-pip py3-requests py3-more-itertools py3-mysqlclient uwsgi-python3 uwsgi-syslog
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends postfix postfix-pcre libsasl2-modules postfix-mysql mlmmj altermime uwsgi uwsgi-plugin-python3 python3-requests python3-pymysql python3-psycopg2 python3-ldap python3-more-itertools && \
+    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 COPY ./config/etc/postfix/. /etc/postfix/
 COPY ./entrypoints/postfix.sh /entrypoint.sh

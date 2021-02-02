@@ -21,6 +21,12 @@ for i in ${enabled_jails}; do
     enable_fail2ban_jail ${i}
 done
 
+# Remove default jail.
+rm -f ${fail2ban_dir_jail_conf_enabled}/defaults-debian.conf
+
+# Create pid/socket directory.
+mkdir -p /run/fail2ban
+
 if [[ -f "/var/log/nginx/error.log" ]]; then
     enable_fail2ban_jail nginx-http-auth.local
 fi

@@ -6,5 +6,9 @@
 # please do __NOT__ modify it manually.
 #
 
-addgroup -g 2001 iredadmin
-adduser -D -H -u 2001 -G iredadmin -s /sbin/nologin iredadmin
+groupadd --gid 2001 iredadmin
+useradd \
+    --uid 2001 \
+    --gid iredadmin \
+    --shell /sbin/nologin \
+    iredadmin

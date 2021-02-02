@@ -7,23 +7,25 @@
 # please do __NOT__ modify it manually.
 #
 
+export DEBIAN_FRONTEND='noninteractive'
+
 # Required binary packages.
-PKGS_BASE="ca-certificates coreutils logrotate mailx rsyslog rsyslog-openrc supervisor"
-PKGS_MYSQL="mariadb mariadb-client"
+PKGS_BASE="apt-transport-https bzip2 cron ca-certificates curl dbus dirmngr gzip openssl python3-apt python3-setuptools rsyslog software-properties-common unzip python3-pymysql python3-psycopg2"
+PKGS_MYSQL="mariadb-server"
 PKGS_NGINX="nginx"
-PKGS_PHP_FPM="php7 php7-bz2 php7-curl php7-dom php7-fileinfo php7-fpm php7-session php7-gd php7-gettext php7-iconv php7-imap php7-intl php7-json php7-mbstring php7-openssl php7-xml php7-zip"
-PKGS_POSTFIX="postfix postfix-pcre cyrus-sasl cyrus-sasl-login postfix-mysql"
-PKGS_DOVECOT="dovecot dovecot-lmtpd dovecot-pop3d dovecot-pigeonhole-plugin dovecot-mysql"
-PKGS_AMAVISD="amavisd-new perl-dbd-mysql unarj gzip bzip2 unrar cpio lzo lha lrzip lz4 p7zip"
+PKGS_PHP_FPM="php-fpm php-cli"
+PKGS_POSTFIX="postfix postfix-pcre libsasl2-modules postfix-mysql"
+PKGS_DOVECOT="dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-managesieved dovecot-sieve dovecot-mysql"
+PKGS_AMAVISD="amavisd-new libcrypt-openssl-rsa-perl libmail-dkim-perl altermime arj nomarch cpio liblz4-tool lzop cabextract p7zip-full rpm libmail-spf-perl unrar-free pax libdbd-mysql-perl"
 PKGS_SPAMASSASSIN="spamassassin"
-PKGS_CLAMAV="clamav clamav-libunrar"
-PKGS_IREDAPD="python3 py3-pip py3-sqlalchemy py3-dnspython py3-mysqlclient py3-more-itertools"
-PKGS_IREDADMIN="python3 py3-pip py3-more-itertools py3-requests py3-jinja2 py3-netifaces py3-simplejson py3-mysqlclient uwsgi uwsgi-python3 uwsgi-syslog"
+PKGS_CLAMAV="clamav-freshclam clamav-daemon"
+PKGS_IREDAPD="python3-sqlalchemy python3-dnspython python3-pymysql python3-ldap python3-psycopg2 python3-more-itertools"
+PKGS_IREDADMIN="python3-jinja2 python3-netifaces python3-bcrypt python3-dnspython python3-simplejson python3-more-itertools"
 PKGS_MLMMJ="mlmmj altermime"
-PKGS_MLMMJADMIN="python3 py3-pip py3-requests py3-more-itertools py3-mysqlclient uwsgi-python3 uwsgi-syslog"
-PKGS_FAIL2BAN="fail2ban"
-PKGS_ROUNDCUBE="php7-mysqli php7-pdo_mysql php7-dom php7-ctype php7-ldap php7-json php7-gd php7-mcrypt php7-curl php7-intl php7-xml php7-mbstring php7-session php7-zip mariadb-client aspell php7-pspell"
-PKGS_ALL="
+PKGS_MLMMJADMIN="uwsgi uwsgi-plugin-python3 python3-requests python3-pymysql python3-psycopg2 python3-ldap python3-more-itertools"
+PKGS_FAIL2BAN="fail2ban bind9-dnsutils"
+PKGS_ROUNDCUBE="php-bz2 php-curl php-gd php-intl php-json php-ldap php-mbstring php-mysql php-pgsql php-pspell php-xml php-zip mcrypt mariadb-client aspell"
+PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less
     ${PKGS_BASE}
     ${PKGS_MYSQL}
     ${PKGS_NGINX}
@@ -41,57 +43,61 @@ PKGS_ALL="
     ${PKGS_ROUNDCUBE}"
 
 # Required Python modules.
-PIP_MODULES="web.py==0.62"
+PIP_MODULES="web.py>=0.62"
 
 # Required directories.
-WEB_APP_ROOTDIR="/opt/www"
+export WEB_APP_ROOTDIR="/opt/www"
 
 # Install packages.
+echo "Install base packages."
+apt-get update && apt-get install -y apt-utils rsyslog
+
 echo "Install packages: ${PKGS_ALL}"
-apk add --no-cache --progress ${PKGS_ALL}
+apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends ${PKGS_ALL}
 
 # Install Python modules.
 /usr/bin/pip3 install \
     --no-cache-dir \
-     \
+    -i http://192.168.0.100/mirrors/pypi/ --trusted-host 192.168.0.100 \
     ${PIP_MODULES}
+
+apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # Create required directories.
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
-tar xzf 4.7.tar.gz -C /opt && \
-rm -f 4.7.tar.gz && \
+wget -c -q http://192.168.0.100/mirrors/misc/iRedAPD-4.7.tar.gz && \
+tar xzf iRedAPD-4.7.tar.gz -C /opt && \
+rm -f iRedAPD-4.7.tar.gz && \
 ln -s /opt/iRedAPD-4.7 /opt/iredapd && \
 chown -R iredapd:iredapd /opt/iRedAPD-4.7 && \
 chmod -R 0500 /opt/iRedAPD-4.7 && \
 
 # Install mlmmjadmin.
-wget -c https://github.com/iredmail/mlmmjadmin/archive/3.0.7.tar.gz && \
-tar zxf 3.0.7.tar.gz -C /opt && \
-rm -f 3.0.7.tar.gz && \
+wget -c -q http://192.168.0.100/mirrors/misc/mlmmjadmin-3.0.7.tar.gz && \
+tar zxf mlmmjadmin-3.0.7.tar.gz -C /opt && \
+rm -f mlmmjadmin-3.0.7.tar.gz && \
 ln -s /opt/mlmmjadmin-3.0.7 /opt/mlmmjadmin && \
 cd /opt/mlmmjadmin-3.0.7 && \
 chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.7 && \
 chmod -R 0500 /opt/mlmmjadmin-3.0.7
 
 # Install Roundcube.
-wget -c https://github.com/roundcube/roundcubemail/releases/download/1.4.10/roundcubemail-1.4.10-complete.tar.gz && \
+wget -c -q http://192.168.0.100/mirrors/misc/roundcubemail-1.4.10-complete.tar.gz && \
 tar zxf roundcubemail-1.4.10-complete.tar.gz -C /opt/www && \
 rm -f roundcubemail-1.4.10-complete.tar.gz && \
 ln -s /opt/www/roundcubemail-1.4.10 /opt/www/roundcubemail && \
 chown -R root:root /opt/www/roundcubemail-1.4.10 && \
 chmod -R 0755 /opt/www/roundcubemail-1.4.10 && \
 cd /opt/www/roundcubemail-1.4.10 && \
-chown -R nginx:nginx temp logs && \
+chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c https://github.com/iredmail/iRedAdmin/archive/1.2.tar.gz && \
-tar xzf 1.2.tar.gz -C /opt/www && \
-rm -f 1.2.tar.gz && \
+wget -c -q http://192.168.0.100/mirrors/misc/iRedAdmin-1.2.tar.gz && \
+tar xzf iRedAdmin-1.2.tar.gz -C /opt/www && \
+rm -f iRedAdmin-1.2.tar.gz && \
 ln -s /opt/www/iRedAdmin-1.2 /opt/www/iredadmin && \
 chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.2 && \
 chmod -R 0555 /opt/www/iRedAdmin-1.2
-

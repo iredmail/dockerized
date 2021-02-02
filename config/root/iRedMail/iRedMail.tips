@@ -17,8 +17,8 @@ Admin and first mail user of domain PH_FIRST_MAIL_DOMAIN:
 You can login to web applications listed below with this account, login name is
 full email address.
 
-    - Roundcube webmail: https://PH_HOSTNAME/mail/
-    - iRedAdmin: https://PH_HOSTNAME/iredadmin/
+    - Roundcube webmail: https://localhost/mail/
+    - iRedAdmin: https://localhost/iredadmin/
 
 ## Mail client application setup:
 
@@ -79,7 +79,7 @@ full email address.
 * Read-only SQL user: vmail, Password: "PH_VMAIL_DB_PASSWORD"
 * Read-write SQL user: vmailadmin, Password: "PH_VMAIL_DB_ADMIN_PASSWORD"
 * Config files:
-    - Main config file (do not touch this file): /etc/my.cnf
+    - Main config file (do not touch this file): /etc/mysql/my.cnf
     - Custom settings should be stored under: /opt/iredmail/custom/mysql/
 
 ## Postfix - MTA
@@ -97,7 +97,7 @@ full email address.
     - main config file: /etc/dovecot/dovecot.conf (do not modify it)
     - modular config files: /etc/dovecot/conf-available (do not modify it)
     - ENABLED modular config files: /etc/dovecot/conf-enabled (do not modify it)
-    - global sieve file: /opt/iredmail/custom/dovecot/dovecot.sieve (do not modify it)
+    - global sieve file: /var/vmail/sieve/dovecot.sieve (do not modify it)
     - custom global sieve file: /opt/iredmail/custom/dovecot/dovecot.sieve (feel free to create and modify)
 
 * Settings:
@@ -111,7 +111,7 @@ full email address.
 
 ## Amavisd-new
 
-* Main config file: /etc/amavisd.conf (do not modify it)
+* Main config file: /etc/amavis/conf.d/50-user (do not modify it)
 * Custom config file: /opt/iredmail/custom/amavisd/amavisd.conf (all custom settings should goes to this file)
 * SQL Database:
     - name: amavisd
@@ -122,7 +122,7 @@ full email address.
 * DKIM keys: /opt/iredmail/custom/amavisd/dkim
 * Run command below to get DKIM keys for DNS record:
 
-    /usr/sbin/amavisd showkeys
+    /usr/sbin/amavisd-new showkeys
 
 ## ClamAV
 
@@ -135,7 +135,7 @@ full email address.
     - ClamAV log file: /var/log/clamav/clamd.log
     - freshclam log file: /var/log/clamav/freshclam.log
     - Syslog config file: /etc/rsyslog.d/1-iredmail-clamav.conf
-    - Logrotate config file: /etc/logrotate.d/clamd
+    - Logrotate config file: /etc/logrotate.d/clamav
 
 ## SpamAssassin
 
@@ -153,7 +153,7 @@ full email address.
 * Config files:
     - Main config file:
         - /etc/opendmarc.conf
-        -/etc/sysconfig/opendmarc (CentOS/Debian/Ubuntu)    - Ignore hosts: /opt/iredmail/custom/opendmarc/ignore.hosts
+        -/etc/default/opendmarc (CentOS/Debian/Ubuntu)    - Ignore hosts: /opt/iredmail/custom/opendmarc/ignore.hosts
 
 * Spool directory: /var/spool/opendmarc
 * History file: /var/spool/opendmarc/opendmarc.dat
@@ -211,12 +211,12 @@ full email address.
 
 ## PHP
 
-* PHP config file: /etc/php7/php.ini
+* PHP config file: /etc/php/7.4/fpm/php.ini
 
 ## PHP-FPM
 
-* Main config file: /etc/php7/php-fpm.conf
-* Default pool config file: /etc/php7/php-fpm.d/www.conf
+* Main config file: /etc/php/7.4/fpm/php-fpm.conf
+* Default pool config file: /etc/php/7.4/fpm/pool.d/www.conf
 * Log files: /var/log/php-fpm
 * Socket path: /var/run/php-fpm.socket
 

@@ -70,7 +70,7 @@ submission inet n       -       n       -       -       smtpd
 
 # Use dovecot's `deliver` program as LDA.
 dovecot unix    -       n       n       -       -      pipe
-    flags=DRh user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${domain} -m ${extension}
+    flags=DRh user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${domain} -m ${extension}
 
 # mlmmj - mailing list manager
 # ${nexthop} is '%d/%u' in transport ('mlmmj:%d/%u')

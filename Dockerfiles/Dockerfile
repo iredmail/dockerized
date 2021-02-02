@@ -4,7 +4,7 @@
 #
 
 # Run all applications in one container.
-FROM alpine:3.13
+FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
@@ -21,6 +21,8 @@ RUN mkdir -p \
 # Add system accounts and install packages.
 #
 COPY ./scripts/*.sh ${SCRIPTS_DIR}/
+RUN sed -i -e "s#http://archive.ubuntu.com/ubuntu#http://192.168.0.100/mirrors/ubuntu#g" /etc/apt/sources.list
+RUN sed -i -e "s#http://security.ubuntu.com/ubuntu#http://192.168.0.100/mirrors/ubuntu#g" /etc/apt/sources.list
 
 RUN /bin/sh ${SCRIPTS_DIR}/add_user_vmail.sh && \
     /bin/sh ${SCRIPTS_DIR}/add_user_mlmmj.sh && \

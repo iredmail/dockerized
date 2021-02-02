@@ -14,8 +14,8 @@ SYS_USER_ROOT="root"
 SYS_GROUP_ROOT="root"
 SYS_USER_SYSLOG="root"
 SYS_GROUP_SYSLOG="root"
-SYS_USER_NGINX="nginx"
-SYS_GROUP_NGINX="nginx"
+SYS_USER_NGINX="www-data"
+SYS_GROUP_NGINX="www-data"
 SYS_USER_VMAIL="vmail"
 SYS_GROUP_VMAIL="vmail"
 SYS_USER_MYSQL="mysql"
@@ -34,10 +34,10 @@ SYS_USER_IREDADMIN="iredadmin"
 SYS_GROUP_IREDADMIN="iredadmin"
 SYS_USER_MLMMJ="mlmmj"
 SYS_GROUP_MLMMJ="mlmmj"
-SYS_USER_BIND="named"
-SYS_GROUP_BIND="named"
-SYS_USER_MEMCACHED="memcached"
-SYS_GROUP_MEMCACHED="memcached"
+SYS_USER_BIND="bind"
+SYS_GROUP_BIND="bind"
+SYS_USER_MEMCACHED="memcache"
+SYS_GROUP_MEMCACHED="memcache"
 SYS_USER_NETDATA="netdata"
 SYS_GROUP_NETDATA="netdata"
 SYS_USER_SOGO="sogo"
@@ -57,8 +57,8 @@ RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null |
 SYS_USER_SYSLOG="root"
 SYS_GROUP_SYSLOG="root"
 # Nginx
-SYS_USER_NGINX="nginx"
-SYS_GROUP_NGINX="nginx"
+SYS_USER_NGINX="www-data"
+SYS_GROUP_NGINX="www-data"
 
 #
 # Nginx
@@ -204,7 +204,7 @@ create_rc_custom_conf() {
         echo '<?php' >> ${_conf}
     fi
 
-    chown nginx:nginx ${_conf}
+    chown www-data:www-data ${_conf}
     chmod 0440 ${_conf}
 }
 
@@ -245,7 +245,12 @@ gen_symlink_of_nginx_tmpl() {
 #
 enable_fail2ban_jail() {
     _conf="${1}"
-    ln -sf /etc/fail2ban/jail-available/${_conf} /etc/fail2ban/jail.d/${_conf}
+    _src="/etc/fail2ban/jail-available/${_conf}"
+    _dest="/etc/fail2ban/jail.d/${_conf}"
+
+    if [[ -f ${_src} ]]; then
+        ln -sf ${_src} ${_dest}
+    fi
 }
 
 #

@@ -13,7 +13,7 @@ export USER="$1"
 export MSG_TYPE="$2"
 
 export OUTPUT_BASE_DIR="/var/vmail/imapsieve_copy"
-export OUTPUT_DIR="${OUTPUT_BASE_DIR}/PH_HOSTNAME/${MSG_TYPE}"
+export OUTPUT_DIR="${OUTPUT_BASE_DIR}/localhost/${MSG_TYPE}"
 export FILE="${OUTPUT_DIR}/${USER}-$(date +%Y%m%d%H%M%S)-${RANDOM}${RANDOM}.eml"
 
 export OWNER="vmail"
