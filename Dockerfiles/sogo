@@ -25,6 +25,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 		mariadb-client \
 		cron \
         gnupg2 \
+        && perl -pi -e \
+        's#http://archive.ubuntu.com/ubuntu/#[trusted=yes] http://archive.ubuntu.com/ubuntu/#g' \
+        /etc/apt/sources.list \
+    && perl -pi -e \
+        's#http://security.ubuntu.com/ubuntu/#[trusted=yes] http://archive.ubuntu.com/ubuntu/#g' \
+        /etc/apt/sources.list \
         && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
 	&& echo "deb ${SOGO_MIRROR_SITE} bionic bionic" > /etc/apt/sources.list.d/sogo-nightly.list \
 	&& apt-get update \

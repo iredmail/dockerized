@@ -12,8 +12,8 @@ TIP_FILE='/root/iRedMail/iRedMail.tips'
 # System accounts.
 SYS_USER_ROOT="root"
 SYS_GROUP_ROOT="root"
-SYS_USER_SYSLOG="root"
-SYS_GROUP_SYSLOG="root"
+SYS_USER_SYSLOG="syslog"
+SYS_GROUP_SYSLOG="adm"
 SYS_USER_NGINX="www-data"
 SYS_GROUP_NGINX="www-data"
 SYS_USER_VMAIL="vmail"
@@ -54,9 +54,6 @@ RANDOM_PASSWORD='eval </dev/urandom tr -dc A-Za-z0-9 | (head -c $1 &>/dev/null |
 #
 # System accounts.
 #
-# syslog
-SYS_USER_SYSLOG="root"
-SYS_GROUP_SYSLOG="root"
 # Nginx
 SYS_USER_NGINX="www-data"
 SYS_GROUP_NGINX="www-data"
