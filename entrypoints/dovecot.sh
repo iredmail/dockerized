@@ -89,13 +89,10 @@ chown -R ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} \
 chmod 0550 /opt/iredmail/bin/dovecot/scan_reported_mails /opt/iredmail/bin/dovecot/sieve/*
 
 # Update parameters.
-${CMD_PERL} "s#PH_HOSTNAME#${HOSTNAME}#g" \
-    /opt/iredmail/bin/dovecot/scan_reported_mails \
-    /opt/iredmail/bin/dovecot/sieve/imapsieve_copy \
-    /opt/iredmail/bin/dovecot/quota_warning.sh
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" /opt/iredmail/bin/dovecot/scan_reported_mails /opt/iredmail/bin/dovecot/sieve/imapsieve_copy /opt/iredmail/bin/dovecot/quota_warning.sh
 
-${CMD_PERL} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
-${CMD_PERL} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
 
-${CMD_PERL} "s#\(.*user=vmail password=\).*#\1${VMAIL_DB_PASSWORD}#g" ${DOVECOT_USERDB_CONF}
-${CMD_PERL} "s#\(.*user=vmailadmin password=\).*#\1${VMAIL_DB_ADMIN_PASSWORD}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf
+${CMD_SED} "s#\(.*user=vmail password=\).*#\1${VMAIL_DB_PASSWORD}#g" ${DOVECOT_USERDB_CONF}
+${CMD_SED} "s#\(.*user=vmailadmin password=\).*#\1${VMAIL_DB_ADMIN_PASSWORD}#g" ${DOVECOT_USERDB_CONF} ${DOVECOT_CONF_DIR}/*.conf

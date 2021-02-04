@@ -24,7 +24,7 @@ for param in ${params}; do
     if echo ${param} | grep -E '(_DB_PASSWORD|^MLMMJADMIN_API_TOKEN|^IREDAPD_SRS_SECRET|^ROUNDCUBE_DES_KEY|^MYSQL_ROOT_PASSWORD|^VMAIL_DB_ADMIN_PASSWORD)$' &>/dev/null; then
         if grep "^${param}=" ${SETTINGS_CONF} &>/dev/null; then
             # Replace existing variable to avoid duplicate lines.
-            ${CMD_PERL} "s#^\(${param}=\).*#\1$(${RANDOM_PASSWORD})#g" ${SETTINGS_CONF}
+            ${CMD_SED} "s#^\(${param}=\).*#\1$(${RANDOM_PASSWORD})#g" ${SETTINGS_CONF}
         else
             echo "${param}=$(${RANDOM_PASSWORD})" >> ${SETTINGS_CONF}
         fi
@@ -38,7 +38,7 @@ for param in ${params}; do
 
     if [ X"${_env_value}" != X'' ]; then
         # Replace in place instead of appending it.
-        ${CMD_PERL} "s#^${param}=.*#${param}=${_env_value}#g" ${SETTINGS_CONF}
+        ${CMD_SED} "s#^${param}=.*#${param}=${_env_value}#g" ${SETTINGS_CONF}
     fi
 done
 rm -f ${tmp_env_file}

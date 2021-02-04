@@ -19,24 +19,24 @@ SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 # Update message size limit.
 _size="$((MESSAGE_SIZE_LIMIT_IN_MB * 1024 * 1024))"
-${CMD_PERL} "s#^mailbox_size_limit.*#mailbox_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
-${CMD_PERL} "s#^message_size_limit.*#message_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
+${CMD_SED} "s#^mailbox_size_limit.*#mailbox_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
+${CMD_SED} "s#^message_size_limit.*#message_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "Disable iRedAPD."
-    ${CMD_PERL} 's#check_policy_service inet:127.0.0.1:7777##' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#check_policy_service inet:127.0.0.1:7777##' ${POSTFIX_CONF_MAIN_CF}
 fi
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]] || [[ X"${POSTFIX_ENABLE_SRS}" == X'NO' ]]; then
     LOG "Disable SRS."
-    ${CMD_PERL} 's#tcp:127.0.0.1:7778##g' ${POSTFIX_CONF_MAIN_CF}
-    ${CMD_PERL} 's#tcp:127.0.0.1:7779##g' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#tcp:127.0.0.1:7778##g' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#tcp:127.0.0.1:7779##g' ${POSTFIX_CONF_MAIN_CF}
 fi
 
 if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
     LOG "Disable antispam."
-    ${CMD_PERL} 's#smtp-amavis:[127.0.0.1]:10024##g' ${POSTFIX_CONF_MAIN_CF}
-    ${CMD_PERL} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
+    ${CMD_SED} 's#smtp-amavis:[127.0.0.1]:10024##g' ${POSTFIX_CONF_MAIN_CF}
+    ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
 fi
 
 chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
@@ -87,7 +87,7 @@ for u in ${SYS_USER_AMAVISD} \
     fi
 done
 
-${CMD_PERL} 's#^root:.*##g' /etc/postfix/aliases
+${CMD_SED} 's#^root:.*##g' /etc/postfix/aliases
 echo "${SYS_USER_ROOT}: ${POSTMASTER_EMAIL}" >> /etc/postfix/aliases
 postalias /etc/postfix/aliases
 postalias /opt/iredmail/custom/postfix/aliases
@@ -130,15 +130,15 @@ if [ X"${POSTFIX_LOG_FILE}" != X'/var/log/maillog' ]; then
     ln -sf ${POSTFIX_LOG_FILE} /var/log/maillog
 fi
 
-# Don't log to different files.
+# Don't log to multiple files.
 ${CMD_PERL} 's/^(mail\.*)/#$1/g' /etc/rsyslog.d/50-default.conf
 
 # Update parameters.
-${CMD_PERL} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
 
-${CMD_PERL} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
-${CMD_PERL} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
-${CMD_PERL} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
 
 # Use custom main.cf/master.cf
 if [ -f ${POSTFIX_CUSTOM_CONF_MAIN_CF} ]; then

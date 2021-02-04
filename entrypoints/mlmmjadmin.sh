@@ -20,8 +20,8 @@ require_non_empty_var VMAIL_DB_ADMIN_PASSWORD ${VMAIL_DB_ADMIN_PASSWORD}
 ln -sf ${CUSTOM_CONF} /opt/mlmmjadmin/custom_settings.py
 
 # Update placeholders in config file.
-${CMD_PERL} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_PERL} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
 update_mlmmjadmin_setting iredmail_sql_db_password ${VMAIL_DB_ADMIN_PASSWORD}
 update_mlmmjadmin_setting api_auth_tokens ${MLMMJADMIN_API_TOKEN}

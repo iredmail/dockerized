@@ -44,6 +44,7 @@ SYS_USER_SOGO="sogo"
 SYS_GROUP_SOGO="sogo"
 
 # Commands.
+CMD_SED="sed -i -e"
 CMD_PERL="perl -pi -e"
 
 # Command used to genrate a random string.
@@ -186,9 +187,9 @@ update_rc_setting() {
     _conf="/opt/www/roundcubemail/config/config.inc.php"
 
     if [ X"${_type}" == X'bool' ]; then
-        ${CMD_PERL} "s#^\(.config..${_var}.. =\).*#\1 ${_value};#g" ${_conf}
+        ${CMD_SED} "s#^\(.config..${_var}.. =\).*#\1 ${_value};#g" ${_conf}
     else
-        ${CMD_PERL} "s#^\(.config..${_var}.. =\).*#\1 '${_value}';#g" ${_conf}
+        ${CMD_SED} "s#^\(.config..${_var}.. =\).*#\1 '${_value}';#g" ${_conf}
     fi
 }
 
@@ -268,11 +269,11 @@ update_py_conf() {
     _type="$4"
 
     if [ X"${_type}" == X'bool' -o X"${_type}" == X'int' ]; then
-        ${CMD_PERL} "s#^\(${_var} =\).*#\1 ${_value}#g" ${_conf}
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 ${_value}#g" ${_conf}
     elif [ X"${_type}" == X'list' ]; then
-        ${CMD_PERL} "s#^\(${_var} =\).*#\1 ['${_value}']#g" ${_conf}
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 ['${_value}']#g" ${_conf}
     else
-        ${CMD_PERL} "s#^\(${_var} =\).*#\1 '${_value}'#g" ${_conf}
+        ${CMD_SED} "s#^\(${_var} =\).*#\1 '${_value}'#g" ${_conf}
     fi
 }
 

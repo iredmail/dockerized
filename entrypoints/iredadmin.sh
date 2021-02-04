@@ -37,10 +37,10 @@ create_log_file ${IREDADMIN_LOG_FILE}
 gen_symlink_of_nginx_tmpl default-ssl iredadmin 90-iredadmin
 
 # Update parameters for initial run.
-${CMD_PERL} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
-${CMD_PERL} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
-${CMD_PERL} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_PERL} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
 update_iredadmin_setting vmail_db_password ${VMAIL_DB_ADMIN_PASSWORD}
 update_iredadmin_setting iredadmin_db_password ${IREDADMIN_DB_PASSWORD}
