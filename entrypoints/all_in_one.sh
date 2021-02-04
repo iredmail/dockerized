@@ -41,6 +41,7 @@ for param in ${params}; do
         ${CMD_SED} "s#^${param}=.*#${param}=${_env_value}#g" ${SETTINGS_CONF}
     fi
 done
+rm -f ${tmp_env_file}
 
 # It now contains both default and custom settings.
 . ${SETTINGS_CONF}
