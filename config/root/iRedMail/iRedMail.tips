@@ -17,8 +17,8 @@ Admin and first mail user of domain PH_FIRST_MAIL_DOMAIN:
 You can login to web applications listed below with this account, login name is
 full email address.
 
-    - Roundcube webmail: https://localhost/mail/
-    - iRedAdmin: https://localhost/iredadmin/
+    - Roundcube webmail: https://PH_HOSTNAME/mail/
+    - iRedAdmin: https://PH_HOSTNAME/iredadmin/
 
 ## Mail client application setup:
 

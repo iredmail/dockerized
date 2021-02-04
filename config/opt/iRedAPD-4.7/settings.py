@@ -41,7 +41,7 @@ plugins = ['reject_null_sender', 'reject_sender_login_mismatch', 'greylisting', 
 #
 # Rewrite address will be 'xxx@<srs_domain>', so please make sure `srs_domain`
 # is a resolvable mail domain name and pointed to your server.
-srs_domain = 'localhost'
+srs_domain = 'PH_HOSTNAME'
 
 # The secret key(s) used to generate cryptographic hash.
 # The first secret key is used for generating AND verifying hash in SRS

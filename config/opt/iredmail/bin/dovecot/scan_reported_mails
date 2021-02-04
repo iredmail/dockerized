@@ -31,7 +31,7 @@ export SA_LEARN="sa-learn -u ${AMAVISD_USER}"
 
 # Spool directory.
 # Must be owned by vmail:vmail.
-export SPOOL_DIR='/var/vmail/imapsieve_copy/localhost'
+export SPOOL_DIR='/var/vmail/imapsieve_copy/PH_HOSTNAME'
 
 # Directories which store spam and ham emails.
 # These 2 should be created while setup Dovecot antispam plugin.

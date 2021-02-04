@@ -2,6 +2,7 @@ __WARNING__: THIS IS A BETA EDITION AND NOT ALWAYS STABLE, DO NOT TRY IT IN PROD
 
 - Source code is hosted on [GitHub](https://github.com/iredmail/dockerized).
   Bug report, feedback, patches are always welcome.
+- Base image is [Ubuntu 20.04 (focal)](https://hub.docker.com/_/ubuntu).
 - Dockerized iRedMail follows the [Best Practice of iRedMail Easy platform](https://docs.iredmail.org/iredmail-easy.best.practice.html).
 - 2 tags are available:
   - `iredmail/mariadb:stable`: Stable version.

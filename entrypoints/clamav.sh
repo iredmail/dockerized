@@ -18,6 +18,11 @@ FRESHCLAM_CONF='/etc/clamav/freshclam.conf'
 # Always set correct user/group and permission.
 chown -R ${SYS_USER_CLAMAV}:${SYS_GROUP_CLAMAV} ${CLAMAV_DB_DIR}
 
+# iRedMail generates logrotate config file for clamav, so we remove the default
+# files to avoid duplicate.
+rm -f /etc/logrotate.d/clamav-daemon
+rm -f /etc/logrotate.d/clamav-freshclam
+
 # If DB files exist, start the clamav daemon.
 _ready_to_start=YES
 

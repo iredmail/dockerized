@@ -282,9 +282,9 @@ virtual_alias_domains =
 
 
 # hostname
-myhostname = localhost
-myorigin = localhost
-mydomain = localhost
+myhostname = PH_HOSTNAME
+myorigin = PH_HOSTNAME
+mydomain = PH_HOSTNAME
 
 # Trusted SMTP clients which are allowed to relay mail through Postfix.
 #

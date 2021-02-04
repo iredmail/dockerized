@@ -19,7 +19,7 @@ $daemon_user  = 'amavis';    # (no default;  customary: vscan or amavis), -u
 $daemon_group = 'amavis';    # (no default;  customary: vscan or amavis), -g
 
 # Set hostname.
-$myhostname = "localhost";
+$myhostname = "PH_HOSTNAME";
 $mydomain = $myhostname;
 $localhost_name = $myhostname;
 
