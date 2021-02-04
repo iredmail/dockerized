@@ -25,7 +25,7 @@ PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="uwsgi uwsgi-plugin-python3 python3-requests python3-pymysql python3-psycopg2 python3-ldap python3-more-itertools"
 PKGS_FAIL2BAN="fail2ban bind9-dnsutils"
 PKGS_ROUNDCUBE="php-bz2 php-curl php-gd php-intl php-json php-ldap php-mbstring php-mysql php-pgsql php-pspell php-xml php-zip mcrypt mariadb-client aspell"
-PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less
+PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less vim-tiny
     ${PKGS_BASE}
     ${PKGS_MYSQL}
     ${PKGS_NGINX}
