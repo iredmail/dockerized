@@ -20,9 +20,9 @@ require_non_empty_var IREDAPD_DB_PASSWORD ${IREDAPD_DB_PASSWORD}
 ln -sf ${CUSTOM_CONF} /opt/iRedAPD-4.7/custom_settings.py
 
 # Update placeholders in config file.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_PERL} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
+${CMD_PERL} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
+${CMD_PERL} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
 
 update_iredapd_setting vmail_db_password ${VMAIL_DB_PASSWORD}
 update_iredapd_setting amavisd_db_password ${AMAVISD_DB_PASSWORD}
