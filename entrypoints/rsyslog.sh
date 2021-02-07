@@ -8,4 +8,5 @@
 
 . /docker/entrypoints/functions.sh
 
+# Disable imklog module.
 ${CMD_PERL} 's/(.*imklog.*)/#${1}/g' /etc/rsyslog.conf

@@ -131,7 +131,9 @@ if [ X"${POSTFIX_LOG_FILE}" != X'/var/log/maillog' ]; then
 fi
 
 # Don't log to multiple files.
-${CMD_PERL} 's/^(mail\.*)/#$1/g' /etc/rsyslog.d/50-default.conf
+${CMD_PERL} 's/^(.*mail\.info)/#$1/g' /etc/rsyslog.d/50-default.conf
+${CMD_PERL} 's/^(.*mail\.warn)/#$1/g' /etc/rsyslog.d/50-default.conf
+${CMD_PERL} 's/^(.*mail\.err)/#$1/g' /etc/rsyslog.d/50-default.conf
 
 # Update parameters.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
