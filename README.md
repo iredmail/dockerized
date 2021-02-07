@@ -71,6 +71,11 @@ time, please be patient.
     - Update SpamAssassin rules.
     - Update ClamAV virus signature database.
 - `FIRST_MAIL_DOMAIN_ADMIN_PASSWORD` is only set/reset on first run, not each run.
+- All SQL passwords are randomly set/reset by default each time you launch or
+  relaunch the container. If you don't like this, please set fixed passwords
+  in `iredmail-docker.conf`, e.g. `MYSQL_ROOT_PASSWORD=<your-password>`.
+- Do not forget to [setup DNS records](https://docs.iredmail.org/setup.dns.html)
+  for your server hostname and email domain names.
 - If you're running Docker on Windows and macOS, container will fail to launch
   and you must switch to docker volumes as described below.
 
@@ -174,6 +179,10 @@ There're many OPTIONAL settings defined in file
 you'd like to change any of them, please write the same parameter name with
 your custom value in `iredmail-docker.conf` to override it.
 
+# Hardware requirements
+
+- At least 4GB RAM is required for a low traffic production mail server.
+
 # Installed softwares
 
 - Postfix: SMTP server.
@@ -185,6 +194,9 @@ your custom value in `iredmail-docker.conf` to override it.
 - Fail2ban: scans log files and bans bad clients.
 - Roundcube: webmail.
 - iRedAdmin: web-based admin panel, open source edition.
+
+You may want to check [this tutorial](https://docs.iredmail.org/network.ports.html)
+to figure out the mapping of softwares and network ports.
 
 # Exposed network ports
 
