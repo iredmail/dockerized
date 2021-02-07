@@ -52,6 +52,12 @@ update_rc_setting db_dsnw "mysqli://${DB_USER}:${ROUNDCUBE_DB_PASSWORD}@${SQL_SE
 update_rc_setting des_key "${ROUNDCUBE_DES_KEY}"
 update_rc_setting max_message_size "${MESSAGE_SIZE_LIMIT_IN_MB}M"
 
+# Update placeholders in config files.
+cd ${ROUNDCUBE_DOCUMENT_ROOT_SYMLINK}/plugins/password/
+${CMD_SED} "s#PH_ROUNDCUBE_DB_PASSWORD#${ROUNDCUBE_DB_PASSWORD}#g" config.inc.php
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" config.inc.php
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" config.inc.php
+
 # Create log directory and file.
 create_log_dir /var/log/roundcube
 create_log_file /var/log/roundcube/roundcube.log

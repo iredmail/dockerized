@@ -49,4 +49,7 @@ if [[ X"${USE_ROUNDCUBE}" == X"YES" ]]; then
     # Always update SQL db.
     cd /opt/www/roundcubemail-1.4.10 && \
         ./bin/updatedb.sh --dir=./SQL --package roundcube
+
+    # Allow user to update password.
+    ${cmd_mysql} -e "GRANT UPDATE,SELECT ON vmail.mailbox TO 'roundcube'@'%' IDENTIFIED BY '${ROUNDCUBE_DB_PASSWORD}'; FLUSH PRIVILEGES;"
 fi

@@ -58,7 +58,7 @@ require_non_empty_var FIRST_MAIL_DOMAIN_ADMIN_PASSWORD ${FIRST_MAIL_DOMAIN_ADMIN
 
 install -d -m 0755 /var/run/supervisord /var/log/supervisor
 
-LOG "Remove leftover pid files from a stop/start."
+LOG "Remove leftover pid files which may cause service fail to start."
 find /run -name "*.pid" | xargs rm -f {}
 
 run_entrypoint ${ENTRYPOINTS_DIR}/rsyslog.sh
