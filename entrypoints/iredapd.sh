@@ -8,21 +8,26 @@
 
 . /docker/entrypoints/functions.sh
 
-CONF="/opt/iredapd/settings.py"
-CUSTOM_CONF_DIR="/opt/iredmail/custom/iredapd"
-CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
+IREDAPD_CONF="/opt/iredapd/settings.py"
+IREDAPD_CUSTOM_CONF_DIR="/opt/iredmail/custom/iredapd"
+IREDAPD_CUSTOM_CONF="/opt/iredmail/custom/iredapd/settings.py"
+IREDAPD_LOG_DIR="/var/log/iredapd"
+IREDAPD_LOG_FILE="/var/log/iredapd/iredapd.log"
 
 require_non_empty_var IREDAPD_DB_PASSWORD ${IREDAPD_DB_PASSWORD}
 
-[[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
-[[ -f ${CUSTOM_CONF} ]] || touch ${CUSTOM_CONF}
+[[ -d ${IREDAPD_CUSTOM_CONF_DIR} ]] || mkdir -p ${IREDAPD_CUSTOM_CONF_DIR}
+[[ -f ${IREDAPD_CUSTOM_CONF} ]] || touch ${IREDAPD_CUSTOM_CONF}
 
-ln -sf ${CUSTOM_CONF} /opt/iRedAPD-4.7/custom_settings.py
+create_log_dir ${IREDAPD_LOG_DIR}
+create_log_file ${IREDAPD_LOG_FILE}
+
+ln -sf ${IREDAPD_CUSTOM_CONF} /opt/iRedAPD-4.7/custom_settings.py
 
 # Update placeholders in config file.
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${IREDAPD_CONF}
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${IREDAPD_CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${IREDAPD_CONF}
 
 update_iredapd_setting vmail_db_password ${VMAIL_DB_PASSWORD}
 update_iredapd_setting amavisd_db_password ${AMAVISD_DB_PASSWORD}

@@ -14,21 +14,21 @@ IREDADMIN_WEB_ROOTDIR_SYMLINK="/opt/www/iredadmin"
 IREDADMIN_LOG_DIR="/var/log/iredadmin"
 IREDADMIN_LOG_FILE="/var/log/iredadmin/iredadmin.log"
 
-CONF="/opt/www/iredadmin/settings.py"
-CUSTOM_CONF_DIR="/opt/iredmail/custom/iredadmin"
-CUSTOM_CONF="/opt/iredmail/custom/iredadmin/settings.py"
-CUSTOM_CONF_SYMLINK="/opt/www/iredadmin/custom_settings.py"
+IREDADMIN_CONF="/opt/www/iredadmin/settings.py"
+IREDADMIN_CUSTOM_CONF_DIR="/opt/iredmail/custom/iredadmin"
+IREDADMIN_CUSTOM_CONF="/opt/iredmail/custom/iredadmin/settings.py"
+IREDADMIN_CUSTOM_CONF_SYMLINK="/opt/www/iredadmin/custom_settings.py"
 
 require_non_empty_var IREDADMIN_DB_PASSWORD ${IREDADMIN_DB_PASSWORD}
 
 [[ -L ${IREDADMIN_WEB_ROOTDIR_SYMLINK} ]] || ln -sf ${IREDADMIN_WEB_ROOTDIR} ${IREDADMIN_WEB_ROOTDIR_SYMLINK}
-[[ -d ${CUSTOM_CONF_DIR} ]] || mkdir -p ${CUSTOM_CONF_DIR}
-[[ -f ${CUSTOM_CONF} ]] || touch ${CUSTOM_CONF}
+[[ -d ${IREDADMIN_CUSTOM_CONF_DIR} ]] || mkdir -p ${IREDADMIN_CUSTOM_CONF_DIR}
+[[ -f ${IREDADMIN_CUSTOM_CONF} ]] || touch ${IREDADMIN_CUSTOM_CONF}
 
-chown ${SYS_USER_IREDADMIN}:${SYS_GROUP_IREDADMIN} ${CONF} ${CUSTOM_CONF}
-chmod 0400 ${CONF} ${CUSTOM_CONF}
+chown ${SYS_USER_IREDADMIN}:${SYS_GROUP_IREDADMIN} ${IREDADMIN_CONF} ${IREDADMIN_CUSTOM_CONF}
+chmod 0400 ${IREDADMIN_CONF} ${IREDADMIN_CUSTOM_CONF}
 
-ln -sf ${CUSTOM_CONF} ${IREDADMIN_WEB_ROOTDIR_SYMLINK}/custom_settings.py
+ln -sf ${IREDADMIN_CUSTOM_CONF} ${IREDADMIN_CUSTOM_CONF_SYMLINK}
 
 create_log_dir ${IREDADMIN_LOG_DIR}
 create_log_file ${IREDADMIN_LOG_FILE}
@@ -37,10 +37,10 @@ create_log_file ${IREDADMIN_LOG_FILE}
 gen_symlink_of_nginx_tmpl default-ssl iredadmin 90-iredadmin
 
 # Update parameters for initial run.
-${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${CONF}
-${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${CONF}
-${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${CONF}
+${CMD_SED} "s#PH_FIRST_MAIL_DOMAIN#${FIRST_MAIL_DOMAIN}#g" ${IREDADMIN_CONF}
+${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${IREDADMIN_CONF}
+${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${IREDADMIN_CONF}
+${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${IREDADMIN_CONF}
 
 update_iredadmin_setting vmail_db_password ${VMAIL_DB_ADMIN_PASSWORD}
 update_iredadmin_setting iredadmin_db_password ${IREDADMIN_DB_PASSWORD}
