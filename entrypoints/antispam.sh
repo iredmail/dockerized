@@ -50,7 +50,7 @@ install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${SPAMASSASSIN_CUSTO
 touch_files ${SYS_USER_AMAVISD} ${SYS_GROUP_AMAVISD} 0640 ${SPAMASSASSIN_CONF_LOCAL} ${SPAMASSASSIN_PLUGIN_RAZOR_CONF} ${SPAMASSASSIN_CUSTOM_CONF}
 
 # Assign clamav daemon user to Amavisd group, so that it has permission to scan message.
-addgroup ${SYS_USER_CLAMAV} ${SYS_GROUP_AMAVISD}
+addgroup --quiet ${SYS_USER_CLAMAV} ${SYS_GROUP_AMAVISD}
 
 # Generate DKIM key for first mail domain.
 [[ -f ${DKIM_KEY} ]] || /usr/sbin/amavisd-new genrsa ${DKIM_KEY} 1024

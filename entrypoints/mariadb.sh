@@ -97,15 +97,15 @@ create_root_user() {
 -- What's done in this file shouldn't be replicated
 -- or products like mysql-fabric won't work
 SET @@SESSION.SQL_LOG_BIN=0;
-SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
-GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}');
+GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 
-CREATE USER 'root'@'${_grant_host}' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
-GRANT ALL ON *.* TO 'root'@'${_grant_host}' WITH GRANT OPTION ;
+CREATE USER 'root'@'${_grant_host}' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+GRANT ALL ON *.* TO 'root'@'${_grant_host}' WITH GRANT OPTION;
 
 DELETE from mysql.user WHERE User='';
-DROP DATABASE IF EXISTS test ;
-FLUSH PRIVILEGES ;
+DROP DATABASE IF EXISTS test;
+FLUSH PRIVILEGES;
 EOF
 
     if [[ -f ${DOT_MY_CNF} ]]; then
@@ -121,12 +121,13 @@ EOF
 
 reset_password() {
     _user="$1"
-    _pw="$2"
+    _host="$2"
+    _pw="$3"
 
-    LOG "Reset password for SQL user '${_user}'."
+    LOG "Reset password for SQL user '${_user}'%'${_host}'."
     mysql -u root --socket=${SOCKET_PATH} <<EOF
 FLUSH PRIVILEGES;
-ALTER USER '${_user}'@'%' IDENTIFIED BY '${_pw}';
+ALTER USER '${_user}'@'${_host}' IDENTIFIED BY '${_pw}';
 FLUSH PRIVILEGES;
 EOF
 }
@@ -183,7 +184,7 @@ fi
 start_temp_mysql_instance
 
 [[ X"${_first_run}" == X"YES" ]] && create_root_user
-[[ X"${_first_run}" != X"YES" ]] && reset_password root ${MYSQL_ROOT_PASSWORD}
+[[ X"${_first_run}" != X"YES" ]] && reset_password root localhost ${MYSQL_ROOT_PASSWORD}
 
 # ~/.my.cnf is required by pre_start scripts.
 create_dot_my_cnf
