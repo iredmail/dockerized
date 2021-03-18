@@ -47,10 +47,9 @@ if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
         -newkey rsa:${SSL_KEY_LENGTH} \
         -out ${SSL_CERT_FILE} \
         -keyout ${SSL_KEY_FILE} >/dev/null
-
-    cat ${SSL_CERT_FILE} ${SSL_KEY_FILE} > ${SSL_COMBINED_FILE}
 fi
-chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
+chmod 0644 ${SSL_CERT_FILE} ${SSL_COMBINED_FILE}
+chmod 0640 ${SSL_KEY_FILE}
 
 # Create dh param.
 if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
