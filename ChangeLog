@@ -1,3 +1,17 @@
+# Apr 20, 2021. Based on iRedMail Easy release v2021041301.
+
+- iRedAPD: Upgrade to 5.0.
+- mlmmjadmin: Upgrade to 3.1.
+- Roundcube: Upgrade to 1.4.11.
+- Dovecot: Tracking the data of last received/delivered emails.
+- Postfix: Whitelist HELO hostnames of Outlook servers.
+- Fail2ban: Store base64 encoded log lines in SQL db.
+- iRedMail: Fix errors in script `/opt/iredmail/bin/create_user`.
+- iRedMail: Fix incorrect `/opt/iredmail/ssl/combined.pem` which contains
+  private key.
+  fixes #51
+  closes #53
+
 # Feb 2, 2021
 
 - Switch from Alpine to Ubuntu-20.04 (focal).

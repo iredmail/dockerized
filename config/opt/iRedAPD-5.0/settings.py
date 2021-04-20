@@ -15,7 +15,8 @@ from libs.default_settings import *
 # Listen address and port.
 listen_address = '0.0.0.0'
 # Port for normal Postfix policy requests.
-listen_port = '7777'
+listen_port = 7777
+
 # Ports for SRS (Sender Rewriting Scheme).
 # - `srs_forward_port` is used in Postfix parameter `sender_canonical_maps`.
 # - `recipient_canonical_maps` is used in Postfix parameter `recipient_canonical_maps`.
@@ -59,24 +60,25 @@ ldap_uri = ''
 ldap_basedn = ''
 ldap_binddn = ''
 ldap_bindpw = ''
+ldap_enable_tls = False
 
 # For SQL (MySQL/MariaDB/PostgreSQL) backends, used to query mail accounts.
 vmail_db_server = 'PH_SQL_SERVER_ADDRESS'
-vmail_db_port = 'PH_SQL_SERVER_PORT'
+vmail_db_port = PH_SQL_SERVER_PORT
 vmail_db_name = 'vmail'
 vmail_db_user = 'vmail'
 vmail_db_password = 'PH_VMAIL_DB_PASSWORD'
 
 # For Amavisd policy lookup and white/blacklists.
 amavisd_db_server = 'PH_SQL_SERVER_ADDRESS'
-amavisd_db_port = 'PH_SQL_SERVER_PORT'
+amavisd_db_port = PH_SQL_SERVER_PORT
 amavisd_db_name = 'amavisd'
 amavisd_db_user = 'amavisd'
 amavisd_db_password = 'PH_AMAVISD_DB_PASSWORD'
 
 # iRedAPD database, used for greylisting, throttle.
 iredapd_db_server = 'PH_SQL_SERVER_ADDRESS'
-iredapd_db_port = 'PH_SQL_SERVER_PORT'
+iredapd_db_port = PH_SQL_SERVER_PORT
 iredapd_db_name = 'iredapd'
 iredapd_db_user = 'iredapd'
 iredapd_db_password = 'PH_IREDAPD_DB_PASSWORD'

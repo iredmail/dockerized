@@ -3,15 +3,19 @@
 # Purpose:  Create single user.
 
 # Usage:
-#   ./create_user <email> <plain_password> <quota>
 #
-# Quota must be an integer number (in MB). `0` means unlimited.
+#   ./create_user <email> '<plain_password>' <quota>
+#
+# - Password must be wrapped by single quotes.
+# - Quota must be an integer number (in MB). `0` means unlimited.
 #
 # Samples:
-#   ./create_user user@domain.com mypassword 0
-#   ./create_user user@domain.com mypassword 1024
+#
+#   ./create_user user@domain.com 'mypassword' 0
+#   ./create_user user@domain.com 'mypassword' 1024
 
 # ~/.my.cnf
+#
 # SQL user used in this file must have privilege to insert new record to
 # `vmail` database.
 export MY_CNF='/root/.my.cnf-vmailadmin'
@@ -22,9 +26,6 @@ export STORAGE_NODE='vmail1'
 
 # Password scheme.
 export PASSWORD_SCHEME='SSHA512'
-
-# Default mail quota (in MB). `0` means unlimited.
-export QUOTA='0'
 
 #
 # Maildir settings
@@ -60,6 +61,13 @@ quota="$3"
 username="$(echo $mail | awk -F'@' '{print $1}')"
 domain="$(echo $mail | awk -F'@' '{print $2}')"
 
+# Verify quota size.
+echo ${quota} | grep '^[0-9][0-9]*$' &>/dev/null
+if [ X"$?" != X'0' ]; then
+    echo "Quota size is not a valid integer number."
+    exit 255
+fi
+
 # Cyrpt default password.
 encrypted_password="$(/usr/bin/doveadm pw -s ${PASSWORD_SCHEME} -p ${plain_password})"
 
@@ -83,10 +91,14 @@ mysql --defaults-file=${MY_CNF} vmail <<EOF
 INSERT INTO mailbox (username, password, name,
                      storagebasedirectory,storagenode, maildir,
                      quota, domain, active, passwordlastchange, created)
-             VALUES ('${mail}', '${ENCRYPTED_PASSWD}', '${username}',
+             VALUES ('${mail}', '${encrypted_password}', '${username}',
                      '${STORAGE_BASE_DIR}','${STORAGE_NODE}', '${maildir}',
-                     '${QUOTA}', '${domain}', '1', NOW(), NOW());
+                     '${quota}', '${domain}', '1', NOW(), NOW());
 
 INSERT INTO forwardings (address, forwarding, domain, dest_domain, is_forwarding)
                  VALUES ('${mail}', '${mail}','${domain}', '${domain}', 1);
 EOF
+
+if [[ X"$?" == X'0' ]]; then
+    echo "Created user ${mail}."
+fi

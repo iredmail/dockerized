@@ -76,6 +76,23 @@ CREATE TABLE IF NOT EXISTS moderators (
     INDEX (dest_domain)
 ) ENGINE=InnoDB;
 
+-- (mlmmj) mailing list owners.
+CREATE TABLE IF NOT EXISTS maillist_owners (
+    id BIGINT(20) UNSIGNED AUTO_INCREMENT,
+    -- email address of mailing list
+    address VARCHAR(255) NOT NULL DEFAULT '',
+    -- email address of owner
+    owner VARCHAR(255) NOT NULL DEFAULT '',
+    domain VARCHAR(255) NOT NULL DEFAULT '',
+    -- domain part of owner email address
+    dest_domain VARCHAR(255) NOT NULL DEFAULT '',
+    PRIMARY KEY (id),
+    UNIQUE INDEX (address, owner),
+    INDEX (owner),
+    INDEX (domain),
+    INDEX (dest_domain)
+) ENGINE=InnoDB;
+
 -- Forwardings. it contains
 --  - members of mail alias account
 --  - per-account alias addresses
@@ -220,12 +237,6 @@ CREATE TABLE IF NOT EXISTS mailbox (
     lastloginipv4 INT(4) UNSIGNED NOT NULL DEFAULT 0,
     lastloginprotocol CHAR(255) NOT NULL DEFAULT '',
     disclaimer TEXT,
-    -- Below 4 columns are deprecated and will be removed in future release.
-    -- Don't use them.
-    allowedsenders TEXT,
-    rejectedsenders TEXT,
-    allowedrecipients TEXT,
-    rejectedrecipients TEXT,
     -- Store per-user settings. Used in iRedAdmin-Pro.
     settings TEXT,
     passwordlastchange DATETIME NOT NULL DEFAULT '1970-01-01 01:01:01',

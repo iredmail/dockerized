@@ -45,7 +45,7 @@ fi
 # Get mailing list directory passed to '-L' argument
 ML_DIR=''
 _has_L='NO'
-for i in $@; do
+for i in "$@"; do
     if [ X"${_has_L}" == X'NO' ]; then
         if [ X"$i" == X'-L' ]; then
             _has_L='YES'

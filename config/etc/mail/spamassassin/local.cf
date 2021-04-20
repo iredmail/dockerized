@@ -180,6 +180,9 @@ score FROM_ADDR_WS 5
 # From: has too many raw illegal characters
 score SUBJ_ILLEGAL_CHARS 5
 
+# Link to hosted firebase web application, possible phishing.
+#score URI_FIREBASEAPP 5
+
 # Custom scores
 header CUSTOM_SPAM_SUBJ Subject =~ /\b(sex|sexgal|penis|viagra|drug|drugshop)\b/i
 score CUSTOM_SPAM_SUBJ 20

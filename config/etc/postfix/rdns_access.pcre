@@ -1176,7 +1176,6 @@
 /^reverse(-[12]?[0-9]{1,2}){4}\.cust\.kamp-dsl\.de$/ REJECT Generic - Please relay via ISP (kamp-dsl.de)
 /^ip(-[12]?[0-9]{1,2}){4}\.karneval\.cz$/ REJECT Generic - Please relay via ISP (karneval.cz)
 /^mos(-[12]?[0-9]{1,2}){4}\.karneval\.cz$/ REJECT Generic - Please relay via ISP (karneval.cz)
-/^dd[1-9][0-9]{3,5}\.kasserver\.com$/  REJECT Generic - Please relay via ISP (kasserver.com)
 /^d(-[12]?[0-9]{1,2}){4}\.d-cable\.katch\.ne\.jp$/ REJECT Generic - Please relay via ISP (katch.ne.jp)
 /^ip(-[12]?[0-9]{1,2}){4}\.kava\.lt$/ REJECT Generic - Please relay via ISP (kava.lt)
 /^ip(-[12]?[0-9]{1,2}){4}\.kaza\.cz$/ REJECT Generic - Please relay via ISP (kaza.cz)

@@ -48,7 +48,7 @@ if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
         -out ${SSL_CERT_FILE} \
         -keyout ${SSL_KEY_FILE} >/dev/null
 
-    cat ${SSL_CERT_FILE} ${SSL_KEY_FILE} > ${SSL_COMBINED_FILE}
+    cp -f ${SSL_CERT_FILE} ${SSL_COMBINED_FILE}
 fi
 chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
 

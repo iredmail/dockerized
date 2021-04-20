@@ -67,37 +67,37 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/4.7.tar.gz && \
-tar xzf 4.7.tar.gz -C /opt && \
-rm -f 4.7.tar.gz && \
-ln -s /opt/iRedAPD-4.7 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-4.7 && \
-chmod -R 0500 /opt/iRedAPD-4.7 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.tar.gz && \
+tar xzf 5.0.tar.gz -C /opt && \
+rm -f 5.0.tar.gz && \
+ln -s /opt/iRedAPD-5.0 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.0 && \
+chmod -R 0500 /opt/iRedAPD-5.0 && \
 
 # Install mlmmjadmin.
-wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.0.7.tar.gz && \
-tar zxf 3.0.7.tar.gz -C /opt && \
-rm -f 3.0.7.tar.gz && \
-ln -s /opt/mlmmjadmin-3.0.7 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.0.7 && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.0.7 && \
-chmod -R 0500 /opt/mlmmjadmin-3.0.7
+wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.tar.gz && \
+tar zxf 3.1.tar.gz -C /opt && \
+rm -f 3.1.tar.gz && \
+ln -s /opt/mlmmjadmin-3.1 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.1 && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1 && \
+chmod -R 0500 /opt/mlmmjadmin-3.1
 
 # Install Roundcube.
-wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.10/roundcubemail-1.4.10-complete.tar.gz && \
-tar zxf roundcubemail-1.4.10-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.4.10-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.4.10 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.4.10 && \
-chmod -R 0755 /opt/www/roundcubemail-1.4.10 && \
-cd /opt/www/roundcubemail-1.4.10 && \
+wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.11/roundcubemail-1.4.11-complete.tar.gz && \
+tar zxf roundcubemail-1.4.11-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.4.11-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.4.11 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.4.11 && \
+chmod -R 0755 /opt/www/roundcubemail-1.4.11 && \
+cd /opt/www/roundcubemail-1.4.11 && \
 chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.2.tar.gz && \
-tar xzf 1.2.tar.gz -C /opt/www && \
-rm -f 1.2.tar.gz && \
-ln -s /opt/www/iRedAdmin-1.2 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.2 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.2
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.3.tar.gz && \
+tar xzf 1.3.tar.gz -C /opt/www && \
+rm -f 1.3.tar.gz && \
+ln -s /opt/www/iRedAdmin-1.3 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.3 && \
+chmod -R 0555 /opt/www/iRedAdmin-1.3
