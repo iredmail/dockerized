@@ -15,5 +15,6 @@ ${CMD_SED} "s#PH_FAIL2BAN_DB_PASSWORD#${FAIL2BAN_DB_PASSWORD}#g" ${TIP_FILE}
 ${CMD_SED} "s#PH_SA_BAYES_DB_PASSWORD#${SA_BAYES_DB_PASSWORD}#g" ${TIP_FILE}
 
 if [ X"${MAIL_THE_TIP_FILE}" == X'YES' ]; then
-    mail -s "Details of this iRedMail container" ${POSTMASTER_EMAIL} < ${TIP_FILE}
+    # Send in background and not hang the whole startup process.
+    mail -s "Details of this iRedMail container" ${POSTMASTER_EMAIL} < ${TIP_FILE} &
 fi
