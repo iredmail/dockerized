@@ -67,21 +67,21 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.tar.gz && \
-tar xzf 5.0.tar.gz -C /opt && \
-rm -f 5.0.tar.gz && \
-ln -s /opt/iRedAPD-5.0 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.0 && \
-chmod -R 0500 /opt/iRedAPD-5.0 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.1.tar.gz && \
+tar xzf 5.0.1.tar.gz -C /opt && \
+rm -f 5.0.1.tar.gz && \
+ln -s /opt/iRedAPD-5.0.1 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.0.1 && \
+chmod -R 0500 /opt/iRedAPD-5.0.1 && \
 
 # Install mlmmjadmin.
-wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.tar.gz && \
-tar zxf 3.1.tar.gz -C /opt && \
-rm -f 3.1.tar.gz && \
-ln -s /opt/mlmmjadmin-3.1 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.1 && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1 && \
-chmod -R 0500 /opt/mlmmjadmin-3.1
+wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.1.tar.gz && \
+tar zxf 3.1.1.tar.gz -C /opt && \
+rm -f 3.1.1.tar.gz && \
+ln -s /opt/mlmmjadmin-3.1.1 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.1.1 && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.1 && \
+chmod -R 0500 /opt/mlmmjadmin-3.1.1
 
 # Install Roundcube.
 wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.11/roundcubemail-1.4.11-complete.tar.gz && \

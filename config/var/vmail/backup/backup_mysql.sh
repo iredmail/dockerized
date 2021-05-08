@@ -209,7 +209,7 @@ else
     echo -e "==> Backup completed with !!!ERRORS!!!.\n" 1>&2
 fi
 
-if [ X"${REMOVE_OLD_BACKUP}" == X'YES' -a -d ${REMOVED_BACKUP_DIR} ]; then
+if [[ X"${REMOVE_OLD_BACKUP}" == X'YES' ]] && [[ -d "${REMOVED_BACKUP_DIR}" ]]; then
     echo -e "* Old backup found. Deleting: ${REMOVED_BACKUP_DIR}." >>${LOGFILE}
     rm -rf ${REMOVED_BACKUP_DIR} >> ${LOGFILE} 2>&1
 
