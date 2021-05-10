@@ -67,12 +67,12 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.1.tar.gz && \
-tar xzf 5.0.1.tar.gz -C /opt && \
-rm -f 5.0.1.tar.gz && \
-ln -s /opt/iRedAPD-5.0.1 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.0.1 && \
-chmod -R 0500 /opt/iRedAPD-5.0.1 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.2.tar.gz && \
+tar xzf 5.0.2.tar.gz -C /opt && \
+rm -f 5.0.2.tar.gz && \
+ln -s /opt/iRedAPD-5.0.2 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.0.2 && \
+chmod -R 0500 /opt/iRedAPD-5.0.2 && \
 
 # Install mlmmjadmin.
 wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.1.tar.gz && \
