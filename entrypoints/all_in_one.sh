@@ -61,6 +61,10 @@ install -d -m 0755 /var/run/supervisord /var/log/supervisor
 LOG "Remove leftover pid files which may cause service fail to start."
 find /run -name "*.pid" | xargs rm -f {}
 
+# Store FQDN in /etc/mailname.
+# FYI: https://wiki.debian.org/EtcMailName
+echo "${HOSTNAME}" > /etc/mailname
+
 run_entrypoint ${ENTRYPOINTS_DIR}/rsyslog.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/mariadb.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/dovecot.sh
