@@ -67,6 +67,10 @@ ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${AMAVISD_CONF}
 
 ${CMD_SED} "s#PH_SA_BAYES_DB_PASSWORD#${SA_BAYES_DB_PASSWORD}#g" ${SPAMASSASSIN_CONF_LOCAL}
 
+# Update /etc/mailname.
+# FYI: https://wiki.debian.org/EtcMailName
+echo "${HOSTNAME}" > /etc/mailname
+
 # Run `sa-update` if no rules yet.
 LOG "Run 'sa-update' (required by Amavisd)."
 sa-update -v

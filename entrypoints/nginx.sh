@@ -37,7 +37,8 @@ for dir in \
 done
 
 for site in ${sites}; do
-    ln -sf ${SITES_AVAILABLE_DIR}/${site} ${SITES_ENABLED_DIR}/${site}
+    src="${SITES_AVAILABLE_DIR}/${site}"
+    [[ -e ${src}  ]] && ln -sf ${src} ${SITES_ENABLED_DIR}/${site}
 done
 
 for conf in $(ls ${CONF_AVAILABLE_DIR}/*.conf); do
