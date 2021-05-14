@@ -182,7 +182,7 @@ full email address.
 * Config file: /opt/www/iredadmin/settings.py
 * SQL database:
     - Database name: iredadmin
-    - Username: iredadmin
+    - Username: postmaster@mydomain.com
     - Password: PH_IREDADMIN_DB_PASSWORD (See also: /root/.my.cnf-iredadmin)
 
 ## Nginx - web server
