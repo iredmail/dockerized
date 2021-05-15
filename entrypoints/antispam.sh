@@ -37,7 +37,9 @@ for d in \
     ${AMAVISD_QUARANTINE_DIR} \
     ${AMAVISD_DB_DIR} \
     ${AMAVISD_VAR_DIR}; do
-    install -d -o ${SYS_USER_AMAVISD} -g ${SYS_GROUP_AMAVISD} -m 0770 ${d}
+    [[ -d ${d} ]] || mkdir -p ${d}
+    chown ${SYS_USER_AMAVISD}:${SYS_GROUP_AMAVISD} ${d}
+    chmod 0770 ${d}
 done
 
 # Amavisd
