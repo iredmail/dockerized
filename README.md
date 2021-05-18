@@ -179,6 +179,13 @@ There're many OPTIONAL settings defined in file
 you'd like to change any of them, please write the same parameter name with
 your custom value in `iredmail-docker.conf` to override it.
 
+# Optional parameters
+
+```
+# Define your custom https port if you don't want to the default one (443).
+PORT_HTTPS=4443
+```
+
 # Hardware requirements
 
 - At least 4GB RAM is required for a low traffic production mail server.

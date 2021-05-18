@@ -22,6 +22,12 @@ NGINX_CUSTOM_WEBAPP_CONF_DIR="/opt/iredmail/custom/nginx/webapps"
 sites="00-default.conf 00-default-ssl.conf"
 [[ X"${USE_AUTOCONFIG}" == X'YES' ]] && sites="${sites} autoconfig.conf"
 
+# Replace https port number in default vhost files.
+if [[ "${PORT_HTTPS}" != "" ]]; then
+    cd ${SITES_AVAILABLE_DIR}
+    perl -pi -e 's#(.*return 301 )(.*)#${1}https://\$host:$ENV{PORT_HTTPS}\$request_uri;#g' 00-default.conf
+fi
+
 [[ -d ${CONF_ENABLED_DIR} ]] || mkdir -p ${CONF_ENABLED_DIR}
 [[ -d ${SITES_ENABLED_DIR} ]] || mkdir -p ${SITES_ENABLED_DIR}
 
