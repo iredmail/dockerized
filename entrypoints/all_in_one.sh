@@ -66,6 +66,7 @@ find /run -name "*.pid" | xargs rm -f {}
 echo "${HOSTNAME}" > /etc/mailname
 
 run_entrypoint ${ENTRYPOINTS_DIR}/rsyslog.sh
+run_entrypoint ${ENTRYPOINTS_DIR}/cron.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/mariadb.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/dovecot.sh
 run_entrypoint ${ENTRYPOINTS_DIR}/postfix.sh

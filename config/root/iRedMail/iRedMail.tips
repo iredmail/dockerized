@@ -132,7 +132,7 @@ full email address.
 * ClamAV local socket: /tmp/clamd.socket
 * Virus signature database directory: /var/lib/clamav
 * Logs:
-    - ClamAV log file: /var/log/clamav/clamd.log
+    - ClamAV log file: /var/log/clamav/clamav.log
     - freshclam log file: /var/log/clamav/freshclam.log
     - Syslog config file: /etc/rsyslog.d/1-iredmail-clamav.conf
     - Logrotate config file: /etc/logrotate.d/clamav
