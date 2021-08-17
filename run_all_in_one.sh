@@ -55,7 +55,7 @@ docker run \
     -p 587:587 \
     -v ${DATA_DIR}/custom:/opt/iredmail/custom \
     -v ${DATA_DIR}/ssl:/opt/iredmail/ssl \
-    -v ${DATA_DIR}/backup:/var/vmail/backup \
+    -v ${DATA_DIR}/backup:/var/vmail/backup/mysql \
     -v ${DATA_DIR}/mailboxes:/var/vmail/vmail1 \
     -v ${DATA_DIR}/mysql:/var/lib/mysql \
     -v ${DATA_DIR}/clamav:/var/lib/clamav \

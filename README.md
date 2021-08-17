@@ -49,7 +49,7 @@ docker run \
     -p 25:25 \
     -p 465:465 \
     -p 587:587 \
-    -v /iredmail/data/backup:/var/vmail/backup \
+    -v /iredmail/data/backup:/var/vmail/backup/mysql \
     -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
     -v /iredmail/data/mlmmj:/var/vmail/mlmmj \
     -v /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive \
