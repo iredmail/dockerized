@@ -24,7 +24,7 @@ PKGS_IREDADMIN="python3-jinja2 python3-netifaces python3-bcrypt python3-dnspytho
 PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="uwsgi uwsgi-plugin-python3 python3-requests python3-pymysql python3-psycopg2 python3-ldap python3-more-itertools"
 PKGS_FAIL2BAN="fail2ban bind9-dnsutils"
-PKGS_ROUNDCUBE="php-bz2 php-curl php-gd php-intl php-json php-ldap php-mbstring php-mysql php-pgsql php-pspell php-xml php-zip mcrypt mariadb-client aspell"
+PKGS_ROUNDCUBE="php-bz2 php-curl php-gd php-imap php-intl php-json php-ldap php-mbstring php-mysql php-pgsql php-pspell php-xml php-zip mcrypt mariadb-client aspell"
 PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less vim-tiny
     ${PKGS_BASE}
     ${PKGS_MYSQL}
@@ -75,13 +75,13 @@ chown -R iredapd:iredapd /opt/iRedAPD-5.0.2 && \
 chmod -R 0500 /opt/iRedAPD-5.0.2 && \
 
 # Install mlmmjadmin.
-wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.1.tar.gz && \
-tar zxf 3.1.1.tar.gz -C /opt && \
-rm -f 3.1.1.tar.gz && \
-ln -s /opt/mlmmjadmin-3.1.1 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.1.1 && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.1 && \
-chmod -R 0500 /opt/mlmmjadmin-3.1.1
+wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.2.tar.gz && \
+tar zxf 3.1.2.tar.gz -C /opt && \
+rm -f 3.1.2.tar.gz && \
+ln -s /opt/mlmmjadmin-3.1.2 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.1.2 && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.2 && \
+chmod -R 0500 /opt/mlmmjadmin-3.1.2
 
 # Install Roundcube.
 wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.11/roundcubemail-1.4.11-complete.tar.gz && \
@@ -95,9 +95,9 @@ chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.3.tar.gz && \
-tar xzf 1.3.tar.gz -C /opt/www && \
-rm -f 1.3.tar.gz && \
-ln -s /opt/www/iRedAdmin-1.3 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.3 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.3
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.4.tar.gz && \
+tar xzf 1.4.tar.gz -C /opt/www && \
+rm -f 1.4.tar.gz && \
+ln -s /opt/www/iRedAdmin-1.4 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.4 && \
+chmod -R 0555 /opt/www/iRedAdmin-1.4

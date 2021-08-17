@@ -169,6 +169,10 @@ create_log_file() {
     chown ${SYS_USER_SYSLOG}:${SYS_GROUP_SYSLOG} ${_file}
 }
 
+set_cron_file_permission() {
+    chmod 0600 /var/spool/cron/crontabs/* &>/dev/null
+}
+
 #
 # Roundcube
 #
