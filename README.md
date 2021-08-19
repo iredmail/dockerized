@@ -29,7 +29,7 @@ Create required directories to store application data:
 
 ```
 cd /iredmail
-mkdir -p data/{backup,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl,postfix_queue}
+mkdir -p data/{backup-mysql,clamav,custom,imapsieve_copy,mailboxes,mlmmj,mlmmj-archive,mysql,sa_rules,ssl,postfix_queue}
 ```
 
 Launch the container:
@@ -49,7 +49,7 @@ docker run \
     -p 25:25 \
     -p 465:465 \
     -p 587:587 \
-    -v /iredmail/data/backup:/var/vmail/backup \
+    -v /iredmail/data/backup-mysql:/var/vmail/backup/mysql \
     -v /iredmail/data/mailboxes:/var/vmail/vmail1 \
     -v /iredmail/data/mlmmj:/var/vmail/mlmmj \
     -v /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive \
@@ -113,7 +113,7 @@ docker run \
     -p 25:25 \
     -p 465:465 \
     -p 587:587 \
-    -v iredmail_backup:/var/vmail/backup \
+    -v iredmail_backup-mysql:/var/vmail/backup/mysql \
     -v iredmail_mailboxes:/var/vmail/vmail1 \
     -v iredmail_mlmmj:/var/vmail/mlmmj \
     -v iredmail_mlmmj_archive:/var/vmail/mlmmj-archive \
