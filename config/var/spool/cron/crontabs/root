@@ -4,6 +4,8 @@
 1 */6 * * * freshclam --quiet --foreground --config-file=/etc/clamav/freshclam.conf --daemon-notify=/etc/clamav/clamd.conf >/dev/null
 #Ansible: Scan spam/ham reported by end users.
 */10 * * * * /bin/bash /opt/iredmail/bin/dovecot/scan_reported_mails >/dev/null
+#Ansible: Optimize the full text search index.
+10 3 * * * /usr/bin/doveadm fts optimize -A &>/dev/null
 #Ansible: iRedAPD: Clean up expired tracking records hourly.
 1 * * * * /usr/bin/python3 /opt/iredapd/tools/cleanup_db.py >/dev/null
 #Ansible: iRedAPD: Convert SPF DNS record of specified domain names to IP

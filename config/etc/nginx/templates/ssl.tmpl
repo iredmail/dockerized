@@ -4,12 +4,17 @@
 #
 
 #ssl on;
-ssl_protocols TLSv1.2;
+ssl_protocols TLSv1.2 TLSv1.3;
 
 # Fix 'The Logjam Attack'.
 ssl_ciphers EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH;
 ssl_prefer_server_ciphers on;
 ssl_dhparam /opt/iredmail/ssl/dhparam2048.pem;
+
+# Greatly improve the performance of keep-alive connections over SSL.
+# With this enabled, client is not necessary to do a full SSL-handshake for
+# every request, thus saving time and cpu-resources.
+ssl_session_cache shared:SSL:10m;
 
 # Use a bought SSL cert:
 #   - https://docs.iredmail.org/use.a.bought.ssl.certificate.html

@@ -33,7 +33,7 @@ if [[ X"${USE_IREDAPD}" == X'NO' ]] || [[ X"${POSTFIX_ENABLE_SRS}" == X'NO' ]]; 
     ${CMD_SED} 's#tcp:127.0.0.1:7779##g' ${POSTFIX_CONF_MAIN_CF}
 fi
 
-if [[ X"${USE_ANTISPAM}" == X'NO' ]]; then
+if [[ X"${USE_ANTISPAM}" != X'YES' ]]; then
     LOG "Disable antispam."
     ${CMD_SED} 's#smtp-amavis:[127.0.0.1]:10024##g' ${POSTFIX_CONF_MAIN_CF}
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:[127.0.0.1]:10026##g' ${POSTFIX_CONF_MASTER_CF}
