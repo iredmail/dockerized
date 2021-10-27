@@ -35,7 +35,6 @@ fi
 
 if [[ X"${USE_ANTISPAM}" != X'YES' ]]; then
     LOG "Disable antispam."
-		LOG "sed: ${CMD_SED}"
     ${CMD_SED} 's#smtp-amavis:\[127.0.0.1\]:10024##g' ${POSTFIX_CONF_MAIN_CF}
     ${CMD_SED} 's#    -o content_filter=smtp-amavis:\[127.0.0.1\]:10026##g' ${POSTFIX_CONF_MASTER_CF}
 fi
