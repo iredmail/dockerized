@@ -107,7 +107,7 @@ ok_locales          all
 # https://wiki.apache.org/spamassassin/Rules/RP_MATCHES_RCVD
 #score RP_MATCHES_RCVD 0
 
-razor_config /etc/mail/spamassassin/razor.conf
+razor_config /etc/spamassassin/razor.conf
 
 #
 # Adjust spam scores.

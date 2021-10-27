@@ -21,8 +21,8 @@ AMAVISD_DKIM_DIR="/opt/iredmail/custom/amavisd/dkim"
 DKIM_KEY="${AMAVISD_DKIM_DIR}/${FIRST_MAIL_DOMAIN}.pem"
 
 # SpamAssassin
-SPAMASSASSIN_CONF_LOCAL="/etc/mail/spamassassin/local.cf"
-SPAMASSASSIN_PLUGIN_RAZOR_CONF="/etc/mail/spamassassin/razor.conf"
+SPAMASSASSIN_CONF_LOCAL="/etc/spamassassin/local.cf"
+SPAMASSASSIN_PLUGIN_RAZOR_CONF="/etc/spamassassin/razor.conf"
 SPAMASSASSIN_CUSTOM_CONF_DIR="/opt/iredmail/custom/spamassassin"
 SPAMASSASSIN_CUSTOM_CONF="/opt/iredmail/custom/spamassassin/custom.cf"
 

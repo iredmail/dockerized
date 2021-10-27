@@ -140,7 +140,7 @@ full email address.
 ## SpamAssassin
 
 * Config files:
-    - /etc/mail/spamassassin/local.cf (Do not modify this file)
+    - /etc/spamassassin/local.cf (Do not modify this file)
     - /opt/iredmail/custom/spamassassin/custom.cf
 
 * SQL Database:
