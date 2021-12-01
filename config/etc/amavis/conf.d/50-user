@@ -276,6 +276,7 @@ $defang_by_ccat{CC_BADH.",6"} = 1;  # header field syntax error
            \&do_7zip,  '7z' ],
   ['exe',  \&do_executable, ['unrar','rar'], 'lha', ['unarj','arj'] ],
 );
+$pax = 'pax';
 
 # Mark Spam/Virus with third-party clamav signatures: SaneSecurity.
 #   *) The order matters, first match wins. Set to 'undef' to keep as infected
