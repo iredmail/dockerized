@@ -24,3 +24,5 @@
 2 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/cleandb.sh >/dev/null
 #Ansible: Roundcube: cleanup Roundcube temporary files under 'temp/' directory
 3 2 * * * /usr/bin/php /opt/www/roundcubemail/bin/gc.sh >/dev/null
+#Ansible: iRedMail: Apply all custom settings after system reboot.
+@reboot /bin/bash /opt/iredmail/bin/apply_all_custom_settings

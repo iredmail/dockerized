@@ -22,7 +22,7 @@ require_non_empty_var IREDAPD_DB_PASSWORD ${IREDAPD_DB_PASSWORD}
 create_log_dir ${IREDAPD_LOG_DIR}
 create_log_file ${IREDAPD_LOG_FILE}
 
-ln -sf ${IREDAPD_CUSTOM_CONF} /opt/iRedAPD-5.0.3/custom_settings.py
+ln -sf ${IREDAPD_CUSTOM_CONF} /opt/iRedAPD-5.0.4/custom_settings.py
 
 # Update placeholders in config file.
 ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${IREDAPD_CONF}

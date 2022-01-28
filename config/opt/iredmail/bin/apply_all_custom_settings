@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+# Purpose: Run all `/opt/iredmail/custom/<PROGRAM>/custom.sh` scripts to apply
+#          custom settings after system reboot.
+# Author: Zhang Huangbin <zhb@iredmail.org>
+
+export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+
+# Hard-code the directories we should run instead of using `find`.
+PROGRAMS="firewall openldap postfix nginx fail2ban sogo dovecot firewall roundcube "
+
+# Directory that stores all application custom configuration files / scripts.
+CUSTOM_CONF_DIR="/opt/iredmail/custom"
+
+for prog in ${PROGRAMS}; do
+    d="${CUSTOM_CONF_DIR}/${prog}"
+    f="${d}/custom.sh"
+
+    if [[ -f ${f} ]]; then
+        cd ${d} && /bin/bash ${f} >> custom.log 2>&1
+    fi
+done

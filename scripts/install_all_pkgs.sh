@@ -67,12 +67,12 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.3.tar.gz && \
-tar xzf 5.0.3.tar.gz -C /opt && \
-rm -f 5.0.3.tar.gz && \
-ln -s /opt/iRedAPD-5.0.3 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.0.3 && \
-chmod -R 0500 /opt/iRedAPD-5.0.3 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.0.4.tar.gz && \
+tar xzf 5.0.4.tar.gz -C /opt && \
+rm -f 5.0.4.tar.gz && \
+ln -s /opt/iRedAPD-5.0.4 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.0.4 && \
+chmod -R 0500 /opt/iRedAPD-5.0.4 && \
 
 # Install mlmmjadmin.
 wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.3.tar.gz && \
@@ -84,20 +84,20 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.3 && \
 chmod -R 0500 /opt/mlmmjadmin-3.1.3
 
 # Install Roundcube.
-wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.4.11/roundcubemail-1.4.11-complete.tar.gz && \
-tar zxf roundcubemail-1.4.11-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.4.11-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.4.11 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.4.11 && \
-chmod -R 0755 /opt/www/roundcubemail-1.4.11 && \
-cd /opt/www/roundcubemail-1.4.11 && \
+wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.5.2/roundcubemail-1.5.2-complete.tar.gz && \
+tar zxf roundcubemail-1.5.2-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.5.2-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.5.2 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.5.2 && \
+chmod -R 0755 /opt/www/roundcubemail-1.5.2 && \
+cd /opt/www/roundcubemail-1.5.2 && \
 chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.5.tar.gz && \
-tar xzf 1.5.tar.gz -C /opt/www && \
-rm -f 1.5.tar.gz && \
-ln -s /opt/www/iRedAdmin-1.5 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.5 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.5
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.6.tar.gz && \
+tar xzf 1.6.tar.gz -C /opt/www && \
+rm -f 1.6.tar.gz && \
+ln -s /opt/www/iRedAdmin-1.6 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.6 && \
+chmod -R 0555 /opt/www/iRedAdmin-1.6

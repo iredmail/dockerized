@@ -11,14 +11,14 @@ RUN /bin/sh ${SCRIPTS_DIR}/add_user_iredapd.sh && \
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends python3-sqlalchemy python3-dnspython python3-pymysql python3-ldap python3-psycopg2 python3-more-itertools && \
     apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/* && \
-    wget -c https://github.com/iredmail/iRedAPD/archive/5.0.3.tar.gz && \
-    tar xzf 5.0.3.tar.gz -C /opt && \
-    rm -f 5.0.3.tar.gz && \
-    ln -sf /opt/iRedAPD-5.0.3 /opt/iredapd && \
+    wget -c https://github.com/iredmail/iRedAPD/archive/5.0.4.tar.gz && \
+    tar xzf 5.0.4.tar.gz -C /opt && \
+    rm -f 5.0.4.tar.gz && \
+    ln -sf /opt/iRedAPD-5.0.4 /opt/iredapd && \
     /usr/bin/pip3 install --no-cache-dir --no-deps web.py==0.62 && \
     rm -rf /root/.cache
 
-COPY ./config/opt/iRedAPD-5.0.3/. /opt/iRedAPD-5.0.3/
+COPY ./config/opt/iRedAPD-5.0.4/. /opt/iRedAPD-5.0.4/
 COPY ./entrypoints/iredapd.sh /entrypoint.sh
 
 CMD /bin/sh /entrypoint.sh

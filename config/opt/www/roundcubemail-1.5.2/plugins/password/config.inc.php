@@ -56,7 +56,7 @@ $config['password_force_new_user'] = false;
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
 // sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, samba, ad, dovecot, clear.
 // For details see password::hash_password() method.
-$config['password_algorithm'] = 'ssha';
+$config['password_algorithm'] = 'dovecot';
 
 // Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
 // using password_algorithm above. Default: empty.
@@ -117,7 +117,7 @@ $config['password_db_dsn'] = 'mysqli://roundcube:PH_ROUNDCUBE_DB_PASSWORD@PH_SQL
 //      %q is replaced with the hashed password before the change
 // Escaping of macros is handled by this module.
 // Default: "SELECT update_passwd(%c, %u)"
-$config['password_query'] = "UPDATE mailbox SET password=%D,passwordlastchange=NOW() WHERE username=%u";
+$config['password_query'] = "UPDATE mailbox SET password=%P,passwordlastchange=NOW() WHERE username=%u";
 
 // By default the crypt() function which is used to create the %c
 // parameter uses the md5 algorithm (deprecated, use %P).

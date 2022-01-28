@@ -32,9 +32,9 @@ $ENV{TMPDIR} = $TEMPBASE;   # environment variable TMPDIR, used by SA, etc.
 $db_home = "/var/spool/amavisd/db";      # dir for bdb nanny/cache/snmp databases, -D
 $QUARANTINEDIR = "/var/spool/amavisd/quarantine";     # -Q
 $quarantine_subdir_levels = 2;  # add level of subdirs to disperse quarantine
-# $release_format = 'resend';     # 'attach', 'plain', 'resend'
-# $report_format  = 'arf';        # 'attach', 'plain', 'resend', 'arf'
-# $daemon_chroot_dir = $MYHOME;   # chroot directory or undef, -R
+# $release_format = 'resend';   # 'attach', 'plain', 'resend'
+# $report_format  = 'arf';      # 'attach', 'plain', 'resend', 'arf'
+$daemon_chroot_dir = undef;     # chroot directory or undef, -R
 # $helpers_home = "$MYHOME/var";  # working directory for SpamAssassin, -S
 
 $lock_file = "/var/run/amavis/amavisd.lock";  # -L
@@ -335,16 +335,13 @@ $pax = 'pax';
 
 @av_scanners = (
     ['clamav-socket',
-    \&ask_daemon, ["CONTSCAN {}\n", "/tmp/clamd.socket"],
+    \&ask_daemon, ["CONTSCAN {}\n", "/var/run/clamav/clamd.ctl"],
     qr/\bOK$/m, qr/\bFOUND$/m,
     qr/^.*?: (?!Infected Archive)(.*) FOUND$/m ],
 );
 
-#@av_scanners_backup = (
-#    ['clamav-clamscan', 'clamscan',
-#    "--stdout --disable-summary -r --tempdir=$TEMPBASE {}", [0], [1],
-#    qr/^.*?: (?!Infected Archive)(.*) FOUND$/ ],
-#);
+# Override @av_scanners_backup settings in other config snippet files.
+@av_scanners_backup = ();
 
 #
 # Port used to release quarantined mails.
