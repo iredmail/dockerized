@@ -1,0 +1,92 @@
+version: '3.5'
+
+services:
+#
+# IREDMAIL
+#
+  antispam:
+    image: iredmail/antispam:latest
+    restart: unless-stopped
+    container_name: antispam
+    env_file:
+      - iredmail-docker.conf
+    volumes:
+      - iredmail-clamav:/var/lib/clamav
+      - iredmail-sa-rules:/var/lib/spamassassin
+  dovecot:
+    image: iredmail/dovecot:latest
+    restart: unless-stopped
+    container_name: dovecot
+    env_file:
+      - iredmail-docker.conf
+    ports:
+      - 465:465
+      - 110:110
+      - 143:143
+      - 993:993
+      - 995:995
+  iredapd:
+    image: iredmail/iredapd:latest
+    restart: unless-stopped
+    container_name: iredapd
+    env_file:
+      - iredmail-docker.conf
+    volumes:
+      - iredmail-mailboxes:/var/vmail/vmail1
+      - iredmail-mlmmj:/var/vmail/mlmmj
+      - iredmail-mlmmj-archive:/var/vmail/mlmmj-archive
+      - iredmail-imapsieve-copy:/var/vmail/imapsieve_copy
+      - iredmail-custom:/opt/iredmail/custom
+      - iredmail-ssl:/opt/iredmail/ssl
+  mariadb:
+    image: iredmail/mariadb:latest
+    restart: unless-stopped
+    container_name: mariadb
+    env_file:
+      - iredmail-docker.conf
+    volumes:
+      - iredmail-backup-mysql:/var/vmail/backup/mysql
+      - iredmail-mysql:/var/lib/mysql
+  postfix:
+    image: iredmail/postfix:latest
+    restart: unless-stopped
+    container_name: postfix
+    env_file:
+      - iredmail-docker.conf
+    ports:
+      - 25:25
+      - 587:587
+      - 465:465
+    volumes:
+      - iredmail-mailboxes:/var/vmail/vmail1
+      - iredmail-mlmmj:/var/vmail/mlmmj
+      - iredmail-mlmmj-archive:/var/vmail/mlmmj-archive
+      - iredmail-imapsieve-copy:/var/vmail/imapsieve_copy
+      - iredmail-custom:/opt/iredmail/custom
+      - iredmail-ssl:/opt/iredmail/ssl
+  sogo:
+    image: iredmail/sogo:latest
+    env_file:
+      - iredmail-docker.conf
+    volumes:
+      - iredmail-mailboxes:/var/vmail/vmail1
+      - iredmail-mlmmj:/var/vmail/mlmmj
+      - iredmail-mlmmj-archive:/var/vmail/mlmmj-archive
+      - iredmail-imapsieve-copy:/var/vmail/imapsieve_copy
+      - iredmail-custom:/opt/iredmail/custom
+      - iredmail-ssl:/opt/iredmail/ssl
+#
+# VOLUMES
+#
+volumes:
+  iredmail-backup-mysql:
+  iredmail-mailboxes:
+  iredmail-mlmmj:
+  iredmail-mlmmj-archive:
+  iredmail-imapsieve-copy:
+  iredmail-custom:
+  iredmail-ssl:
+  iredmail-mysql:
+  iredmail-clamav:
+  iredmail-sa-rules:
+  iredmail-postfix-queue:

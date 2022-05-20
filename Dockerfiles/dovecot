@@ -1,7 +1,7 @@
 FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 110 995 143 993 4190 24 12340 24242 12346
-
+ENV DEBIAN_FRONTEND noninteractive
 ARG SCRIPTS_DIR=/docker/scripts
 
 RUN mkdir -p ${SCRIPTS_DIR}

@@ -1,0 +1,50 @@
+version: '3.5'
+
+services:
+#
+# IREDMAIL
+#
+  iredmail: 
+    image: iredmail/mariadb:nightly
+    restart: unless-stopped
+    container_name: iredmail
+    hostname: mail.mydomain.com
+    env_file:
+      - iredmail-docker.conf
+    volumes:
+      - iredmail-backup-mysql:/var/vmail/backup/mysql
+      - iredmail-mailboxes:/var/vmail/vmail1
+      - iredmail-mlmmj:/var/vmail/mlmmj
+      - iredmail-mlmmj-archive:/var/vmail/mlmmj-archive
+      - iredmail-imapsieve-copy:/var/vmail/imapsieve_copy
+      - iredmail-custom:/opt/iredmail/custom
+      - iredmail-ssl:/opt/iredmail/ssl
+      - iredmail-mysql:/var/lib/mysql
+      - iredmail-clamav:/var/lib/clamav
+      - iredmail-sa-rules:/var/lib/spamassassin
+      - iredmail-postfix-queue:/var/spool/postfix
+    ports:
+      - 80:80
+      - 443:443
+      - 25:25
+      - 587:587
+      - 465:465
+      - 110:110
+      - 143:143
+      - 993:993
+      - 995:995
+#
+# VOLUMES
+#
+volumes:
+  iredmail-backup-mysql:
+  iredmail-mailboxes:
+  iredmail-mlmmj:
+  iredmail-mlmmj-archive:
+  iredmail-imapsieve-copy:
+  iredmail-custom:
+  iredmail-ssl:
+  iredmail-mysql:
+  iredmail-clamav:
+  iredmail-sa-rules:
+  iredmail-postfix-queue:
