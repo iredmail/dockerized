@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-FROM ubuntu:18.04
+FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 
 # SOGo uses port `20000` by default.
@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE yes
 
-ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/4/ubuntu/
+ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/5/ubuntu/
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 
 # Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
         's#http://security.ubuntu.com/ubuntu/#[trusted=yes] http://archive.ubuntu.com/ubuntu/#g' \
         /etc/apt/sources.list \
         && apt-key adv --keyserver keyserver.ubuntu.com --recv-key 0x810273C4 \
-	&& echo "deb ${SOGO_MIRROR_SITE} bionic bionic" > /etc/apt/sources.list.d/sogo-nightly.list \
+	&& echo "deb ${SOGO_MIRROR_SITE} focal focal" > /etc/apt/sources.list.d/sogo-nightly.list \
 	&& apt-get update \
     && mkdir -p /usr/share/doc/sogo/ \
     && touch /usr/share/doc/sogo/test.sh \
@@ -45,9 +45,8 @@ COPY ./entrypoints/functions.sh ${ENTRYPOINTS_DIR}/
 COPY ./settings.conf ${ENTRYPOINTS_DIR}/
 
 # Copy config files.
-COPY sogo/. /
-COPY config/etc/supervisord.conf /etc/supervisor/
-COPY config/etc/supervisor.d /etc/
+# COPY config/sogo/. /
+COPY config/etc/supervisor /etc/
 COPY ./entrypoints/sogo.sh /entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
