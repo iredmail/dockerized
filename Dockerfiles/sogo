@@ -3,7 +3,7 @@
 # please do __NOT__ modify it manually.
 #
 
-FROM ubuntu:18.04
+FROM ubuntu:focal
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 
 # SOGo uses port `20000` by default.
@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE yes
 
-ARG SOGO_MIRROR_SITE=https://packages.inverse.ca/SOGo/nightly/4/ubuntu/
+ARG SOGO_MIRROR_SITE=https://packages.sogo.nu/nightly/5/ubuntu/
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 
 # Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the

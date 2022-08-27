@@ -6,7 +6,7 @@
 # References:
 #   - Pregreet test: http://www.postfix.org/POSTSCREEN_README.html#pregreet
 
-[postfix-pregreet]
+[pregreet]
 backend = polling
 journalmatch =
 enabled = true
@@ -14,5 +14,5 @@ filter = postfix-pregreet.iredmail
 logpath = /var/log/mail.log tail
 maxretry = 1
 bantime = 86400
-action = iptables-multiport[name=postfix-pregreet, port="25,587,465,2525", protocol=tcp]
-         banned_db[name=postfix-pregreet, port="25,587,465,2525", protocol=tcp]
+action = iptables-multiport[name=pregreet, port="25,587,465,2525", protocol=tcp]
+         banned_db[name=pregreet, port="25,587,465,2525", protocol=tcp]

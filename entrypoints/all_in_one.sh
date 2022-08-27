@@ -86,6 +86,7 @@ if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
 fi
 
 if [[ X"${USE_ANTISPAM}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/clamav.sh
     run_entrypoint ${ENTRYPOINTS_DIR}/antispam.sh
     SUP_SERVICES="${SUP_SERVICES} clamav amavisd"
 fi

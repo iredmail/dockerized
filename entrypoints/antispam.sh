@@ -70,10 +70,5 @@ ${CMD_SED} "s#PH_AMAVISD_DB_PASSWORD#${AMAVISD_DB_PASSWORD}#g" ${AMAVISD_CONF}
 ${CMD_SED} "s#PH_SA_BAYES_DB_PASSWORD#${SA_BAYES_DB_PASSWORD}#g" ${SPAMASSASSIN_CONF_LOCAL}
 
 # Run `sa-update` if no rules yet.
-LOG "Run 'sa-update' (required by Amavisd)."
+LOG "Run 'sa-update' (required by SpamAssassin)."
 sa-update -v
-
-if [[ ! -f "${CLAMAV_DB_DIR}/main.cvd" ]] && [[ ! -f "${CLAMAV_DB_DIR}/bytecode.cvd" ]]; then
-    LOG "Run 'freshclam' (required by ClamAV)."
-    freshclam
-fi

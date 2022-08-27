@@ -12,7 +12,7 @@ run_as_user = 'mlmmj'
 run_as_group = 'mlmmj'
 
 # Pid file
-pid_file = '/var/run/mlmmjadmin/mlmmjadmin.pid'
+pid_file = '/run/mlmmjadmin/mlmmjadmin.pid'
 
 # Log level: info, debug.
 log_level = 'info'

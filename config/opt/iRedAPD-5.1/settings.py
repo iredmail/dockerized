@@ -27,7 +27,7 @@ srs_reverse_port = 7779
 run_as_user = 'iredapd'
 
 # Path to pid file.
-pid_file = '/var/run/iredapd.pid'
+pid_file = '/run/iredapd.pid'
 
 # Log level: info, debug.
 log_level = 'info'

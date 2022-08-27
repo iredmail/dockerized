@@ -11,6 +11,7 @@
 CLAMAV_DB_DIR='/var/lib/clamav'
 CLAMD_CONF='/etc/clamav/clamd.conf'
 FRESHCLAM_CONF='/etc/clamav/freshclam.conf'
+CLAMAV_USER='clamav'
 
 # Check database directory
 [[ ! -d ${CLAMAV_DB_DIR} ]] || mkdir -p ${CLAMAV_DB_DIR}
@@ -47,10 +48,3 @@ install -d -o clamav -g clamav -m 0755 /run/clamav/
 
 echo "* Run freshclam in background."
 freshclam --checks=1 --daemon --user=${CLAMAV_USER} --config-file=${FRESHCLAM_CONF}
-
-if [[ X"${_ready_to_start}" == X'YES' ]]; then
-    echo "* Starting clamd..."
-    clamd --config-file=/etc/clamav/clamd.conf --foreground
-fi
-
-echo "* Exit."

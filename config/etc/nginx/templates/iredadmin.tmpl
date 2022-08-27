@@ -19,7 +19,7 @@ location ~ ^/iredadmin(.*) {
     uwsgi_param UWSGI_CHDIR /opt/www/iredadmin;
     uwsgi_param UWSGI_SCRIPT iredadmin;
     uwsgi_param SCRIPT_NAME /iredadmin;
-    #uwsgi_read_timeout 60s;
+    uwsgi_read_timeout 900s;
     #uwsgi_send_timeout 60s;
 
     # Load extra custom config snippet.

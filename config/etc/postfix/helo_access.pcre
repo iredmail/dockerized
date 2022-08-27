@@ -13,7 +13,7 @@
 
 # Bypass HELOs used by known big ISPs which contains IP address
 /\.outbound-(email|mail)\.sendgrid\.net$/ OK
-/^\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.mail-(mail|campmail)\.facebook\.com$/ OK
+/^\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.mail-.*\.facebook\.com$/ OK
 /^outbound-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\.pinterestmail\.com$/ OK
 /\.outbound\.protection\.outlook\.com$/ OK
 /^ec2-\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\..*\.compute\.amazonaws\.com$/ OK
@@ -85,7 +85,6 @@
 /^(dsldevice\.lan)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
 /^(system\.mail)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
 /^(speedtouch\.lan)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
-/^(dsldevice\.lan)$/ REJECT ACCESS DENIED. Your email was rejected because the sending mail server does not identify itself correctly
 
 #
 # Reject adsl spammers.

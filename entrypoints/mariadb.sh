@@ -14,7 +14,7 @@
 
 DATA_DIR="/var/lib/mysql"
 CUSTOM_CONF_DIR="/opt/iredmail/custom/mysql"
-SOCKET_PATH="/var/run/mysqld/mysqld.sock"
+SOCKET_PATH="/run/mysqld/mysqld.sock"
 DOT_MY_CNF="/root/.my.cnf"
 
 # Directories used to store pre-start and initialization shell/sql scripts.

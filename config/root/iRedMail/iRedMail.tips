@@ -3,7 +3,7 @@ postmaster each time you launch the container.
 
 ###########################################################################
 # iRedMail: https://www.iredmail.org/
-# Version: 2022031601
+# Version: 2022082201
 # Backend: mariadb
 ###########################################################################
 
@@ -129,7 +129,7 @@ full email address.
 * Config files:
     - ClamAV: /etc/clamav/clamd.conf
     - freshclam: /etc/clamav/freshclam.conf
-* ClamAV local socket: /var/run/clamav/clamd.ctl
+* ClamAV local socket: /run/clamav/clamd.ctl
 * Virus signature database directory: /var/lib/clamav
 * Logs:
     - ClamAV log file: /var/log/clamav/clamav.log
@@ -166,7 +166,7 @@ full email address.
 
 ## iRedAPD - Postfix Policy Server:
 
-* Version: 5.0.4
+* Version: 5.1
 * Listen address: 0.0.0.0, port: 7777
 * SQL database account:
     - Database name: iredapd
@@ -218,7 +218,7 @@ full email address.
 * Main config file: /etc/php/7.4/fpm/php-fpm.conf
 * Default pool config file: /etc/php/7.4/fpm/pool.d/www.conf
 * Log files: /var/log/php-fpm
-* Socket path: /var/run/php-fpm.socket
+* Socket path: /run/php-fpm.socket
 
 ## Fail2ban
 

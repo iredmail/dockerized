@@ -37,14 +37,14 @@ $quarantine_subdir_levels = 2;  # add level of subdirs to disperse quarantine
 $daemon_chroot_dir = undef;     # chroot directory or undef, -R
 # $helpers_home = "$MYHOME/var";  # working directory for SpamAssassin, -S
 
-$lock_file = "/var/run/amavis/amavisd.lock";  # -L
-$pid_file = "/var/run/amavis/amavisd.pid";   # -P
+$lock_file = "/run/amavis/amavisd.lock";  # -L
+$pid_file = "/run/amavis/amavisd.pid";   # -P
 
 @local_domains_maps = 1;
 @mynetworks = qw( 127.0.0.0/8 [::1] );
 
 # Socket file, used by amavisd-release or amavis-milter.
-$unix_socketname = "/var/run/amavis/amavisd.sock";
+$unix_socketname = "/run/amavis/amavisd.sock";
 
 #
 # BDB
@@ -335,7 +335,7 @@ $pax = 'pax';
 
 @av_scanners = (
     ['clamav-socket',
-    \&ask_daemon, ["CONTSCAN {}\n", "/var/run/clamav/clamd.ctl"],
+    \&ask_daemon, ["CONTSCAN {}\n", "/run/clamav/clamd.ctl"],
     qr/\bOK$/m, qr/\bFOUND$/m,
     qr/^.*?: (?!Infected Archive)(.*) FOUND$/m ],
 );

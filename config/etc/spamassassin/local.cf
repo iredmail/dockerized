@@ -183,6 +183,12 @@ score SUBJ_ILLEGAL_CHARS 5
 # Link to hosted firebase web application, possible phishing.
 #score URI_FIREBASEAPP 5
 
+# Email sent from free email service providers.
+# From address is in To and Subject
+score FROM_IN_TO_AND_SUBJ 5
+# From and body contain different freemails.
+score FREEMAIL_REPLY 5
+
 # Custom scores
 header CUSTOM_SPAM_SUBJ Subject =~ /\b(sex|sexgal|penis|viagra|drug|drugshop)\b/i
 score CUSTOM_SPAM_SUBJ 20
