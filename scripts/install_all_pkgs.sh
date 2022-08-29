@@ -48,9 +48,11 @@ PIP_MODULES="web.py>=0.62"
 # Required directories.
 export WEB_APP_ROOTDIR="/opt/www"
 
-# Install packages.
+# Upgrade all packages.
+apt-get update && apt-get upgrade -y
+
 echo "Install base packages."
-apt-get update && apt-get install -y apt-utils rsyslog
+apt-get install -y apt-utils rsyslog
 
 echo "Install packages: ${PKGS_ALL}"
 apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends ${PKGS_ALL}
