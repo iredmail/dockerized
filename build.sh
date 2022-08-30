@@ -19,5 +19,6 @@ fi
 [[ -f ${df} ]] || (echo "Docker file ${df} doesnt exist." && exit 255)
 
 docker build \
+    --progress plain \
     --tag ${label}:nightly \
     -f ${df} .

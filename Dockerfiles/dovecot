@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 110 995 143 993 4190 24 12340 24242 12346
 

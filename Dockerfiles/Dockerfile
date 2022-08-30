@@ -4,7 +4,7 @@
 #
 
 # Run all applications in one container.
-FROM ubuntu:focal
+FROM ubuntu:jammy
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
 EXPOSE 80 443 25 465 587 143 993 110 995 4190
 
