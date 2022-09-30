@@ -27,17 +27,17 @@ services:
       - 993:993
       - 995:995
     volumes:
-      - iredmail/data/backup-mysql:/var/vmail/backup/mysql:rw
-      - iredmail/data/vmail1:/var/vmail/vmail1:rw
-      - iredmail/data/mlmmj:/var/vmail/mlmmj:rw
-      - iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive:rw
-      - iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy:rw
-      - iredmail/data/custom:/opt/iredmail/custom:rw
-      - iredmail/data/ssl:/opt/iredmail/ssl:rw
-      - iredmail/data/mysql:/var/lib/mysql:rw
-      - iredmail/data/clamav:/var/lib/clamav:rw
-      - iredmail/data/sa_rules:/var/lib/spamassassin:rw
-      - iredmail/data/postfix_queue:/var/spool/postfix:rw
+      - /iredmail/data/backup-mysql:/var/vmail/backup/mysql:rw
+      - /iredmail/data/vmail1:/var/vmail/vmail1:rw
+      - /iredmail/data/mlmmj:/var/vmail/mlmmj:rw
+      - /iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive:rw
+      - /iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy:rw
+      - /iredmail/data/custom:/opt/iredmail/custom:rw
+      - /iredmail/data/ssl:/opt/iredmail/ssl:rw
+      - /iredmail/data/mysql:/var/lib/mysql:rw
+      - /iredmail/data/clamav:/var/lib/clamav:rw
+      - /iredmail/data/sa_rules:/var/lib/spamassassin:rw
+      - /iredmail/data/postfix_queue:/var/spool/postfix:rw
 networks:
       macvlan.network:
       external: true
