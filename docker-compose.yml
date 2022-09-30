@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+#
+# IREDMAIL
+# for portainer.io stack
+#
+  iredmail:
+    image: 	iredmail/mariadb:stable
+    container_name: mail
+    hostname: simple.domain.org
+    environment:
+    - HOSTNAME=simple.domain.org
+    - FIRST_MAIL_DOMAIN=domain.org
+    - FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=xxxxxxxxx
+    - MLMMJADMIN_API_TOKEN=xxxxxxxxx
+    - ROUNDCUBE_DES_KEY=xxxxxxxxx
+    networks:
+      macvlan.network:
+        ipv4_address: XXX.XXX.XXX.XXX
+    ports:
+      - 80:80
+      - 443:443
+      - 25:25
+      - 587:587
+      - 110:110
+      - 143:143
+      - 993:993
+      - 995:995
+    volumes:
+      - iredmail/data/backup-mysql:/var/vmail/backup/mysql:rw
+      - iredmail/data/vmail1:/var/vmail/vmail1:rw
+      - iredmail/data/mlmmj:/var/vmail/mlmmj:rw
+      - iredmail/data/mlmmj-archive:/var/vmail/mlmmj-archive:rw
+      - iredmail/data/imapsieve_copy:/var/vmail/imapsieve_copy:rw
+      - iredmail/data/custom:/opt/iredmail/custom:rw
+      - iredmail/data/ssl:/opt/iredmail/ssl:rw
+      - iredmail/data/mysql:/var/lib/mysql:rw
+      - iredmail/data/clamav:/var/lib/clamav:rw
+      - iredmail/data/sa_rules:/var/lib/spamassassin:rw
+      - iredmail/data/postfix_queue:/var/spool/postfix:rw
+networks:
+      macvlan.network:
+      external: true
