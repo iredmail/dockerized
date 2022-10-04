@@ -97,9 +97,9 @@ chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.8.tar.gz && \
-tar xzf 1.8.tar.gz -C /opt/www && \
-rm -f 1.8.tar.gz && \
-ln -s /opt/www/iRedAdmin-1.8 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.8 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.8
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.8.1.tar.gz && \
+tar xzf 1.8.1.tar.gz -C /opt/www && \
+rm -f 1.8.1.tar.gz && \
+ln -s /opt/www/iRedAdmin-1.8.1 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.8.1 && \
+chmod -R 0555 /opt/www/iRedAdmin-1.8.1

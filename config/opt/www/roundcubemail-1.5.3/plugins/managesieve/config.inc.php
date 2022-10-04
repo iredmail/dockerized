@@ -96,6 +96,12 @@ $config['managesieve_domains'] = array();
 // 2 - add Vacation section, but hide Filters section
 $config['managesieve_vacation'] = 1;
 
+// Enables separate management interface for setting forwards (redirect to and copy to)
+// 0 - no separate section (default),
+// 1 - add Forward section,
+// 2 - add Forward section, but hide Filters section
+$config['managesieve_forward'] = 1;
+
 // Default vacation interval (in days).
 // Note: If server supports vacation-seconds extension it is possible
 // to define interval in seconds here (as a string), e.g. "3600s".
