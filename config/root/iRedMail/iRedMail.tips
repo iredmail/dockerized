@@ -211,12 +211,12 @@ full email address.
 
 ## PHP
 
-* PHP config file: /etc/php/7.4/fpm/php.ini
+* PHP config file: /etc/php/8.1/fpm/php.ini
 
 ## PHP-FPM
 
-* Main config file: /etc/php/7.4/fpm/php-fpm.conf
-* Default pool config file: /etc/php/7.4/fpm/pool.d/www.conf
+* Main config file: /etc/php/8.1/fpm/php-fpm.conf
+* Default pool config file: /etc/php/8.1/fpm/pool.d/www.conf
 * Log files: /var/log/php-fpm
 * Socket path: /run/php-fpm.socket
 

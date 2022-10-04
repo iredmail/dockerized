@@ -25,8 +25,9 @@ $config['syslog_facility'] = LOG_LOCAL5;
 $config['log_logins'] = true;
 
 // IMAP
-//$config['default_host'] = 'tls://127.0.0.1';
-$config['default_host'] = '127.0.0.1';
+// Local connection is considered as secure by Dovecot. If you have issue with
+// TLS enabled, try to remove the `tls://` prefix.
+$config['default_host'] = 'tls://127.0.0.1';
 $config['default_port'] = 143;
 $config['imap_auth_type'] = 'LOGIN';
 $config['imap_delimiter'] = '/';
