@@ -69,12 +69,12 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.1.tar.gz && \
-tar xzf 5.1.tar.gz -C /opt && \
-rm -f 5.1.tar.gz && \
-ln -s /opt/iRedAPD-5.1 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.1 && \
-chmod -R 0500 /opt/iRedAPD-5.1 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.1.2.tar.gz && \
+tar xzf 5.1.2.tar.gz -C /opt && \
+rm -f 5.1.2.tar.gz && \
+ln -s /opt/iRedAPD-5.1.2 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.1.2 && \
+chmod -R 0500 /opt/iRedAPD-5.1.2 && \
 
 # Install mlmmjadmin.
 wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.5.tar.gz && \
@@ -97,9 +97,9 @@ chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/1.8.1.tar.gz && \
-tar xzf 1.8.1.tar.gz -C /opt/www && \
-rm -f 1.8.1.tar.gz && \
-ln -s /opt/www/iRedAdmin-1.8.1 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-1.8.1 && \
-chmod -R 0555 /opt/www/iRedAdmin-1.8.1
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/2.2.tar.gz && \
+tar xzf 2.2.tar.gz -C /opt/www && \
+rm -f 2.2.tar.gz && \
+ln -s /opt/www/iRedAdmin-2.2 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-2.2 && \
+chmod -R 0555 /opt/www/iRedAdmin-2.2

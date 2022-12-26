@@ -142,7 +142,7 @@ score URIBL_ABUSE_SURBL 5
 score SURBL_BLOCKED 0
 
 # multi.urlbl.com
-score URIBL_BLACK 10
+#score URIBL_BLACK 10
 #score URIBL_GREY 3
 #score URIBL_RED 0
 score URIBL_BLOCKED 0
