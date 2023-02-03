@@ -11,7 +11,7 @@
 #
 # where "<secret>" is the password.
 
-/var/lib/mysql/mysqld.log
+/var/lib/mysql/mysqld.err
 /var/lib/mysql/slow-query.log {
     # create 600 mysql mysql
     notifempty
