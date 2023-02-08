@@ -65,8 +65,7 @@ debug_peer_level = 2
 #
 
 
-# Disable backwards compatibility. Used by Postfix-3.x.
-compatibility_level = 2
+compatibility_level = 3.6
 
 
 # SMTP server response code when recipient or domain not found.

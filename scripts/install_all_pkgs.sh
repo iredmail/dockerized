@@ -69,12 +69,12 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.1.2.tar.gz && \
-tar xzf 5.1.2.tar.gz -C /opt && \
-rm -f 5.1.2.tar.gz && \
-ln -s /opt/iRedAPD-5.1.2 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.1.2 && \
-chmod -R 0500 /opt/iRedAPD-5.1.2 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.2.tar.gz && \
+tar xzf 5.2.tar.gz -C /opt && \
+rm -f 5.2.tar.gz && \
+ln -s /opt/iRedAPD-5.2 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.2 && \
+chmod -R 0500 /opt/iRedAPD-5.2 && \
 
 # Install mlmmjadmin.
 wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.5.tar.gz && \
@@ -86,13 +86,13 @@ chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.5 && \
 chmod -R 0500 /opt/mlmmjadmin-3.1.5
 
 # Install Roundcube.
-wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.5.3/roundcubemail-1.5.3-complete.tar.gz && \
-tar zxf roundcubemail-1.5.3-complete.tar.gz -C /opt/www && \
-rm -f roundcubemail-1.5.3-complete.tar.gz && \
-ln -s /opt/www/roundcubemail-1.5.3 /opt/www/roundcubemail && \
-chown -R root:root /opt/www/roundcubemail-1.5.3 && \
-chmod -R 0755 /opt/www/roundcubemail-1.5.3 && \
-cd /opt/www/roundcubemail-1.5.3 && \
+wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.6.1/roundcubemail-1.6.1-complete.tar.gz && \
+tar zxf roundcubemail-1.6.1-complete.tar.gz -C /opt/www && \
+rm -f roundcubemail-1.6.1-complete.tar.gz && \
+ln -s /opt/www/roundcubemail-1.6.1 /opt/www/roundcubemail && \
+chown -R root:root /opt/www/roundcubemail-1.6.1 && \
+chmod -R 0755 /opt/www/roundcubemail-1.6.1 && \
+cd /opt/www/roundcubemail-1.6.1 && \
 chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 

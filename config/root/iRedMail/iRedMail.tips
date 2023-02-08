@@ -166,7 +166,7 @@ full email address.
 
 ## iRedAPD - Postfix Policy Server:
 
-* Version: 5.1.2
+* Version: 5.2
 * Listen address: 0.0.0.0, port: 7777
 * SQL database account:
     - Database name: iredapd
