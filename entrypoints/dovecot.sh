@@ -62,7 +62,10 @@ chmod 0644 ${SSL_DHPARAM2048_FILE}
 # Make sure mailboxes directory has correct owner/group and permission.
 # Note: If there're many mailboxes, `chown/chmod -R` will take a long time.
 chown ${SYS_USER_VMAIL}:${SYS_GROUP_VMAIL} ${MAILBOXES_DIR}
-chmod 0700 ${MAILBOXES_DIR}
+
+################## dovecot Permission Problme ##################
+chmod 0775 -R ${MAILBOXES_DIR}
+################################################################
 
 # Enable some modular config files.
 for f in service-imap-hibernate.conf stats.conf; do

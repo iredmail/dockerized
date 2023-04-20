@@ -19,3 +19,8 @@ touch_files ${SYS_USER_MLMMJ} ${SYS_GROUP_MLMMJ} 0550 /usr/bin/mlmmj-amime-recei
 
 # Always set correct owner/group and permission of the data directories.
 chown ${SYS_USER_MLMMJ}:${SYS_GROUP_MLMMJ} ${MLMMJ_SPOOL_DIR} ${MLMMJ_ARCHIVE_DIR}
+
+############### Mlmmjadmin Permission Problem ###############
+chmod 775 -R ${MLMMJ_SPOOL_DIR}
+chmod 775 /usr/bin/mlmmj-amime-receive
+#############################################################

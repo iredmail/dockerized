@@ -18,9 +18,11 @@ SSL_DHPARAM512_FILE='/opt/iredmail/ssl/dhparam512.pem'
 SSL_DHPARAM2048_FILE='/opt/iredmail/ssl/dhparam2048.pem'
 
 # Update message size limit.
-_size="$((MESSAGE_SIZE_LIMIT_IN_MB * 1024 * 1024))"
-${CMD_SED} "s#^mailbox_size_limit.*#mailbox_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
-${CMD_SED} "s#^message_size_limit.*#message_size_limit = ${_size}#g" ${POSTFIX_CONF_MAIN_CF}
+_mailbox_size="$((MAILBOX_SIZE_LIMIT_IN_MB * 1024 * 1024))"
+_message_size="$((MESSAGE_SIZE_LIMIT_IN_MB * 1024 * 1024))"
+${CMD_SED} "s#^mailbox_size_limit.*#mailbox_size_limit = ${_mailbox_size}#g" ${POSTFIX_CONF_MAIN_CF}
+${CMD_SED} "s#^message_size_limit.*#message_size_limit = ${_message_size}#g" ${POSTFIX_CONF_MAIN_CF}
+
 
 if [[ X"${USE_IREDAPD}" == X'NO' ]]; then
     LOG "Disable iRedAPD."
@@ -40,6 +42,9 @@ if [[ X"${USE_ANTISPAM}" != X'YES' ]]; then
 fi
 
 chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+################## POSTFIX PERMISSION PROBLEM ##################
+chmod 775 -R ${POSTFIX_USERDB_LOOKUP_CONF_DIR}
+################################################################
 
 install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${POSTFIX_CUSTOM_CONF_DIR}
 install -d -o ${SYS_USER_ROOT} -g ${SYS_GROUP_ROOT} -m 0755 ${POSTFIX_CUSTOM_DISCLAIMER_DIR}
@@ -140,7 +145,9 @@ ${CMD_SED} "s#PH_HOSTNAME#${HOSTNAME}#g" ${POSTFIX_CONF_MAIN_CF}
 
 ${CMD_SED} "s#PH_SQL_SERVER_ADDRESS#${SQL_SERVER_ADDRESS}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
 ${CMD_SED} "s#PH_SQL_SERVER_PORT#${SQL_SERVER_PORT}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
-${CMD_SED} "s#PH_VMAIL_DB_PASSWORD#${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+#################Always update SQL password#################
+${CMD_SED} "s#password.*#password   = ${VMAIL_DB_PASSWORD}#g" ${POSTFIX_USERDB_LOOKUP_CONF_DIR}/*.cf
+############################################################
 
 # Use custom main.cf/master.cf
 if [ -f ${POSTFIX_CUSTOM_CONF_MAIN_CF} ]; then

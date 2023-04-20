@@ -48,14 +48,34 @@ PIP_MODULES="web.py>=0.62"
 # Required directories.
 export WEB_APP_ROOTDIR="/opt/www"
 
-# Upgrade all packages.
-apt-get update && apt-get upgrade -y
-
+# Install packages.
 echo "Install base packages."
-apt-get install -y apt-utils rsyslog
+apt-get update && apt-get install -y --no-install-recommends apt-utils rsyslog
 
 echo "Install packages: ${PKGS_ALL}"
 apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends ${PKGS_ALL}
+
+########################SOGO INSERTED#########################
+echo "Update SOGo nightly Archive."
+export SOGo_NIGHTLY="https://packages.inverse.ca/SOGo/nightly/5/ubuntu/ focal focal"
+echo "deb ${SOGo_NIGHTLY}" >> /etc/apt/sources.list.d/SOGo.list
+## Add key 19CDA6A9810273C4: public key "Inverse Support (package signing) <support@inverse.ca>" imported
+#apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-key 19CDA6A9810273C4
+PKGS_SOGo="sogo sogo-activesync sope4.9-gdl1-mysql memcached" #sogo-eala rms-notify sogo-tool
+
+# Add OpenPGP Key
+wget -O- 'http://pgp.mit.edu/pks/lookup?op=get&search=0xCB2D3A2AA0030E2C' | gpg --dearmor | apt-key add -
+wget -O- 'https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9' | gpg --dearmor | apt-key add -
+
+
+# Create temporary file /usr/share/doc/sogo/test.sh to avoid an error in the
+# post-install script of SOGo package.
+mkdir -p /usr/share/doc/sogo/ \
+    && touch /usr/share/doc/sogo/test.sh
+echo "Install packages: ${PKGS_SOGo}"
+apt-get update && apt-get install -y --no-install-recommends ${PKGS_SOGo}
+##############################################################
+
 
 # Install Python modules.
 /usr/bin/pip3 install \

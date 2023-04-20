@@ -6,7 +6,12 @@
 # Run all applications in one container.
 FROM ubuntu:jammy
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
-EXPOSE 80 443 25 465 587 143 993 110 995 4190
+EXPOSE 389 636                 #ldap/ldaps
+EXPOSE 25 465 587              #smtp/smtps
+EXPOSE 143 993                 #imap/imaps
+EXPOSE 7791                    #iredadmin
+EXPOSE 20000                   #SOGo
+EXPOSE 19999                   #Netdata Monitor
 
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 ARG SCRIPTS_DIR=/docker/scripts
@@ -41,7 +46,9 @@ COPY ./config/. /
 # entrypoint scripts
 #
 COPY ./entrypoints/. ${ENTRYPOINTS_DIR}/
-COPY ./settings.conf ${ENTRYPOINTS_DIR}/
+#####################SETTING UNIFICATION######################
+COPY ./iredmail-docker.conf ${ENTRYPOINTS_DIR}/
+##############################################################
 
 # Main entrypoint script.
 COPY ./entrypoints/all_in_one.sh /entrypoint.sh

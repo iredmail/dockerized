@@ -25,6 +25,11 @@ require_non_empty_var IREDADMIN_DB_PASSWORD ${IREDADMIN_DB_PASSWORD}
 [[ -d ${IREDADMIN_CUSTOM_CONF_DIR} ]] || mkdir -p ${IREDADMIN_CUSTOM_CONF_DIR}
 [[ -f ${IREDADMIN_CUSTOM_CONF} ]] || touch ${IREDADMIN_CUSTOM_CONF}
 
+################## IRedAdmin PERMISSION PROBLEM ##################
+chown ${SYS_USER_IREDADMIN}:${SYS_GROUP_IREDADMIN} -R ${IREDADMIN_WEB_ROOTDIR_SYMLINK}
+chmod 0755 -R ${IREDADMIN_WEB_ROOTDIR_SYMLINK}
+##################################################################
+
 chown ${SYS_USER_IREDADMIN}:${SYS_GROUP_IREDADMIN} ${IREDADMIN_CONF} ${IREDADMIN_CUSTOM_CONF}
 chmod 0400 ${IREDADMIN_CONF} ${IREDADMIN_CUSTOM_CONF}
 
@@ -59,6 +64,23 @@ if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
 else
     update_iredadmin_setting iredapd_enabled False bool
 fi
+
+#################### IRedAdmin External NGINX ####################
+_iredadmin_uwsgi="/opt/www/iredadmin/rc_scripts/uwsgi/debian.ini"
+_supervisor_uwsgi="/etc/supervisor/conf-available/iredadmin.conf"
+
+# Listen from ALL
+_uwsgi_socket="uwsgi-socket = 0.0.0.0:7791"
+
+# External --static-map Add
+_iredadmin_cmd="command=/usr/bin/uwsgi --ini /opt/www/iredadmin/rc_scripts/uwsgi/debian.ini --static-map /iredadmin/static=/opt/www/iredadmin/static"
+
+if [[ X"${USE_NGINX}" == X'NO' ]]; then
+    ${CMD_SED} "s#uwsgi-socket =.*#${_uwsgi_socket}#g" ${_iredadmin_uwsgi}
+
+    ${CMD_SED} "s#command=.*#${_iredadmin_cmd}#g" ${_supervisor_uwsgi}
+fi
+##################################################################
 
 if [[ X"${FAIL2BAN_STORE_BANNED_IP_IN_DB}" == X'YES' ]]; then
     update_iredadmin_setting fail2ban_db_password ${FAIL2BAN_DB_PASSWORD}
