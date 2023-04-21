@@ -1,0 +1,70 @@
+# Settings for SOGo Groupware
+
+# SOGo
+location ~ ^/sogo { rewrite ^ https://$host/SOGo; }
+location ~ ^/SOGO { rewrite ^ https://$host/SOGo; }
+
+# Redirect /mail to /SOGo
+#location ~ ^/mail { rewrite ^ https://$host/SOGo; }
+
+# For Mac OS X and iOS devices.
+rewrite ^/.well-known/caldav    /SOGo/dav permanent;
+rewrite ^/.well-known/carddav   /SOGo/dav permanent;
+rewrite ^/principals            /SOGo/dav permanent;
+
+location ^~ /SOGo {
+    include /etc/nginx/templates/hsts.tmpl;
+
+    proxy_pass http://127.0.0.1:20000;
+
+
+    # reslove SOGo5 login problems
+    proxy_buffers 4 256k;
+    proxy_buffer_size   128k;
+
+    # forward user's IP address
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $host;
+
+    # always use https
+    proxy_set_header x-webobjects-server-port $server_port;
+    proxy_set_header x-webobjects-server-name $host;
+    proxy_set_header x-webobjects-server-url  https://$host;
+
+    proxy_set_header x-webobjects-server-protocol HTTP/1.0;
+}
+
+location ^~ /Microsoft-Server-ActiveSync {
+    proxy_pass http://127.0.0.1:20000/SOGo/Microsoft-Server-ActiveSync;
+
+    proxy_connect_timeout 3540;
+    proxy_send_timeout 3540;
+    proxy_read_timeout 3540;
+}
+
+location ^~ /SOGo/Microsoft-Server-ActiveSync {
+    proxy_pass http://127.0.0.1:20000/SOGo/Microsoft-Server-ActiveSync;
+
+    proxy_connect_timeout 3540;
+    proxy_send_timeout 3540;
+    proxy_read_timeout 3540;
+}
+
+location /SOGo.woa/WebServerResources/ {
+    alias /usr/lib/GNUstep/SOGo/WebServerResources/;
+    expires max;
+}
+location /SOGo/WebServerResources/ {
+    alias /usr/lib/GNUstep/SOGo/WebServerResources/;
+    expires max;
+}
+location ^/SOGo/so/ControlPanel/Products/([^/]*)/Resources/(.*)$ {
+    alias /usr/lib/GNUstep/SOGo/$1.SOGo/Resources/$2;
+    expires max;
+}
+location (^/SOGo/so/ControlPanel/Products/[^/]*UI/Resources/.*\.(jpg|png|gif|css|js)$) {
+    alias /usr/lib/GNUstep/SOGo/$1.SOGo/Resources/$2;
+    expires max;
+}
+

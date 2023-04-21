@@ -15,7 +15,7 @@ PKGS_MYSQL="mariadb-server"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php-fpm php-cli"
 PKGS_POSTFIX="postfix postfix-pcre libsasl2-modules postfix-mysql"
-PKGS_DOVECOT="dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-managesieved dovecot-sieve dovecot-mysql"
+PKGS_DOVECOT="dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-managesieved dovecot-sieve dovecot-mysql dovecot-fts-xapian"
 PKGS_AMAVISD="amavisd-new libcrypt-openssl-rsa-perl libmail-dkim-perl altermime arj nomarch cpio liblz4-tool lzop cabextract p7zip-full rpm libmail-spf-perl unrar-free pax libdbd-mysql-perl"
 PKGS_SPAMASSASSIN="spamassassin"
 PKGS_CLAMAV="clamav-freshclam clamav-daemon"
@@ -57,7 +57,7 @@ apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommen
 
 ########################SOGO INSERTED#########################
 echo "Update SOGo nightly Archive."
-export SOGo_NIGHTLY="https://packages.inverse.ca/SOGo/nightly/5/ubuntu/ focal focal"
+export SOGo_NIGHTLY="https://packages.inverse.ca/SOGo/nightly/5/ubuntu/ jammy jammy"
 echo "deb ${SOGo_NIGHTLY}" >> /etc/apt/sources.list.d/SOGo.list
 ## Add key 19CDA6A9810273C4: public key "Inverse Support (package signing) <support@inverse.ca>" imported
 #apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-key 19CDA6A9810273C4

@@ -11,7 +11,6 @@
 CLAMAV_DB_DIR='/var/lib/clamav'
 CLAMD_CONF='/etc/clamav/clamd.conf'
 FRESHCLAM_CONF='/etc/clamav/freshclam.conf'
-CLAMAV_USER='clamav'
 
 # Check database directory
 [[ ! -d ${CLAMAV_DB_DIR} ]] || mkdir -p ${CLAMAV_DB_DIR}

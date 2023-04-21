@@ -6,12 +6,8 @@
 # Run all applications in one container.
 FROM ubuntu:jammy
 MAINTAINER Zhang Huangbin <zhb@iredmail.org>
-EXPOSE 389 636                 #ldap/ldaps
-EXPOSE 25 465 587              #smtp/smtps
-EXPOSE 143 993                 #imap/imaps
-EXPOSE 7791                    #iredadmin
-EXPOSE 20000                   #SOGo
-EXPOSE 19999                   #Netdata Monitor
+#ldap/ldaps
+EXPOSE 389 636 25 465 587 143 993 7791 20000 19999                 
 
 ARG ENTRYPOINTS_DIR=/docker/entrypoints
 ARG SCRIPTS_DIR=/docker/scripts
