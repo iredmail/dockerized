@@ -69,21 +69,21 @@ apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 mkdir -p ${WEB_APP_ROOTDIR}
 
 # Install iRedAPD.
-wget -c -q https://github.com/iredmail/iRedAPD/archive/5.2.tar.gz && \
-tar xzf 5.2.tar.gz -C /opt && \
-rm -f 5.2.tar.gz && \
-ln -s /opt/iRedAPD-5.2 /opt/iredapd && \
-chown -R iredapd:iredapd /opt/iRedAPD-5.2 && \
-chmod -R 0500 /opt/iRedAPD-5.2 && \
+wget -c -q https://github.com/iredmail/iRedAPD/archive/5.3.tar.gz && \
+tar xzf 5.3.tar.gz -C /opt && \
+rm -f 5.3.tar.gz && \
+ln -s /opt/iRedAPD-5.3 /opt/iredapd && \
+chown -R iredapd:iredapd /opt/iRedAPD-5.3 && \
+chmod -R 0500 /opt/iRedAPD-5.3 && \
 
 # Install mlmmjadmin.
-wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.5.tar.gz && \
-tar zxf 3.1.5.tar.gz -C /opt && \
-rm -f 3.1.5.tar.gz && \
-ln -s /opt/mlmmjadmin-3.1.5 /opt/mlmmjadmin && \
-cd /opt/mlmmjadmin-3.1.5 && \
-chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.5 && \
-chmod -R 0500 /opt/mlmmjadmin-3.1.5
+wget -c -q https://github.com/iredmail/mlmmjadmin/archive/3.1.6.tar.gz && \
+tar zxf 3.1.6.tar.gz -C /opt && \
+rm -f 3.1.6.tar.gz && \
+ln -s /opt/mlmmjadmin-3.1.6 /opt/mlmmjadmin && \
+cd /opt/mlmmjadmin-3.1.6 && \
+chown -R mlmmj:mlmmj /opt/mlmmjadmin-3.1.6 && \
+chmod -R 0500 /opt/mlmmjadmin-3.1.6
 
 # Install Roundcube.
 wget -c -q https://github.com/roundcube/roundcubemail/releases/download/1.6.1/roundcubemail-1.6.1-complete.tar.gz && \
@@ -97,9 +97,9 @@ chown -R www-data:www-data temp logs && \
 chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
-wget -c -q https://github.com/iredmail/iRedAdmin/archive/2.2.tar.gz && \
-tar xzf 2.2.tar.gz -C /opt/www && \
-rm -f 2.2.tar.gz && \
-ln -s /opt/www/iRedAdmin-2.2 /opt/www/iredadmin && \
-chown -R iredadmin:iredadmin /opt/www/iRedAdmin-2.2 && \
-chmod -R 0555 /opt/www/iRedAdmin-2.2
+wget -c -q https://github.com/iredmail/iRedAdmin/archive/2.3.tar.gz && \
+tar xzf 2.3.tar.gz -C /opt/www && \
+rm -f 2.3.tar.gz && \
+ln -s /opt/www/iRedAdmin-2.3 /opt/www/iredadmin && \
+chown -R iredadmin:iredadmin /opt/www/iRedAdmin-2.3 && \
+chmod -R 0555 /opt/www/iRedAdmin-2.3

@@ -136,16 +136,16 @@ postscreen_access_list =
 # Require Postfix-2.11+
 #postscreen_dnsbl_whitelist_threshold = -2
 #
-# Disable SSLv2 SSLv3
+# Disable SSLv2, SSLv3, TLSv1.
 #
-smtpd_tls_protocols = !SSLv2 !SSLv3
-smtpd_tls_mandatory_protocols = !SSLv2 !SSLv3
+smtpd_tls_protocols = !SSLv2 !SSLv3 !TLSv1
+smtpd_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
 
-smtp_tls_protocols = !SSLv2 !SSLv3
-smtp_tls_mandatory_protocols = !SSLv2 !SSLv3
+smtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1
+smtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
 
-lmtp_tls_protocols = !SSLv2 !SSLv3
-lmtp_tls_mandatory_protocols = !SSLv2 !SSLv3
+lmtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1
+lmtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
 
 #
 # Fix 'The Logjam Attack'.
@@ -253,6 +253,7 @@ smtpd_recipient_restrictions =
     reject_unknown_recipient_domain
     reject_non_fqdn_recipient
     reject_unlisted_recipient
+    check_recipient_access pcre:/opt/iredmail/custom/postfix/recipient_access.pcre
     check_policy_service inet:127.0.0.1:7777
     permit_mynetworks
     permit_sasl_authenticated
