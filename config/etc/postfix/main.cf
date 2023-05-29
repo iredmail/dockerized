@@ -136,16 +136,16 @@ postscreen_access_list =
 # Require Postfix-2.11+
 #postscreen_dnsbl_whitelist_threshold = -2
 #
-# Disable SSLv2, SSLv3, TLSv1.
+# Disable SSLv2, SSLv3, TLSv1, TLSv1.1.
 #
-smtpd_tls_protocols = !SSLv2 !SSLv3 !TLSv1
-smtpd_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
+smtpd_tls_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
+smtpd_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
 
-smtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1
-smtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
+smtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
+smtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
 
-lmtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1
-lmtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1
+lmtp_tls_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
+lmtp_tls_mandatory_protocols = !SSLv2 !SSLv3 !TLSv1 !TLSv1.1
 
 #
 # Fix 'The Logjam Attack'.
