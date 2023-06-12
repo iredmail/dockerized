@@ -25,7 +25,7 @@ PKGS_MLMMJ="mlmmj altermime"
 PKGS_MLMMJADMIN="uwsgi uwsgi-plugin-python3 python3-requests python3-pymysql python3-psycopg2 python3-ldap python3-more-itertools"
 PKGS_FAIL2BAN="fail2ban bind9-dnsutils iptables"
 PKGS_ROUNDCUBE="php-bz2 php-curl php-gd php-imap php-intl php-json php-ldap php-mbstring php-mysql php-pgsql php-pspell php-xml php-zip mcrypt mariadb-client aspell"
-PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less vim-tiny
+PKGS_ALL="wget gpg-agent supervisor mailutils less vim-tiny
     ${PKGS_BASE}
     ${PKGS_MYSQL}
     ${PKGS_NGINX}
@@ -42,9 +42,6 @@ PKGS_ALL="wget gpg-agent supervisor mailutils python3-pip less vim-tiny
     ${PKGS_FAIL2BAN}
     ${PKGS_ROUNDCUBE}"
 
-# Required Python modules.
-PIP_MODULES="web.py>=0.62"
-
 # Required directories.
 export WEB_APP_ROOTDIR="/opt/www"
 
@@ -56,13 +53,6 @@ apt-get install -y apt-utils rsyslog
 
 echo "Install packages: ${PKGS_ALL}"
 apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends ${PKGS_ALL}
-
-# Install Python modules.
-/usr/bin/pip3 install \
-    --no-cache-dir \
-     \
-    ${PIP_MODULES}
-
 apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # Create required directories.
@@ -94,7 +84,7 @@ chown -R root:root /opt/www/roundcubemail-1.6.1 && \
 chmod -R 0755 /opt/www/roundcubemail-1.6.1 && \
 cd /opt/www/roundcubemail-1.6.1 && \
 chown -R www-data:www-data temp logs && \
-chmod 0000 CHANGELOG INSTALL LICENSE README* UPGRADING installer SQL
+chmod 0000 CHANGELOG.md INSTALL LICENSE README* UPGRADING installer SQL
 
 # Install iRedAdmin (open source edition).
 wget -c -q https://github.com/iredmail/iRedAdmin/archive/2.3.tar.gz && \
