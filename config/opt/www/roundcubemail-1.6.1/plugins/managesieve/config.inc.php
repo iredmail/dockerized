@@ -10,17 +10,17 @@
 // WARNING: First line of "/opt/iredmail/custom/roundcube/config_managesieve.inc.php"
 //          must be '<?php'.
 
-// managesieve server port. When empty the port will be determined automatically
-// using getservbyname() function, with 4190 as a fallback.
-$config['managesieve_port'] = '4190';
-
-// managesieve server address, default is localhost.
+// Managesieve server host (and optional port). Default: localhost.
 // Replacement variables supported in host name:
 // %h - user's IMAP hostname
 // %n - http hostname ($_SERVER['SERVER_NAME'])
 // %d - domain (http hostname without the first part)
 // For example %n = mail.domain.tld, %d = domain.tld
-$config['managesieve_host'] = '127.0.0.1';
+// If port is omitted it will be determined automatically using getservbyname()
+// function, with 4190 as a fallback.
+// Note: Add tls:// prefix to enable explicit STARTTLS
+// or add ssl:// prefix to enable implicit SSL.
+$config['managesieve_host'] = 'tls://127.0.0.1:4190';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
 // or none. Optional, defaults to best method supported by server.

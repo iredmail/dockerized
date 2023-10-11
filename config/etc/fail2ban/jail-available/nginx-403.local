@@ -1,0 +1,14 @@
+#
+# This file is managed by iRedMail Team <support@iredmail.org> with Ansible,
+# please do __NOT__ modify it manually.
+#
+
+[nginx-403]
+backend = polling
+journalmatch =
+enabled = true
+filter  = nginx-403.iredmail
+maxretry = 2
+logpath = /var/log/nginx/error.log tail
+action  = iptables-multiport[name=nginx-403, port="80,443,19999", protocol=tcp]
+          banned_db[name=nginx-403, port="80,443,19999", protocol=tcp]

@@ -56,11 +56,11 @@ $config['password_force_new_user'] = false;
 // Possible options: des-crypt, ext-des-crypt, md5-crypt, blowfish-crypt,
 // sha256-crypt, sha512-crypt, md5, sha, smd5, ssha, samba, ad, dovecot, clear.
 // For details see password::hash_password() method.
-$config['password_algorithm'] = 'dovecot';
+$config['password_algorithm'] = 'ssha512';
 
 // Password prefix (e.g. {CRYPT}, {SHA}) for passwords generated
 // using password_algorithm above. Default: empty.
-$config['password_algorithm_prefix'] = '';
+$config['password_algorithm_prefix'] = '{SSHA512}';
 
 // Path for dovecotpw/doveadm-pw (if not in the $PATH).
 // Used for password_algorithm = 'dovecot'.

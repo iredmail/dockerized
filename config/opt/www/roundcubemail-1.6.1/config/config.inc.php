@@ -27,8 +27,7 @@ $config['log_logins'] = true;
 // IMAP
 // Local connection is considered as secure by Dovecot. If you have issue with
 // TLS enabled, try to remove the `tls://` prefix.
-$config['default_host'] = 'tls://127.0.0.1';
-$config['default_port'] = 143;
+$config['imap_host'] = 'tls://127.0.0.1:143';
 $config['imap_auth_type'] = 'LOGIN';
 $config['imap_delimiter'] = '/';
 $config['imap_vendor'] = 'dovecot';
@@ -53,8 +52,7 @@ $config['messages_cache_ttl'] = '10d';
 $config['messages_cache_threshold'] = 100;
 
 // SMTP
-$config['smtp_server'] = 'tls://127.0.0.1';
-$config['smtp_port'] = 587;
+$config['smtp_host'] = 'tls://127.0.0.1:587';
 $config['smtp_user'] = '%u';
 $config['smtp_pass'] = '%p';
 $config['smtp_auth_type'] = 'LOGIN';

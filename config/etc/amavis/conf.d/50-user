@@ -660,7 +660,7 @@ $allowed_header_tests{'multiple'} = 0;
 $allowed_header_tests{'missing'} = 0;
 
 # Listen on specified addresses.
-$inet_socket_bind = ['0.0.0.0'];
+$inet_socket_bind = ['127.0.0.1'];
 
 # Set ACL
 @inet_acl = qw(127.0.0.1 [::1]);

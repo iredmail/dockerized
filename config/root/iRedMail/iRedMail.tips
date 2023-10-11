@@ -3,7 +3,7 @@ postmaster each time you launch the container.
 
 ###########################################################################
 # iRedMail: https://www.iredmail.org/
-# Version: 2022121901
+# Version: 2023052301
 # Backend: mariadb
 ###########################################################################
 
@@ -166,7 +166,7 @@ full email address.
 
 ## iRedAPD - Postfix Policy Server:
 
-* Version: 5.2
+* Version: 5.3
 * Listen address: 0.0.0.0, port: 7777
 * SQL database account:
     - Database name: iredapd
