@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  iredmail:
+    container_name: iredmail
+    #image: iredmail/mariadb:stable
+    restart: always
+    build:
+     context: .
+     dockerfile: ./Dockerfiles/Dockerfile
+    #network_mode: bridge
+    ports:
+      - 25:25/tcp #smtp
+      - 80:80/tcp
+      - 443:443/tcp
+      - 465:465/tcp #smtps ssl
+      - 587:587/tcp #smtps tls
+      - 143:143/tcp #imap tls
+      - 993:993/tcp #imap ssl   
+     #- 110:110/tcp #pop3 tls
+     #- 995:995/tcp #pop3 ssl
+      - 7790:7790/tcp #mlmmjadmin
+      - 7791:7791/tcp #iredadmin http
+      - 9001:9001/tcp #php-fpm for external nginx
+      - 20000:20000/tcp #SOGo
+    #expose:
+     #- 19999 #netdata monitor
+    volumes:
+     ##################### For TLS #####################
+     #- /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem:/opt/iredmail/ssl/key.pem:ro
+     #- /etc/letsencrypt/live/YOUR-DOMAIN/cert.pem:/opt/iredmail/ssl/cert.pem:ro
+     #- /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem:/opt/iredmail/ssl/fullchain.pem:ro
+     ##################### For SSL #####################
+     #- /etc/ssl/dh2048_param.pem:/opt/iredmail/ssl/dhparam2048.pem:ro
+     #- /etc/ssl/dh512_param.pem:/opt/iredmail/ssl/dhparam512.pem:ro
+     ################## For TimeZone ###################
+     - /etc/localtime:/etc/localtime:ro
+     ################# For Data Backup #################
+     - ./data/backup-mysql:/var/vmail/backup/mysql:rw
+     - ./data/mailboxes:/var/vmail/vmail1:rw
+     - ./data/mlmmj:/var/vmail/mlmmj:rw
+     - ./data/mlmmj-archive:/var/vmail/mlmmj-archive:rw
+     - ./data/imapsieve_copy:/var/vmail/imapsieve_copy:rw
+     - ./data/custom:/opt/iredmail/custom:rw
+     - ./data/ssl:/opt/iredmail/ssl:rw
+     - ./data/mysql:/var/lib/mysql:rw
+     - ./data/clamav:/var/lib/clamav:rw
+     - ./data/sa_rules:/var/lib/spamassassin:rw
+     - ./data/postfix_queue:/var/spool/postfix:rw
+     ################ SOGo Resource Link ###############
+     #- /usr/lib/GNUstep/SOGo:/usr/lib/GNUstep/SOGo_nginx:rw
+    environment:
+     - TZ=Asia/Seoul
+    env_file:
+     - ./iredmail-docker.conf
+    entrypoint: /bin/bash "/entrypoint.sh"
+    command: /usr/bin/supervisord -c "/etc/supervisor/supervisord.conf"
+    cap_add:
+     - NET_ADMIN       # For Fail2Ban, But Not Recommend
+
+networks:
+   default:
+      external:
+         name: docker-net

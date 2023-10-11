@@ -7,7 +7,9 @@
 #
 
 ENTRYPOINTS_DIR="/docker/entrypoints"
-SETTINGS_CONF="${ENTRYPOINTS_DIR}/settings.conf"
+#####################SETTING UNIFICATION######################
+SETTINGS_CONF="${ENTRYPOINTS_DIR}/iredmail-docker.conf"
+##############################################################
 
 . ${ENTRYPOINTS_DIR}/functions.sh
 
@@ -61,6 +63,18 @@ install -d -m 0755 /var/run/supervisord /var/log/supervisor
 LOG "Remove leftover pid files which may cause service fail to start."
 find /run -name "*.pid" | xargs rm -f {}
 
+
+################ Pure Docker Permission Problem ################
+################## For Volume Bind Rebuilding ##################
+chmod 0755 -R /usr/                             #python, perl... etc not excute when not root
+chmod 755 /etc/ /etc/postfix                    #sogo, postfix or other chdir() not work
+chmod 755 /etc/dovecot                          #iredadmin login problem, chdir() not work
+chmod 755 /var /var/spool                       #/var/run, /var/spool, /var/log ... etc chdir() not work error
+chmod 775 /var/vmail                            #dovecot chdir() not work
+chmod 777 /opt /opt/iredmail /opt/www /opt/www/roundcubemail /opt/mlmmjadmin   #amavis, iredadmin chdir() not work...
+################################################################
+
+
 # Store FQDN in /etc/mailname.
 # FYI: https://wiki.debian.org/EtcMailName
 echo "${HOSTNAME}" > /etc/mailname
@@ -86,20 +100,21 @@ if [[ X"${USE_IREDAPD}" == X'YES' ]]; then
 fi
 
 if [[ X"${USE_ANTISPAM}" == X'YES' ]]; then
-    run_entrypoint ${ENTRYPOINTS_DIR}/clamav.sh
     run_entrypoint ${ENTRYPOINTS_DIR}/antispam.sh
     SUP_SERVICES="${SUP_SERVICES} clamav amavisd"
 fi
 
-# Nginx & php-fpm
-if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
+# Nginx
+if [[ X"${USE_NGINX}" == X'YES' ]]; then
     run_entrypoint ${ENTRYPOINTS_DIR}/nginx.sh
-    run_entrypoint ${ENTRYPOINTS_DIR}/phpfpm.sh
+    SUP_SERVICES="${SUP_SERVICES} nginx"
 fi
 
+# php-fpm
 if [[ X"${USE_ROUNDCUBE}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/phpfpm.sh
     run_entrypoint ${ENTRYPOINTS_DIR}/roundcube.sh
-    SUP_SERVICES="${SUP_SERVICES} nginx phpfpm"
+    SUP_SERVICES="${SUP_SERVICES} phpfpm"
 fi
 
 if [[ X"${USE_FAIL2BAN}" == X'YES' ]]; then
@@ -111,6 +126,13 @@ if [[ X"${USE_IREDADMIN}" == X'YES' ]]; then
     run_entrypoint ${ENTRYPOINTS_DIR}/iredadmin.sh
     SUP_SERVICES="${SUP_SERVICES} iredadmin"
 fi
+
+########################SOGO INSERTED#########################
+if [[ X"${USE_SOGO}" == X'YES' ]]; then
+    run_entrypoint ${ENTRYPOINTS_DIR}/sogo.sh
+    SUP_SERVICES="${SUP_SERVICES} memcache sogo"
+fi
+##############################################################
 
 for srv in ${SUP_SERVICES}; do
     ln -sf /etc/supervisor/conf-available/${srv}.conf /etc/supervisor/conf.d/${srv}.conf

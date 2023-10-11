@@ -127,6 +127,59 @@ docker run \
     iredmail/mariadb:stable
 ```
 
+
+# Use Docker-Compose
+Docker Compose build file provided to `docker-compose.yml`.
+
+This docker compose file use volume bind, insted of docker volume, Unlike the docker run example above.
+
+The reason is to access the `.data/ directory` path in a file format to __restore, recover, and expand the volume bind__ to high availability in __docker-compose, Kubernetes__.
+
+Notes:
+
+- carefully config `docker-compose.yml` file, especially docker __Bind Volume Path__.
+- __Do not modify__ `.data/ directory`, and __Access__, or __Remove__.
+- Must __backup__ your `.data/ directory`.
+
+Compose build with logs:
+```
+docker-compose build
+```
+
+Compose build with no cache:
+```
+docker-compose build --no-cache
+```
+
+And Compose Start with logs:
+```
+# Compose up with logs. (Ctrl + C, or exit means contaier stop.)
+docker-compose up
+
+# Compose up with no logs. (Deattached, Even containers run backround.)
+docker-compose up -d
+```
+
+Use to `docker-compose logs` or `docker-compose exec`.
+```
+# Compose display logs.
+docker-compose logs
+
+# Compose attach bash with input output tty. (attach, Even containers run and, it use to EXEC(unix process method) bash process.)
+docker-compose exec -it iredmail bash
+```
+
+Finalley, You possible debug, or Supervisor Status check in the IRedmain Container.
+```
+# View raw log.
+ls -alh /var/log/
+
+# Supervisor damon display sub process status.
+supervisorctl status
+```
+
+
+
 # Overview
 
 Only one config file `iredmail-docker.conf` on Docker host.

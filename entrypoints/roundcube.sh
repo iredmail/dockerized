@@ -69,3 +69,9 @@ gen_symlink_of_nginx_tmpl default-ssl roundcube 90-roundcube
 create_rc_symlink_subdir ${ROUNDCUBE_CUSTOM_PLUGINS_DIR} ${ROUNDCUBE_DOCUMENT_ROOT_SYMLINK}/plugins
 create_rc_symlink_subdir ${ROUNDCUBE_CUSTOM_SKINS_DIR} ${ROUNDCUBE_DOCUMENT_ROOT_SYMLINK}/skins
 ln -sf ${ROUNDCUBE_CUSTOM_IMAGES_DIR} ${ROUNDCUBE_DOCUMENT_ROOT_SYMLINK}/images
+
+
+################## Roundcube PERMISSION PROBLEM ##################
+chown ${SYS_USER_NGINX}:${SYS_GROUP_NGINX} -R ${ROUNDCUBE_DOCUMENT_ROOT} ${ROUNDCUBE_DOCUMENT_ROOT_SYMLINK} ${ROUNDCUBE_CUSTOM_CONF_DIR}
+##################################################################
+
