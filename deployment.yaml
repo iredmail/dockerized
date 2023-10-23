@@ -1,0 +1,129 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email
+spec:
+  selector:
+    matchLabels:
+      app: email
+  template:
+    metadata:
+      labels:
+        app: email
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      containers:
+      - name: email
+        image: us-central1-docker.pkg.dev/avid-wavelet-342708/ridex-prod-gke-cloud-sql-repo/ridex-email:latest
+        ports:
+        - containerPort: 80
+          name: email-port
+        resources:
+          # requests:
+          #   cpu: 2000m
+          #   memory: 2Gi
+          # limits:
+          #   cpu: 1000m
+          #   memory: 4Gi
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: ridex-prod-secret
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: ridex-prod-secret
+              key: password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: ridex-prod-secret
+              key: database
+        - name: TWILIO_AUTH_SID
+          valueFrom:
+            secretKeyRef:
+              name: twilio-secrets
+              key: twilio_auth_sid
+        - name: TWILIO_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twilio-secrets
+              key: twilio_auth_token
+        - name: TWILIO_VERIFY_SID
+          valueFrom:
+            secretKeyRef:
+              name: twilio-secrets
+              key: twilio_verify_sid
+      - name: cloud-sql-proxy
+        # It is recommended to use the latest version of the Cloud SQL Auth Proxy
+        # Make sure to update on a regular schedule!
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+        args:
+          # If connecting from a VPC-native GKE cluster, you can use the
+          # following flag to have the proxy connect over private IP
+          # - "--private-ip"
+
+          # Enable structured logging with LogEntry format:
+          - "--structured-logs"
+
+          # Replace DB_PORT with the port the proxy should listen on
+          - "--port=3306"
+          - "avid-wavelet-342708:us-central1:ridex-prod"
+
+        securityContext:
+          # The default Cloud SQL Auth Proxy image runs as the
+          # "nonroot" user and group (uid: 65532) by default.
+          runAsNonRoot: true
+        # You should use resource requests/limits as a best practice to prevent
+        # pods from consuming too many resources and affecting the execution of
+        # other pods. You should adjust the following values based on what your
+        # application needs. For details, see
+        # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+        resources:
+          requests:
+            # The proxy's memory use scales linearly with the number of active
+            # connections. Fewer open connections will use less memory. Adjust
+            # this value based on your application's requirements.
+            ##cpu: 1000m
+            #memory: 64Mi
+            ##memory: "2Gi"
+            # The proxy's CPU use scales linearly with the amount of IO between
+            # the database and the application. Adjust this value based on your
+            # application's requirements.
+            #cpu: "4"
+          # limits:
+          #   cpu: 2000m
+          #   memory: 4Gi
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication
+spec:
+  selector:
+    app: authentication
+  type: NodePort  
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30000
+
+    
