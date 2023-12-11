@@ -59,7 +59,8 @@ for f in /opt/iredmail/custom/postfix/aliases \
     /opt/iredmail/custom/postfix/transport \
     /opt/iredmail/custom/postfix/sender_access.pcre \
     /opt/iredmail/custom/postfix/sender_bcc \
-    /opt/iredmail/custom/postfix/recipient_bcc; do
+    /opt/iredmail/custom/postfix/recipient_bcc \
+    /opt/iredmail/custom/postfix/recipient_access.pcre; do
     touch ${f}
     chown ${SYS_USER_ROOT}:${SYS_GROUP_POSTFIX} ${f}
     chmod 0640 ${f}
