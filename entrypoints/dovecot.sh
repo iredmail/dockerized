@@ -43,7 +43,7 @@ if [ "${LETSENCRYPT}"=true ]; then
 	if [ ! -f /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ]; then
 	certbot certonly --standalone --non-interactive --agree-tos -d ${HOSTNAME} -m ${POSTMASTER_EMAIL}
 	fi
-	ln -sf /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem /opt/iredmail/ssl/cert.pem
+	ln -sf /etc/letsencrypt/live/${HOSTNAME}/cert.pem /opt/iredmail/ssl/cert.pem
 	ln -sf /etc/letsencrypt/live/${HOSTNAME}/privkey.pem /opt/iredmail/ssl/key.pem
 	ln -sf /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem /opt/iredmail/ssl/combined.pem
 
