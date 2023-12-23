@@ -10,7 +10,7 @@
 export DEBIAN_FRONTEND='noninteractive'
 
 # Required binary packages.
-PKGS_BASE="apt-transport-https bzip2 cron ca-certificates curl dbus dirmngr gzip openssl python3-apt python3-setuptools rsyslog software-properties-common unzip python3-pymysql python3-psycopg2"
+PKGS_BASE="apt-transport-https bzip2 cron ca-certificates certbot curl dbus dirmngr gzip openssl python3-apt python3-setuptools rsyslog software-properties-common unzip python3-pymysql python3-psycopg2"
 PKGS_MYSQL="mariadb-server"
 PKGS_NGINX="nginx"
 PKGS_PHP_FPM="php-fpm php-cli"
