@@ -64,4 +64,5 @@ docker run \
     -v ${DATA_DIR}/imapsieve_copy:/var/vmail/imapsieve_copy \
     -v ${DATA_DIR}/sa_rules:/var/lib/spamassassin \
     -v ${DATA_DIR}/postfix_queue:/var/spool/postfix \
+    -v ${DATA_DIR}/ssl:/etc/letsencrypt \
     iredmail/mariadb:nightly

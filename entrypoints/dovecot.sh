@@ -39,25 +39,34 @@ for d in ${MAILBOXES_DIR} \
     [[ -d ${d} ]] || mkdir -p ${d}
 done
 
-# Create self-signed ssl cert.
-if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
-    LOG "Generating self-signed ssl cert under ${SSL_CERT_DIR}."
-    openssl req -x509 -nodes -sha256 -days 3650 \
-        -subj "/C=${SSL_CERT_COUNTRY}/ST=${SSL_CERT_STATE}/L=${SSL_CERT_CITY}/O=${SSL_CERT_DEPARTMENT}/CN=${HOSTNAME}/emailAddress=${POSTMASTER_EMAIL}" \
-        -newkey rsa:${SSL_KEY_LENGTH} \
-        -out ${SSL_CERT_FILE} \
-        -keyout ${SSL_KEY_FILE} >/dev/null
+if [ "${LETSENCRYPT}"=true ]; then
+	if [ ! -f /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ]; then
+	certbot certonly --standalone --non-interactive --agree-tos -d ${HOSTNAME} -m ${POSTMASTER_EMAIL}
+	fi
+	ln -sf /etc/letsencrypt/live/${HOSTNAME}/cert.pem /opt/iredmail/ssl/cert.pem
+	ln -sf /etc/letsencrypt/live/${HOSTNAME}/privkey.pem /opt/iredmail/ssl/key.pem
+	ln -sf /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem /opt/iredmail/ssl/combined.pem
 
-    cp -f ${SSL_CERT_FILE} ${SSL_COMBINED_FILE}
-fi
-chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
+else
+	# Create self-signed ssl cert.
+	if [[ ! -f ${SSL_CERT_FILE} ]] || [[ ! -f ${SSL_KEY_FILE} ]]; then
+	    LOG "Generating self-signed ssl cert under ${SSL_CERT_DIR}."
+	    openssl req -x509 -nodes -sha256 -days 3650 \
+	        -subj "/C=${SSL_CERT_COUNTRY}/ST=${SSL_CERT_STATE}/L=${SSL_CERT_CITY}/O=${SSL_CERT_DEPARTMENT}/CN=${HOSTNAME}/emailAddress=${POSTMASTER_EMAIL}" \
+	        -newkey rsa:${SSL_KEY_LENGTH} \
+	        -out ${SSL_CERT_FILE} \
+	        -keyout ${SSL_KEY_FILE} >/dev/null
 
-# Create dh param.
-if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
-    LOG "Generating dh param file: ${SSL_DHPARAM2048_FILE}. It make take a long time."
-    openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048 >/dev/null
+	    cp -f ${SSL_CERT_FILE} ${SSL_COMBINED_FILE}
+	fi
+	chmod 0644 ${SSL_CERT_FILE} ${SSL_KEY_FILE} ${SSL_COMBINED_FILE}
 fi
-chmod 0644 ${SSL_DHPARAM2048_FILE}
+	# Create dh param.
+	if [[ ! -f ${SSL_DHPARAM2048_FILE} ]]; then
+	    LOG "Generating dh param file: ${SSL_DHPARAM2048_FILE}. It make take a long time."
+	    openssl dhparam -out ${SSL_DHPARAM2048_FILE} 2048 >/dev/null
+	fi
+	chmod 0644 ${SSL_DHPARAM2048_FILE}
 
 # Make sure mailboxes directory has correct owner/group and permission.
 # Note: If there're many mailboxes, `chown/chmod -R` will take a long time.
