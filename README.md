@@ -23,6 +23,7 @@ echo FIRST_MAIL_DOMAIN=mydomain.com >> iredmail-docker.conf
 echo FIRST_MAIL_DOMAIN_ADMIN_PASSWORD=my-secret-password >> iredmail-docker.conf
 echo MLMMJADMIN_API_TOKEN=$(openssl rand -base64 32) >> iredmail-docker.conf
 echo ROUNDCUBE_DES_KEY=$(openssl rand -base64 24) >> iredmail-docker.conf
+echo LETSENCRYPT=true >> iredmail-docker.conf
 ```
 
 Create required directories to store application data:
@@ -60,6 +61,7 @@ docker run \
     -v /iredmail/data/clamav:/var/lib/clamav \
     -v /iredmail/data/sa_rules:/var/lib/spamassassin \
     -v /iredmail/data/postfix_queue:/var/spool/postfix \
+    -v /iredmail/data/ssl:/etc/letsencrypt \
     iredmail/mariadb:stable
 ```
 
